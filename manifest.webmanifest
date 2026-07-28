@@ -1,10 +1,10 @@
 {
-  "name": "成长星球 Daily Progress",
+  "name": "成长星球 Daily Progress Kids",
   "short_name": "成长星球",
-  "start_url": "./?v=minimal",
+  "start_url": "./?v=kids",
   "display": "standalone",
   "background_color": "#f4f5f7",
   "theme_color": "#17213d",
-  "description": "以每日完成情况和成长进展为核心的儿童成长记录平台",
+  "description": "以每日完成情况为核心，加入宝可梦伙伴养成、钢琴与英语阅读任务的儿童成长平台",
   "icons": []
 }

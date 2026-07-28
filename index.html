@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#17213d">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>成长星球 · Daily Progress</title>
+<title>成长星球 · Daily Progress Kids</title>
 <link rel="manifest" href="manifest.webmanifest?v=minimal">
 <style>
 :root{
@@ -161,7 +161,7 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 <div class="app">
 <main id="home" class="screen active">
   <div class="header">
-    <div><div class="brand">成长星球</div><div class="version">DAILY PROGRESS</div></div>
+    <div><div class="brand">成长星球</div><div class="version">DAILY PROGRESS · KIDS</div></div>
     <div class="grow"></div>
     <div class="balance">⭐ <span id="stars">0</span></div>
   </div>
@@ -178,6 +178,18 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
       <div class="hero-stat"><b id="doneToday">0</b><small>已完成</small></div>
       <div class="hero-stat"><b id="remainingToday">0</b><small>待完成</small></div>
       <div class="hero-stat"><b id="streak">1</b><small>连续天数</small></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="card" style="display:flex;align-items:center;gap:14px;padding:15px 17px">
+      <div id="homePartnerFace" style="font-size:48px">⚡🐭</div>
+      <div class="grow">
+        <div style="display:flex;align-items:center;gap:8px"><b id="homePartnerName">皮卡丘</b><span id="homePartnerLevel" style="font-size:11px;color:var(--gold);font-weight:850">Lv.1</span></div>
+        <div class="hint" id="homePartnerMood">今天也一起加油吧！</div>
+        <div class="bar" style="margin-top:9px"><i id="homePartnerXp" style="background:linear-gradient(90deg,var(--gold),#e7cf93);width:0%"></i></div>
+      </div>
+      <button data-open="partners" style="background:var(--soft);border-radius:13px;padding:9px 11px;font-weight:800">查看</button>
     </div>
   </section>
 
@@ -238,8 +250,8 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 </main>
 
 <main id="partners" class="screen">
-<div class="pagehead"><button class="back" data-home>‹</button><div><h2>伙伴</h2><div class="hint">保留轻量养成，不打扰日常使用</div></div></div>
-<section class="panel partner-card"><div class="partner-face" id="partnerFace">⚡🐾</div><div class="partner-name" id="partnerName"></div><div class="hint" id="partnerDesc"></div><div class="bar" style="margin-top:14px"><i id="partnerXp"></i></div><button class="action" id="feedPartner">喂养伙伴（5 星）</button></section>
+<div class="pagehead"><button class="back" data-home>‹</button><div><h2>宝可梦伙伴</h2><div class="hint">陪伴每日任务与成长升级</div></div></div>
+<section class="panel partner-card"><div class="partner-face" id="partnerFace">⚡🐾</div><div class="partner-name" id="partnerName"></div><div class="hint" id="partnerDesc"></div><div class="bar" style="margin-top:14px"><i id="partnerXp"></i></div><button class="action" id="feedPartner">喂养伙伴（5 星）</button><button class="action secondary" id="trainPartner">伙伴训练（10 星）</button></section>
 <section class="panel"><div class="partner-grid" id="partnerGrid"></div></section>
 </main>
 
@@ -251,7 +263,7 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 
 <main id="parent" class="screen">
 <div class="pagehead"><div><h2>家长中心</h2><div class="hint">任务、奖励与数据管理</div></div></div>
-<section class="panel"><h2>新增任务</h2><input id="taskName" placeholder="例如：练习发球 50 个"><select id="taskIcon" class="select" style="margin-top:10px"><option>🎾</option><option>🇩🇪</option><option>📚</option><option>🏊</option><option>🧹</option><option>😊</option></select><input id="taskStars" type="number" value="10" min="1" max="100" style="margin-top:10px"><button class="action" id="saveTask">添加任务</button></section>
+<section class="panel"><h2>新增任务</h2><input id="taskName" placeholder="例如：练习发球 50 个"><select id="taskIcon" class="select" style="margin-top:10px"><option>🎾</option><option>🇩🇪</option><option>📚</option><option>🎹</option><option>🇬🇧</option><option>🏊</option><option>🧹</option><option>😊</option></select><input id="taskStars" type="number" value="10" min="1" max="100" style="margin-top:10px"><button class="action" id="saveTask">添加任务</button></section>
 <section class="panel"><h2>日常管理</h2><button class="action" id="dailyBonus">领取今日登录奖励</button><button class="action secondary" id="resetToday">重置今日任务</button></section>
 <section class="panel"><h2>数据备份</h2><button class="action secondary" id="exportData">导出备份</button><label class="action secondary" style="display:block;text-align:center">导入备份<input id="importData" type="file" accept=".json" hidden></label><button class="action danger" id="clearData">清空全部记录</button></section>
 </main>
@@ -282,12 +294,33 @@ const DEFAULTS={stars:0,xp:0,streak:1,lastBonus:"",daily:{xp:0,stars:0},week:[0,
 {id:2,icon:"➕",name:"数学练习",desc:"答对 10 道题",stars:10,done:false},
 {id:3,icon:"📚",name:"中文学习",desc:"学习 3 个生字",stars:10,done:false},
 {id:4,icon:"🎾",name:"网球训练",desc:"完成 20 分钟训练",stars:15,done:false},
-{id:5,icon:"😊",name:"成长任务",desc:"家务、礼貌、不发脾气",stars:10,done:false}],
+{id:5,icon:"🎹",name:"弹钢琴",desc:"练习 20 分钟",stars:10,done:false},
+{id:6,icon:"🇬🇧",name:"英语阅读",desc:"阅读英语 15 分钟",stars:10,done:false},
+{id:7,icon:"😊",name:"成长任务",desc:"家务、礼貌、不发脾气",stars:10,done:false}],
 german:{grade:1,index:0,seen:0,wrong:[]},math:{correct:0,streak:0,floor:1},chinese:{index:0,poem:0,reading:[],writing:[]},
 sports:{tennis:{sessions:0,minutes:0},counts:{游泳:0,跳绳:0,俯卧撑:0,仰卧起坐:0},history:[]},
-partners:[{name:"闪电爪",face:"⚡🐾",desc:"速度型伙伴",owned:true,level:1,xp:0},{name:"叶旋兽",face:"🌿🦊",desc:"稳定型伙伴",owned:false,level:1,xp:0},{name:"泡泡鳍",face:"💧🐟",desc:"游泳型伙伴",owned:false,level:1,xp:0}],selectedPartner:0};
+partners:[
+{name:"皮卡丘",face:"⚡🐭",desc:"电系伙伴 · 完成日常任务可获得经验",owned:true,level:1,xp:0},
+{name:"妙蛙种子",face:"🌱🐸",desc:"草系伙伴 · 连续完成学习任务后解锁",owned:false,level:1,xp:0},
+{name:"耿鬼",face:"👻🟣",desc:"幽灵系伙伴 · 完成晚间任务后解锁",owned:false,level:1,xp:0},
+{name:"杰尼龟",face:"💧🐢",desc:"水系伙伴 · 记录游泳后解锁",owned:false,level:1,xp:0},
+{name:"小火龙",face:"🔥🦎",desc:"火系伙伴 · 完成网球比赛后解锁",owned:false,level:1,xp:0}
+],selectedPartner:0};
 let S=JSON.parse(localStorage.getItem("growthPlanetMinimal")||localStorage.getItem("growthPlanetV3")||localStorage.getItem("growthPlanetFinal")||"null")||structuredClone(DEFAULTS);
-function patch(){S.daily=S.daily||{xp:0,stars:0};S.week=S.week||[0,0,0,0,0,0,0];S.quests=S.quests||S.tasks||structuredClone(DEFAULTS.quests);S.german=S.german||structuredClone(DEFAULTS.german);S.math=S.math||structuredClone(DEFAULTS.math);S.chinese=S.chinese||structuredClone(DEFAULTS.chinese);S.sports=S.sports||structuredClone(DEFAULTS.sports);S.sports.history=S.sports.history||[];S.partners=S.partners||S.spirits||structuredClone(DEFAULTS.partners);S.selectedPartner=S.selectedPartner??S.selectedSpirit??0}patch();
+function patch(){
+S.daily=S.daily||{xp:0,stars:0};
+S.week=S.week||[0,0,0,0,0,0,0];
+S.quests=S.quests||S.tasks||structuredClone(DEFAULTS.quests);
+for(const q of DEFAULTS.quests){if(!S.quests.some(x=>x.name===q.name))S.quests.push(structuredClone(q))}
+S.german=S.german||structuredClone(DEFAULTS.german);
+S.math=S.math||structuredClone(DEFAULTS.math);
+S.chinese=S.chinese||structuredClone(DEFAULTS.chinese);
+S.sports=S.sports||structuredClone(DEFAULTS.sports);
+S.sports.history=S.sports.history||[];
+if(!S.partners||!S.partners.some(x=>x.name==="皮卡丘"))S.partners=structuredClone(DEFAULTS.partners);
+S.selectedPartner=S.selectedPartner??S.selectedSpirit??0;
+S.partners.forEach(p=>{p.level=p.level||1;p.xp=p.xp||0});
+}patch();
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),save=()=>localStorage.setItem("growthPlanetMinimal",JSON.stringify(S));const toast=t=>{let x=$("#toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1700)}
 function show(id){$$(".screen").forEach(x=>x.classList.toggle("active",x.id===id));$$("[data-nav]").forEach(x=>x.classList.toggle("active",x.dataset.nav===id));scrollTo({top:0,behavior:"smooth"})}
 $$("[data-nav]").forEach(b=>b.onclick=()=>show(b.dataset.nav));$$("[data-home]").forEach(b=>b.onclick=()=>show("home"));$$("[data-open]").forEach(b=>b.onclick=()=>show(b.dataset.open));
@@ -296,10 +329,18 @@ function renderHome(){
 let done=S.quests.filter(x=>x.done).length,total=S.quests.length,pct=Math.round(done/total*100),lv=Math.floor(S.xp/100)+1,p=S.partners[S.selectedPartner]||S.partners[0];
 $("#stars").textContent=S.stars;$("#level").textContent=lv;$("#rank").textContent=pct===100?"今天全部完成":pct>=60?"今天进展很好":"稳定成长中";$("#miniPartner").textContent=p.face;$("#doneToday").textContent=done;$("#remainingToday").textContent=total-done;$("#streak").textContent=S.streak;$("#todayPercent").textContent=pct+"%";$("#todayBar").style.width=pct+"%";$("#todayXp").textContent=S.daily.xp;$("#todayStars").textContent=S.daily.stars;$("#weekDone").textContent=S.week.reduce((a,b)=>a+b,0);$("#ownedPartners").textContent=S.partners.filter(x=>x.owned).length;$("#questProgress").textContent=done+" / "+total;
 $("#questList").innerHTML=S.quests.map(q=>`<div class="task"><div class="task-icon">${q.icon}</div><div class="grow"><b>${q.name}</b><small>${q.desc} · +${q.stars}⭐</small></div><button class="task-btn ${q.done?'done':''}" data-q="${q.id}">${q.done?'已完成':'完成'}</button></div>`).join("");
-$$("[data-q]").forEach(b=>b.onclick=()=>{let q=S.quests.find(x=>x.id==b.dataset.q);if(q.done)return toast("今天已经完成");q.done=true;addReward(q.stars,q.stars*2);S.week[6]=S.quests.filter(x=>x.done).length;save();render();toast("已记录完成")});
+$$("[data-q]").forEach(b=>b.onclick=()=>{let q=S.quests.find(x=>x.id==b.dataset.q);if(q.done)return toast("今天已经完成");q.done=true;addReward(q.stars,q.stars*2);
+let ap=S.partners[S.selectedPartner]||S.partners[0];ap.xp+=3;if(ap.xp>=20){ap.xp-=20;ap.level++;toast(ap.name+" 升级到 Lv."+ap.level)}
+if(["德语学习","数学练习","中文学习","英语阅读"].includes(q.name)&&S.quests.filter(x=>x.done&&["德语学习","数学练习","中文学习","英语阅读"].includes(x.name)).length>=3)S.partners[1].owned=true;
+if(q.name==="英语阅读"||q.name==="弹钢琴")S.partners[2].owned=true;
+S.week[6]=S.quests.filter(x=>x.done).length;save();render();toast("已记录完成")});
 const days=["一","二","三","四","五","六","日"];$("#weekTimeline").innerHTML=days.map((d,i)=>`<div class="day ${i===6?'active':''} ${S.week[i]>0?'done':''}"><div class="d">周${d}</div><div class="circle">${S.week[i]}</div></div>`).join("");
 $("#germanText").textContent=S.german.seen+" 张词卡";$("#mathText").textContent=S.math.correct+" 道答对";$("#chineseText").textContent=(S.chinese.index+S.chinese.reading.length+S.chinese.writing.length)+" 项记录";$("#sportsText").textContent=S.sports.tennis.sessions+" 次训练";
 $("#germanBar").style.width=Math.min(100,S.german.seen*2)+"%";$("#mathBar").style.width=Math.min(100,S.math.correct*2)+"%";$("#chineseBar").style.width=Math.min(100,(S.chinese.index+S.chinese.reading.length*3)*5)+"%";$("#sportsBar").style.width=Math.min(100,(S.sports.tennis.sessions+S.sports.counts.游泳)*8)+"%";
+let hp=S.partners[S.selectedPartner]||S.partners[0];
+$("#homePartnerFace").textContent=hp.face;$("#homePartnerName").textContent=hp.name;$("#homePartnerLevel").textContent="Lv."+hp.level;
+$("#homePartnerXp").style.width=(hp.xp%20)/20*100+"%";
+$("#homePartnerMood").textContent=pct===100?"今天全部完成，伙伴非常开心！":pct>=50?"今天进展不错，继续保持。":"今天也一起完成任务吧。";
 }
 let gm="cards";function german(){let A=$("#germanContent"),L=WORDS.filter(x=>x.g==S.german.grade),w=L[S.german.index%L.length];if(gm==="cards"){A.innerHTML=`<div class="flash"><button class="speak" id="speak">🔊</button><div class="flash-emoji">${w.e}</div><div class="flash-word">${w.w}</div><div class="flash-article">${w.a} ${w.w}</div><div>${w.m}</div><div class="flash-meta">复数：die ${w.p}</div><div class="flash-meta">${w.x}</div></div><div style="display:flex;gap:10px"><button class="action secondary" id="prevW">上一张</button><button class="action" id="nextW">下一张</button></div>`;$("#speak").onclick=()=>{let u=new SpeechSynthesisUtterance(`${w.a} ${w.w}. ${w.x}`);u.lang="de-DE";speechSynthesis.speak(u)};$("#prevW").onclick=()=>{S.german.index=(S.german.index-1+L.length)%L.length;save();german()};$("#nextW").onclick=()=>{S.german.index=(S.german.index+1)%L.length;S.german.seen++;addReward(0,2);save();render();german()}}
 else if(gm==="quiz"){A.innerHTML=`<div class="flash"><div class="flash-emoji">${w.e}</div><div class="flash-word">___ ${w.w}</div><div>${w.m}</div></div><div class="options">${["der","die","das"].map(o=>`<button class="option" data-art="${o}">${o} ${w.w}</button>`).join("")}</div>`;$$("[data-art]").forEach(b=>b.onclick=()=>{if(b.dataset.art===w.a){b.classList.add("correct");addReward(2,4);toast("正确")}else{b.classList.add("wrong");if(!S.german.wrong.includes(w.w))S.german.wrong.push(w.w);toast("正确答案："+w.a)}S.german.index=(S.german.index+1)%L.length;save();setTimeout(()=>{render();german()},500)})}
@@ -312,10 +353,11 @@ let cm="hanzi";function chinese(){let A=$("#chineseContent");if(cm==="hanzi"){le
 $$("[data-cmode]").forEach(b=>b.onclick=()=>{cm=b.dataset.cmode;$$("[data-cmode]").forEach(x=>x.classList.toggle("active",x===b));chinese()});
 const openModal=h=>{$("#modalBody").innerHTML=h;$("#modal").classList.add("show")};$("#closeModal").onclick=()=>$("#modal").classList.remove("show");$("#modal").onclick=e=>{if(e.target===$("#modal"))$("#modal").classList.remove("show")};
 function sports(){let t=S.sports.tennis;$("#tennisSessions").textContent=t.sessions;$("#tennisMinutes").textContent=t.minutes;$("#swimCount").textContent=S.sports.counts.游泳;$("#sportHistory").innerHTML=S.sports.history.slice(0,10).map(x=>`<div class="history-item"><b>${x.title}</b><span>${x.detail}</span></div>`).join("")||'<p class="hint">暂无记录</p>'}
-$("#addTennis").onclick=()=>{openModal(`<h3>记录网球训练</h3><input id="tm" type="number" value="30"><button class="action" id="saveTennis">保存</button>`);$("#saveTennis").onclick=()=>{let m=+$("#tm").value||0;S.sports.tennis.sessions++;S.sports.tennis.minutes+=m;S.sports.history.unshift({title:"网球训练",detail:m+" 分钟"});addReward(10,20);if(S.sports.tennis.sessions>=3)S.partners[1].owned=true;save();render();$("#modal").classList.remove("show")}}
-$$("[data-quick]").forEach(b=>b.onclick=()=>{let n=b.dataset.quick;openModal(`<h3>记录${n}</h3><input id="qty" type="number" value="1"><button class="action" id="saveQ">保存</button>`);$("#saveQ").onclick=()=>{let q=+$("#qty").value||1;S.sports.counts[n]=(S.sports.counts[n]||0)+q;S.sports.history.unshift({title:n,detail:q+(["俯卧撑","仰卧起坐"].includes(n)?" 个":" 次")});addReward(5,8);if(n==="游泳")S.partners[2].owned=true;save();render();$("#modal").classList.remove("show")}})
+$("#addTennis").onclick=()=>{openModal(`<h3>记录网球训练</h3><input id="tm" type="number" value="30"><button class="action" id="saveTennis">保存</button>`);$("#saveTennis").onclick=()=>{let m=+$("#tm").value||0;S.sports.tennis.sessions++;S.sports.tennis.minutes+=m;S.sports.history.unshift({title:"网球训练",detail:m+" 分钟"});addReward(10,20);if(S.sports.tennis.sessions>=5)S.partners[4].owned=true;save();render();$("#modal").classList.remove("show")}}
+$$("[data-quick]").forEach(b=>b.onclick=()=>{let n=b.dataset.quick;openModal(`<h3>记录${n}</h3><input id="qty" type="number" value="1"><button class="action" id="saveQ">保存</button>`);$("#saveQ").onclick=()=>{let q=+$("#qty").value||1;S.sports.counts[n]=(S.sports.counts[n]||0)+q;S.sports.history.unshift({title:n,detail:q+(["俯卧撑","仰卧起坐"].includes(n)?" 个":" 次")});addReward(5,8);if(n==="游泳")S.partners[3].owned=true;save();render();$("#modal").classList.remove("show")}})
 function partners(){let p=S.partners[S.selectedPartner];$("#partnerFace").textContent=p.face;$("#partnerName").textContent=p.name+" · Lv."+p.level;$("#partnerDesc").textContent=p.desc;$("#partnerXp").style.width=(p.xp%20)/20*100+"%";$("#partnerGrid").innerHTML=S.partners.map((x,i)=>`<button class="partner ${i===S.selectedPartner?'selected':''} ${x.owned?'':'locked'}" data-p="${i}"><div class="face">${x.face}</div><b>${x.name}</b></button>`).join("");$$("[data-p]").forEach(b=>b.onclick=()=>{let i=+b.dataset.p;if(!S.partners[i].owned)return toast("尚未解锁");S.selectedPartner=i;save();render()})}
-$("#feedPartner").onclick=()=>{let p=S.partners[S.selectedPartner];if(S.stars<5)return toast("星星不足");S.stars-=5;p.xp+=5;if(p.xp>=20){p.xp-=20;p.level++}save();render()}
+$("#feedPartner").onclick=()=>{let p=S.partners[S.selectedPartner];if(S.stars<5)return toast("星星不足");S.stars-=5;p.xp+=5;if(p.xp>=20){p.xp-=20;p.level++;toast(p.name+" 升级了")}else toast("伙伴获得 5 点经验");save();render()}
+$("#trainPartner").onclick=()=>{let p=S.partners[S.selectedPartner];if(S.stars<10)return toast("星星不足");S.stars-=10;p.xp+=10;if(p.xp>=20){p.xp-=20;p.level++;toast(p.name+" 完成训练并升级")}else toast("伙伴训练完成");save();render()}
 function report(){let t=S.sports.tennis,R=[["德语",Math.min(100,S.german.seen*2)],["数学",Math.min(100,S.math.correct*2)],["中文",Math.min(100,(S.chinese.index+S.chinese.reading.length*3)*5)],["运动",Math.min(100,(t.sessions+S.sports.counts.游泳)*8)]];$("#report").innerHTML=R.map(x=>`<div class="report-item"><div style="display:flex;justify-content:space-between"><b>${x[0]}</b><span>${Math.round(x[1])}%</span></div><div class="bar"><i style="width:${x[1]}%"></i></div></div>`).join("");let A=[["🌱","首次完成",S.xp>0],["🔥","连续 7 天",S.streak>=7],["🇩🇪","50 张词卡",S.german.seen>=50],["➕","50 道数学题",S.math.correct>=50],["🎾","10 次网球训练",t.sessions>=10],["🏊","5 次游泳",S.sports.counts.游泳>=5]];$("#achievementGrid").innerHTML=A.map(x=>`<div class="achievement ${x[2]?'':'locked'}"><div class="ico">${x[0]}</div><b>${x[1]}</b><div class="hint">${x[2]?'已完成':'未完成'}</div></div>`).join("")}
 $("#saveTask").onclick=()=>{let n=$("#taskName").value.trim();if(!n)return toast("请填写任务名称");S.quests.push({id:Date.now(),icon:$("#taskIcon").value,name:n,desc:"家长自定义任务",stars:+$("#taskStars").value||10,done:false});save();render()};$("#dailyBonus").onclick=()=>{let today=new Date().toISOString().slice(0,10);if(S.lastBonus===today)return toast("今天已领取");S.lastBonus=today;S.streak++;addReward(5,10);save();render()};$("#resetToday").onclick=()=>{S.quests.forEach(x=>x.done=false);S.daily={xp:0,stars:0};S.week=[...S.week.slice(1),0];save();render()};$("#exportData").onclick=()=>{let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));a.download="成长星球备份.json";a.click()};$("#importData").onchange=e=>{let r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);patch();save();render()}catch{toast("文件无效")}};r.readAsText(e.target.files[0])};$("#clearData").onclick=()=>{if(confirm("确定清空全部记录吗？")){S=structuredClone(DEFAULTS);save();render()}}
 function render(){renderHome();$("#grade").value=S.german.grade;german();$("#mCorrect").textContent=S.math.correct;$("#mStreak").textContent=S.math.streak;$("#mFloor").textContent=S.math.floor;chinese();sports();partners();report()}

@@ -1,311 +1,124 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#5b4ff3" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>成长星球 V2</title>
-  <link rel="manifest" href="manifest.webmanifest" />
-  <style>
-    :root{
-      --ink:#17213d; --muted:#7d86a4; --purple:#6658f6; --purple2:#8d6fff;
-      --card:rgba(255,255,255,.92); --bg1:#edf1ff; --bg2:#fff7e9;
-      --line:rgba(35,45,90,.08); --shadow:0 18px 46px rgba(75,70,160,.16);
-      --safe-bottom:max(18px,env(safe-area-inset-bottom));
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink)}
-    body{background:linear-gradient(145deg,var(--bg1),#fafaff 48%,var(--bg2));overflow-x:hidden}
-    button,input,select{font:inherit}
-    button{border:0;cursor:pointer}
-    .app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:98px}
-    .screen{display:none}.screen.active{display:block}
-    .hero{
-      margin:18px 18px 14px;border-radius:32px;padding:24px;color:#fff;position:relative;overflow:hidden;
-      background:linear-gradient(135deg,#5949ed,#8c6df7 65%,#ad8eff);box-shadow:var(--shadow)
-    }
-    .hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.10)}
-    .hero:before{width:230px;height:230px;right:-72px;top:-100px}
-    .hero:after{width:135px;height:135px;right:36px;bottom:-72px}
-    .eyebrow{font-size:13px;opacity:.82;letter-spacing:.08em}
-    h1{font-size:32px;margin:5px 0 4px}.sub{opacity:.88}
-    .profile{display:flex;align-items:center;gap:12px;margin-top:22px}
-    .avatar{width:52px;height:52px;border-radius:18px;background:#fff3;display:grid;place-items:center;font-size:30px;border:1px solid #fff5}
-    .grow{flex:1}.name{font-weight:800;font-size:18px}.rank{font-size:13px;opacity:.82;margin-top:3px}
-    .stars{background:#fff2;padding:10px 13px;border-radius:18px;font-weight:800;white-space:nowrap}
-    .xpbar{height:10px;background:#ffffff32;border-radius:99px;margin-top:18px;overflow:hidden}
-    .xpbar i{display:block;height:100%;background:linear-gradient(90deg,#ffe15a,#fff0a3);border-radius:99px;width:0;transition:.5s}
-    .xptext{font-size:12px;opacity:.88;margin-top:7px}
-    .section{padding:0 18px;margin-top:22px}
-    .section-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:12px}
-    h2{font-size:22px;margin:0}.hint{font-size:13px;color:var(--muted)}
-    .daily{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .metric{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px 10px;text-align:center;box-shadow:0 10px 26px rgba(71,73,130,.08)}
-    .metric b{display:block;font-size:26px}.metric span{font-size:12px;color:var(--muted)}
-    .map{display:grid;grid-template-columns:1fr 1fr;gap:13px}
-    .place{min-height:154px;border-radius:26px;padding:17px;text-align:left;position:relative;overflow:hidden;color:#fff;box-shadow:0 14px 32px rgba(80,78,150,.14)}
-    .place .emoji{font-size:39px;display:block;margin-bottom:17px}.place b{font-size:18px;display:block}.place small{opacity:.84}
-    .place:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-25px;top:-22px;background:#fff2}
-    .german{background:linear-gradient(145deg,#ffba45,#ff7859)}
-    .tennis{background:linear-gradient(145deg,#39c989,#0aa56d)}
-    .spirit{background:linear-gradient(145deg,#7962ff,#b36fff)}
-    .rewards{background:linear-gradient(145deg,#ff769a,#ff4b67)}
-    .math{background:linear-gradient(145deg,#4f9cff,#5368f4)}
-    .chinese{background:linear-gradient(145deg,#ff6e58,#ef3c52)}
-    .missions{background:var(--card);border-radius:27px;padding:8px 16px;border:1px solid var(--line);box-shadow:var(--shadow)}
-    .mission{display:flex;align-items:center;gap:13px;padding:15px 2px;border-bottom:1px solid var(--line)}
-    .mission:last-child{border-bottom:0}.micon{width:46px;height:46px;border-radius:16px;background:#f0f2ff;display:grid;place-items:center;font-size:24px}
-    .mission b{display:block}.mission small{color:var(--muted)}
-    .done{background:#eeeaff;color:var(--purple);padding:9px 13px;border-radius:15px;font-weight:800}
-    .done.completed{background:#dcf8e9;color:#168258}
-    .pagehead{padding:25px 18px 5px;display:flex;align-items:center;gap:12px}
-    .back{width:42px;height:42px;border-radius:16px;background:#fff;box-shadow:0 8px 20px #4552a018;font-size:20px}
-    .panel{margin:12px 18px;background:var(--card);border:1px solid var(--line);border-radius:28px;padding:18px;box-shadow:var(--shadow)}
-    .court{background:linear-gradient(135deg,#0aa56d,#4ed29b);color:#fff;position:relative;overflow:hidden}
-    .court:after{content:"";position:absolute;inset:18px;border:2px solid #ffffff66;border-radius:18px;pointer-events:none}
-    .court-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1}
-    .court-card{background:#ffffff20;border:1px solid #ffffff35;border-radius:18px;padding:15px}
-    .court-card b{font-size:25px;display:block}.court-card small{opacity:.85}
-    .skills{display:grid;gap:11px}.skill{background:#f7f8ff;border-radius:20px;padding:14px}
-    .skilltop{display:flex;justify-content:space-between}.skillbar{height:9px;background:#e6e9f5;border-radius:99px;margin-top:10px;overflow:hidden}
-    .skillbar i{display:block;height:100%;background:linear-gradient(90deg,#3ccf8d,#0aa56d);border-radius:99px}
-    .action-primary{width:100%;padding:15px;border-radius:18px;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;font-weight:800;margin-top:12px}
-    .spirits{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .spirit-card{background:#f7f7ff;border-radius:22px;padding:13px 8px;text-align:center;border:2px solid transparent}
-    .spirit-card.selected{border-color:var(--purple);background:#eeebff}
-    .spirit-face{font-size:46px}.type{font-size:11px;padding:4px 7px;border-radius:99px;background:#fff;display:inline-block;color:var(--muted)}
-    .capsule{height:160px;border-radius:28px;background:radial-gradient(circle at 50% 35%,#fff,#f6f4ff 50%,#e4e1ff);display:grid;place-items:center;font-size:76px;position:relative}
-    .capsule:after{content:"伙伴胶囊";position:absolute;bottom:13px;font-size:13px;color:var(--muted)}
-    .shopitem{display:flex;gap:13px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
-    .shopitem:last-child{border-bottom:0}.price{margin-left:auto;color:#f0a000;font-weight:900}
-    .redeem{padding:8px 11px;border-radius:13px;background:#fff0c9;color:#a56b00;font-weight:800}
-    .parent-form{display:grid;gap:10px}.parent-form input,.parent-form select{width:100%;padding:13px 14px;border-radius:16px;border:1px solid #dfe3f2;background:#fff}
-    .toast{position:fixed;left:50%;bottom:105px;transform:translate(-50%,20px);opacity:0;background:#17213de8;color:white;padding:11px 16px;border-radius:14px;transition:.25s;z-index:50;white-space:nowrap}
-    .toast.show{opacity:1;transform:translate(-50%,0)}
-    .nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(760px,100%);background:rgba(255,255,255,.94);backdrop-filter:blur(18px);display:grid;grid-template-columns:repeat(4,1fr);padding:10px 8px var(--safe-bottom);border-top:1px solid var(--line);z-index:20}
-    .nav button{background:none;color:var(--muted);font-size:12px}.nav span{display:block;font-size:23px;margin-bottom:3px}.nav button.active{color:var(--purple);font-weight:800}
-    .modal{position:fixed;inset:0;background:#11182f88;display:none;align-items:flex-end;justify-content:center;z-index:100}
-    .modal.show{display:flex}.sheet{width:min(760px,100%);background:#fff;border-radius:30px 30px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom));max-height:82vh;overflow:auto}
-    .sheet h3{margin:0 0 8px;font-size:22px}.close{float:right;width:38px;height:38px;border-radius:14px;background:#f1f2f8}
-    @media(min-width:650px){.map{grid-template-columns:repeat(3,1fr)}.place{min-height:170px}}
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#5d50ef"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<title>成长星球 V2.1</title>
+<link rel="manifest" href="manifest.webmanifest"/>
+<style>
+:root{--ink:#18223d;--muted:#7d86a4;--p:#6457f5;--p2:#8f70ff;--card:rgba(255,255,255,.94);--line:rgba(30,40,80,.08);--shadow:0 18px 45px rgba(76,70,150,.15);--safe:max(18px,env(safe-area-inset-bottom))}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink)}body{background:linear-gradient(145deg,#edf1ff,#fbfbff 52%,#fff8ec);overflow-x:hidden}button,input,select{font:inherit}button{border:0;cursor:pointer}.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:98px}.screen{display:none}.screen.active{display:block}
+.hero{margin:18px;border-radius:32px;padding:24px;color:white;background:linear-gradient(135deg,#5949ed,#8d6df8 66%,#ad91ff);box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:#fff1}.hero:before{width:220px;height:220px;right:-62px;top:-95px}.hero:after{width:135px;height:135px;right:48px;bottom:-75px}.eyebrow{font-size:13px;opacity:.82;letter-spacing:.1em}h1{font-size:32px;margin:6px 0 4px}.sub{opacity:.88}.profile{display:flex;align-items:center;gap:12px;margin-top:22px}.avatar{width:54px;height:54px;border-radius:19px;background:#fff3;display:grid;place-items:center;font-size:31px;border:1px solid #fff5}.grow{flex:1}.name{font-weight:850;font-size:18px}.rank{font-size:13px;opacity:.82;margin-top:3px}.stars{background:#fff2;padding:10px 13px;border-radius:18px;font-weight:850}.xpbar{height:10px;background:#ffffff32;border-radius:99px;margin-top:18px;overflow:hidden}.xpbar i{display:block;height:100%;background:linear-gradient(90deg,#ffe15d,#fff4b6);border-radius:99px;transition:.4s}.xptext{font-size:12px;opacity:.88;margin-top:7px}
+.section{padding:0 18px;margin-top:22px}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:12px}h2{font-size:22px;margin:0}.hint{font-size:13px;color:var(--muted)}.daily{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px 10px;text-align:center;box-shadow:0 10px 25px rgba(65,70,130,.08)}.metric b{font-size:26px;display:block}.metric span{font-size:12px;color:var(--muted)}
+.map{display:grid;grid-template-columns:1fr 1fr;gap:13px}.place{min-height:154px;border-radius:27px;padding:17px;text-align:left;color:white;position:relative;overflow:hidden;box-shadow:0 14px 30px rgba(80,78,150,.13)}.place:after{content:"";position:absolute;width:94px;height:94px;border-radius:50%;background:#fff2;right:-25px;top:-24px}.place .emoji{font-size:39px;display:block;margin-bottom:17px}.place b{font-size:18px;display:block}.place small{opacity:.84}.german{background:linear-gradient(145deg,#ffba45,#ff7859)}.tennis{background:linear-gradient(145deg,#3bc98b,#08a96d)}.spirit{background:linear-gradient(145deg,#7762ff,#b36fff)}.rewards{background:linear-gradient(145deg,#ff7598,#ff4b68)}.math{background:linear-gradient(145deg,#4c9cff,#5866ef)}.chinese{background:linear-gradient(145deg,#ff705a,#ed3a54)}
+.missions,.panel{background:var(--card);border-radius:27px;border:1px solid var(--line);box-shadow:var(--shadow)}.missions{padding:8px 16px}.mission{display:flex;align-items:center;gap:13px;padding:15px 2px;border-bottom:1px solid var(--line)}.mission:last-child{border-bottom:0}.micon{width:46px;height:46px;border-radius:16px;background:#f0f2ff;display:grid;place-items:center;font-size:24px}.mission b{display:block}.mission small{color:var(--muted)}.done{background:#eeeaff;color:var(--p);padding:9px 13px;border-radius:15px;font-weight:850}.done.completed{background:#dbf7e8;color:#14825a}
+.pagehead{padding:25px 18px 5px;display:flex;align-items:center;gap:12px}.back{width:42px;height:42px;border-radius:16px;background:white;box-shadow:0 8px 20px #4552a018;font-size:21px}.panel{margin:12px 18px;padding:18px}.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:2px}.tab{white-space:nowrap;padding:10px 13px;border-radius:14px;background:#f0f2f8;color:#69728e;font-weight:750}.tab.active{background:#e9e5ff;color:var(--p)}
+.action{width:100%;padding:14px;border-radius:18px;background:linear-gradient(135deg,var(--p),var(--p2));color:white;font-weight:850;margin-top:12px}.action.secondary{background:#eef0f7;color:#59627d}.action.good{background:linear-gradient(135deg,#24bd7c,#0aa66b)}.row{display:flex;align-items:center;gap:12px}.space{justify-content:space-between}.badge{font-size:12px;padding:5px 8px;border-radius:99px;background:#f0efff;color:var(--p);font-weight:800}
+.flashcard{min-height:295px;border-radius:28px;padding:24px;background:linear-gradient(145deg,#fff,#f5f3ff);box-shadow:inset 0 0 0 1px #e8e5f4;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative}.word{font-size:42px;font-weight:900;margin:10px 0 4px}.article{font-size:24px;color:var(--p);font-weight:850}.meaning{font-size:20px;margin-top:8px}.plural,.example{color:var(--muted);margin-top:8px}.cardemoji{font-size:65px}.speak{position:absolute;right:15px;top:15px;width:43px;height:43px;border-radius:15px;background:#ece9ff;font-size:21px}.quiz-options{display:grid;gap:10px;margin-top:13px}.option{padding:14px;border-radius:17px;background:#f5f6fb;text-align:left;font-weight:750}.option.correct{background:#dcf8e9;color:#157e58}.option.wrong{background:#ffe1e6;color:#b92d48}
+.progressline{height:9px;border-radius:99px;background:#e9ebf3;overflow:hidden}.progressline i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--p),var(--p2))}
+.mathbox{font-size:42px;font-weight:900;text-align:center;padding:25px}.answer{width:100%;padding:14px;border-radius:16px;border:1px solid #dfe3f2;text-align:center;font-size:24px}.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini{background:#f6f7fc;border-radius:19px;padding:14px}.mini b{font-size:23px;display:block}.chinese-card{padding:20px;border-radius:24px;background:linear-gradient(145deg,#fff5f0,#fff);text-align:center}.hanzi{font-size:76px;font-family:"STKaiti","KaiTi",serif}.pinyin{color:#e7514b;font-weight:800}.poem{line-height:2;font-size:19px;text-align:center;font-family:"STKaiti","KaiTi",serif}
+.court{background:linear-gradient(135deg,#0aa56d,#4ed29b);color:white;position:relative;overflow:hidden}.court:after{content:"";position:absolute;inset:18px;border:2px solid #ffffff66;border-radius:18px;pointer-events:none}.court-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1}.court-card{background:#ffffff20;border:1px solid #ffffff35;border-radius:18px;padding:15px}.court-card b{font-size:25px;display:block}.skills{display:grid;gap:11px}.skill{background:#f7f8ff;border-radius:20px;padding:14px}.skilltop{display:flex;justify-content:space-between}.skillbar{height:9px;background:#e5e8f3;border-radius:99px;margin-top:10px;overflow:hidden}.skillbar i{display:block;height:100%;background:linear-gradient(90deg,#3ccf8d,#0aa56d);border-radius:99px}
+.spirits{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.spirit-card{background:#f7f7ff;border-radius:22px;padding:13px 8px;text-align:center;border:2px solid transparent}.spirit-card.selected{border-color:var(--p);background:#eeebff}.spirit-face{font-size:46px}.type{font-size:11px;padding:4px 7px;border-radius:99px;background:white;display:inline-block;color:var(--muted)}.capsule{height:160px;border-radius:28px;background:radial-gradient(circle at 50% 35%,#fff,#f6f4ff 50%,#e4e1ff);display:grid;place-items:center;font-size:76px;position:relative}.capsule:after{content:"伙伴胶囊";position:absolute;bottom:13px;font-size:13px;color:var(--muted)}
+.shopitem{display:flex;gap:13px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}.shopitem:last-child{border-bottom:0}.price{margin-left:auto;color:#f0a000;font-weight:900}.redeem{padding:8px 11px;border-radius:13px;background:#fff0c9;color:#a56b00;font-weight:850}.parent-form{display:grid;gap:10px}.parent-form input,.parent-form select{width:100%;padding:13px 14px;border-radius:16px;border:1px solid #dfe3f2;background:white}
+.history{display:grid;gap:9px}.history-item{padding:12px;border-radius:16px;background:#f7f8fc;display:flex;justify-content:space-between;gap:12px}.toast{position:fixed;left:50%;bottom:105px;transform:translate(-50%,20px);opacity:0;background:#17213dea;color:white;padding:11px 16px;border-radius:14px;transition:.25s;z-index:50;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}
+.nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(760px,100%);background:#fffffff2;backdrop-filter:blur(18px);display:grid;grid-template-columns:repeat(4,1fr);padding:10px 8px var(--safe);border-top:1px solid var(--line);z-index:20}.nav button{background:none;color:var(--muted);font-size:12px}.nav span{display:block;font-size:23px;margin-bottom:3px}.nav button.active{color:var(--p);font-weight:850}
+.modal{position:fixed;inset:0;background:#11182f88;display:none;align-items:flex-end;justify-content:center;z-index:100}.modal.show{display:flex}.sheet{width:min(760px,100%);background:white;border-radius:30px 30px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom));max-height:82vh;overflow:auto}.close{float:right;width:38px;height:38px;border-radius:14px;background:#f1f2f8}@media(min-width:650px){.map{grid-template-columns:repeat(3,1fr)}.place{min-height:170px}}
+</style>
 </head>
 <body>
 <div class="app">
-  <main id="home" class="screen active">
-    <section class="hero">
-      <div class="eyebrow">GROWTH PLANET · V2</div>
-      <h1>🚀 成长星球</h1><div class="sub">收集伙伴，练好网球，每天升级一点点</div>
-      <div class="profile">
-        <div class="avatar">👦</div><div class="grow"><div class="name">Tino · Lv.<span id="level">1</span></div><div class="rank">星球训练家 · 网球新星</div></div>
-        <div class="stars">⭐ <span id="stars">0</span></div>
-      </div>
-      <div class="xpbar"><i id="xpFill"></i></div><div class="xptext"><span id="xp">0</span> / <span id="xpNeed">100</span> XP</div>
-    </section>
+<main id="home" class="screen active">
+<section class="hero"><div class="eyebrow">GROWTH PLANET · V2.1</div><h1>🚀 成长星球</h1><div class="sub">收集伙伴，练好网球，每天升级一点点</div><div class="profile"><div class="avatar">👦</div><div class="grow"><div class="name">Tino · Lv.<span id="level">1</span></div><div class="rank">星球训练家 · 网球新星</div></div><div class="stars">⭐ <span id="stars">0</span></div></div><div class="xpbar"><i id="xpFill"></i></div><div class="xptext"><span id="xp">0</span> / 100 XP</div></section>
+<section class="section"><div class="daily"><div class="metric"><b id="doneCount">0</b><span>今日完成</span></div><div class="metric"><b id="streak">1</b><span>连续天数</span></div><div class="metric"><b id="spiritCount">1</b><span>伙伴图鉴</span></div></div></section>
+<section class="section"><div class="section-head"><h2>探索地图</h2><span class="hint">点击进入</span></div><div class="map">
+<button class="place german" data-open="german"><span class="emoji">🇩🇪</span><b>德语学院</b><small>单词 · 发音 · 自测</small></button>
+<button class="place tennis" data-open="tennis"><span class="emoji">🎾</span><b>网球竞技场</b><small>训练 · 技能 · 比赛</small></button>
+<button class="place spirit" data-open="spirits"><span class="emoji">✨</span><b>伙伴研究所</b><small>收集 · 属性 · 进化</small></button>
+<button class="place rewards" data-open="shop"><span class="emoji">🎁</span><b>星星商店</b><small>兑换家庭奖励</small></button>
+<button class="place math" data-open="math"><span class="emoji">➕</span><b>数学实验室</b><small>每日挑战</small></button>
+<button class="place chinese" data-open="chinese"><span class="emoji">📚</span><b>中文图书馆</b><small>生字 · 古诗 · 阅读</small></button>
+</div></section>
+<section class="section"><div class="section-head"><h2>今日任务</h2><span class="hint" id="progressText"></span></div><div class="missions" id="missionList"></div></section>
+</main>
 
-    <section class="section">
-      <div class="daily">
-        <div class="metric"><b id="doneCount">0</b><span>今日完成</span></div>
-        <div class="metric"><b id="streak">1</b><span>连续天数</span></div>
-        <div class="metric"><b id="spiritCount">1</b><span>伙伴图鉴</span></div>
-      </div>
-    </section>
+<main id="german" class="screen"><div class="pagehead"><button class="back" data-home>‹</button><div><h2>🇩🇪 德语学院</h2><div class="hint">词卡、发音、冠词和错题复习</div></div></div>
+<section class="panel"><div class="tabs"><button class="tab active" data-gmode="cards">翻卡</button><button class="tab" data-gmode="quiz">冠词自测</button><button class="tab" data-gmode="wrong">错题本</button></div></section>
+<section class="panel" id="germanArea"></section></main>
 
-    <section class="section">
-      <div class="section-head"><h2>探索地图</h2><span class="hint">点击进入</span></div>
-      <div class="map">
-        <button class="place german" data-open="german"><span class="emoji">🇩🇪</span><b>德语学院</b><small>单词 · 发音 · 翻卡</small></button>
-        <button class="place tennis" data-open="tennis"><span class="emoji">🎾</span><b>网球竞技场</b><small>训练 · 技能 · 比赛</small></button>
-        <button class="place spirit" data-open="spirits"><span class="emoji">✨</span><b>伙伴研究所</b><small>收集 · 属性 · 进化</small></button>
-        <button class="place rewards" data-open="shop"><span class="emoji">🎁</span><b>星星商店</b><small>兑换家庭奖励</small></button>
-        <button class="place math" data-open="math"><span class="emoji">➕</span><b>数学实验室</b><small>每日挑战</small></button>
-        <button class="place chinese" data-open="chinese"><span class="emoji">📚</span><b>中文图书馆</b><small>阅读 · 练字 · 古诗</small></button>
-      </div>
-    </section>
+<main id="math" class="screen"><div class="pagehead"><button class="back" data-home>‹</button><div><h2>➕ 数学实验室</h2><div class="hint">适合二升三年级的每日练习</div></div></div><section class="panel"><div class="statgrid"><div class="mini"><b id="mathCorrect">0</b><span class="hint">答对</span></div><div class="mini"><b id="mathStreak">0</b><span class="hint">连续答对</span></div></div></section><section class="panel"><div class="mathbox" id="mathQuestion"></div><input class="answer" id="mathAnswer" type="number" inputmode="numeric" placeholder="输入答案"/><button class="action" id="checkMath">提交答案</button><button class="action secondary" id="nextMath">换一道题</button></section></main>
 
-    <section class="section">
-      <div class="section-head"><h2>今日任务</h2><span class="hint" id="progressText">0 / 6</span></div>
-      <div class="missions" id="missionList"></div>
-    </section>
-  </main>
+<main id="chinese" class="screen"><div class="pagehead"><button class="back" data-home>‹</button><div><h2>📚 中文图书馆</h2><div class="hint">生字、部首、组词、古诗</div></div></div><section class="panel"><div class="tabs"><button class="tab active" data-cmode="hanzi">每日生字</button><button class="tab" data-cmode="poem">古诗</button></div></section><section class="panel" id="chineseArea"></section></main>
 
-  <main id="tennis" class="screen">
-    <div class="pagehead"><button class="back" data-home>‹</button><div><h2>🎾 网球竞技场</h2><div class="hint">每次训练都会提升技能与经验</div></div></div>
-    <section class="panel court">
-      <h2 style="position:relative;z-index:1">本周训练</h2>
-      <div class="court-grid">
-        <div class="court-card"><b id="tennisMinutes">0</b><small>训练分钟</small></div>
-        <div class="court-card"><b id="tennisSessions">0</b><small>训练次数</small></div>
-        <div class="court-card"><b id="tennisBalls">0</b><small>击球数量</small></div>
-        <div class="court-card"><b id="tennisMedals">0</b><small>比赛奖牌</small></div>
-      </div>
-    </section>
-    <section class="panel">
-      <h2>技能树</h2><div class="skills" id="skills"></div>
-      <button class="action-primary" id="logTennis">＋记录一次训练</button>
-    </section>
-  </main>
+<main id="tennis" class="screen"><div class="pagehead"><button class="back" data-home>‹</button><div><h2>🎾 网球竞技场</h2><div class="hint">记录训练、比赛与技能成长</div></div></div><section class="panel court"><h2 style="position:relative;z-index:1">本周训练</h2><div class="court-grid"><div class="court-card"><b id="tennisMinutes">0</b><small>训练分钟</small></div><div class="court-card"><b id="tennisSessions">0</b><small>训练次数</small></div><div class="court-card"><b id="tennisBalls">0</b><small>击球数量</small></div><div class="court-card"><b id="tennisMedals">0</b><small>比赛奖牌</small></div></div></section><section class="panel"><h2>技能树</h2><div class="skills" id="skills"></div><button class="action good" id="logTennis">＋记录一次训练</button><button class="action" id="logMatch">🏆 记录比赛成绩</button></section><section class="panel"><h2>最近记录</h2><div class="history" id="tennisHistory"></div></section></main>
 
-  <main id="spirits" class="screen">
-    <div class="pagehead"><button class="back" data-home>‹</button><div><h2>✨ 伙伴研究所</h2><div class="hint">原创星球伙伴：收集、培养、进化</div></div></div>
-    <section class="panel">
-      <div class="capsule" id="bigSpirit">⚡🐾</div>
-      <h2 id="spiritName" style="text-align:center;margin-top:14px">闪电爪</h2>
-      <p class="hint" id="spiritDesc" style="text-align:center">电系 · 喜欢速度与发球挑战</p>
-      <button class="action-primary" id="feedSpirit">🍓 喂养伙伴（消耗 5 星）</button>
-    </section>
-    <section class="panel"><h2>我的图鉴</h2><div class="spirits" id="spiritGrid"></div></section>
-  </main>
+<main id="spirits" class="screen"><div class="pagehead"><button class="back" data-home>‹</button><div><h2>✨ 伙伴研究所</h2><div class="hint">原创伙伴：收集、培养、进化</div></div></div><section class="panel"><div class="capsule" id="bigSpirit"></div><h2 id="spiritName" style="text-align:center;margin-top:14px"></h2><p class="hint" id="spiritDesc" style="text-align:center"></p><div class="progressline"><i id="spiritXp"></i></div><button class="action" id="feedSpirit">🍓 喂养伙伴（5 星）</button></section><section class="panel"><h2>我的图鉴</h2><div class="spirits" id="spiritGrid"></div></section></main>
 
-  <main id="shop" class="screen">
-    <div class="pagehead"><button class="back" data-home>‹</button><div><h2>🎁 星星商店</h2><div class="hint">家长确认后兑换</div></div></div>
-    <section class="panel" id="shopList"></section>
-  </main>
+<main id="shop" class="screen"><div class="pagehead"><button class="back" data-home>‹</button><div><h2>🎁 星星商店</h2><div class="hint">兑换后由家长确认</div></div></div><section class="panel" id="shopList"></section></main>
 
-  <main id="parent" class="screen">
-    <div class="pagehead"><div><h2>👨‍👩‍👦 家长中心</h2><div class="hint">任务与奖励会保存在这台设备上</div></div></div>
-    <section class="panel">
-      <h2>新增今日任务</h2>
-      <div class="parent-form">
-        <input id="newTaskName" placeholder="例如：练习发球 50 个" />
-        <select id="newTaskIcon"><option>🎾</option><option>🇩🇪</option><option>📚</option><option>🏊</option><option>🧹</option><option>😊</option></select>
-        <input id="newTaskStars" type="number" value="10" min="1" max="100" placeholder="星星奖励" />
-        <button class="action-primary" id="addTask">添加任务</button>
-      </div>
-    </section>
-    <section class="panel">
-      <h2>数据管理</h2>
-      <button class="action-primary" id="dailyBonus">领取今日登录奖励</button>
-      <button class="action-primary" id="resetData" style="background:#eef0f8;color:#576078">清空本机记录</button>
-    </section>
-  </main>
+<main id="parent" class="screen"><div class="pagehead"><div><h2>👨‍👩‍👦 家长中心</h2><div class="hint">本机保存，无需登录</div></div></div><section class="panel"><h2>新增今日任务</h2><div class="parent-form"><input id="newTaskName" placeholder="例如：练习发球 50 个"/><select id="newTaskIcon"><option>🎾</option><option>🇩🇪</option><option>📚</option><option>🏊</option><option>🧹</option><option>😊</option></select><input id="newTaskStars" type="number" value="10" min="1" max="100"/><button class="action" id="addTask">添加任务</button></div></section><section class="panel"><h2>今日管理</h2><button class="action" id="dailyBonus">领取今日登录奖励</button><button class="action secondary" id="resetTasks">重置今日任务状态</button><button class="action secondary" id="resetData">清空全部记录</button></section></main>
 
-  <nav class="nav">
-    <button class="active" data-nav="home"><span>🏠</span>首页</button>
-    <button data-nav="tennis"><span>🎾</span>网球</button>
-    <button data-nav="spirits"><span>✨</span>伙伴</button>
-    <button data-nav="parent"><span>👨‍👩‍👦</span>家长</button>
-  </nav>
+<nav class="nav"><button class="active" data-nav="home"><span>🏠</span>首页</button><button data-nav="tennis"><span>🎾</span>网球</button><button data-nav="spirits"><span>✨</span>伙伴</button><button data-nav="parent"><span>👨‍👩‍👦</span>家长</button></nav>
 </div>
-<div class="toast" id="toast"></div>
-<div class="modal" id="modal"><div class="sheet"><button class="close" id="closeModal">✕</button><div id="modalBody"></div></div></div>
-
+<div class="toast" id="toast"></div><div class="modal" id="modal"><div class="sheet"><button class="close" id="closeModal">✕</button><div id="modalBody"></div></div></div>
 <script>
-const defaults={
-  stars:0,xp:0,streak:1,lastBonus:"",
-  tasks:[
-    {id:1,icon:"➕",name:"数学练习",desc:"完成 15 分钟",stars:10,done:false},
-    {id:2,icon:"🇩🇪",name:"德语学习",desc:"完成 10 张单词卡",stars:10,done:false},
-    {id:3,icon:"📚",name:"中文学习",desc:"阅读或练字 15 分钟",stars:10,done:false},
-    {id:4,icon:"🎾",name:"网球训练",desc:"训练或颠球 20 分钟",stars:15,done:false},
-    {id:5,icon:"🏃",name:"运动打卡",desc:"跳绳、游泳或力量训练",stars:10,done:false},
-    {id:6,icon:"😊",name:"成长任务",desc:"家务、礼貌、不发脾气",stars:10,done:false}
-  ],
-  tennis:{minutes:0,sessions:0,balls:0,medals:0,skills:{正手:22,反手:18,发球:16,截击:12}},
-  spirits:[
-    {name:"闪电爪",face:"⚡🐾",type:"电系",desc:"喜欢速度与发球挑战",owned:true,level:1},
-    {name:"叶旋兽",face:"🌿🦊",type:"草系",desc:"擅长耐心和长回合",owned:false,level:1},
-    {name:"泡泡鳍",face:"💧🐟",type:"水系",desc:"游泳任务的最佳伙伴",owned:false,level:1}
-  ],
-  selectedSpirit:0
-};
-let state=JSON.parse(localStorage.getItem("growthPlanetV2")||"null")||structuredClone(defaults);
-const save=()=>localStorage.setItem("growthPlanetV2",JSON.stringify(state));
-const toast=t=>{let x=document.querySelector("#toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1800)};
-function renderHeader(){
-  const level=Math.floor(state.xp/100)+1, rem=state.xp%100;
-  levelEl.textContent=level;starsEl.textContent=state.stars;xpEl.textContent=rem;xpNeed.textContent=100;xpFill.style.width=rem+"%";
-  doneCount.textContent=state.tasks.filter(x=>x.done).length;
-  progressText.textContent=state.tasks.filter(x=>x.done).length+" / "+state.tasks.length;
-  spiritCount.textContent=state.spirits.filter(x=>x.owned).length;
-  streak.textContent=state.streak;
+const words=[
+{a:"der",w:"Hund",p:"Hunde",m:"狗",e:"🐶",x:"Der Hund spielt im Garten."},
+{a:"die",w:"Katze",p:"Katzen",m:"猫",e:"🐱",x:"Die Katze schläft auf dem Sofa."},
+{a:"das",w:"Haus",p:"Häuser",m:"房子",e:"🏠",x:"Das Haus hat einen Garten."},
+{a:"der",w:"Ball",p:"Bälle",m:"球",e:"⚽",x:"Der Ball liegt auf dem Boden."},
+{a:"die",w:"Schule",p:"Schulen",m:"学校",e:"🏫",x:"Die Schule beginnt um acht Uhr."},
+{a:"das",w:"Buch",p:"Bücher",m:"书",e:"📘",x:"Das Buch ist spannend."},
+{a:"der",w:"Tisch",p:"Tische",m:"桌子",e:"🪑",x:"Der Tisch steht in der Küche."},
+{a:"die",w:"Blume",p:"Blumen",m:"花",e:"🌷",x:"Die Blume ist gelb."},
+{a:"das",w:"Kind",p:"Kinder",m:"孩子",e:"🧒",x:"Das Kind liest ein Buch."},
+{a:"der",w:"Apfel",p:"Äpfel",m:"苹果",e:"🍎",x:"Der Apfel schmeckt süß."}
+];
+const hanzi=[
+{h:"规",p:"guī",b:"见",z:"规则、规定、规矩",tip:"‘夫’加‘见’，表示看见后遵守规则。"},
+{h:"墙",p:"qiáng",b:"土",z:"墙壁、围墙、城墙",tip:"左边是土，说明墙常由土石建成。"},
+{h:"印",p:"yìn",b:"卩",z:"印章、脚印、印象",tip:"像手按住一个人，留下痕迹。"},
+{h:"迟",p:"chí",b:"辶",z:"迟到、推迟、迟早",tip:"走之旁和行走、时间有关。"},
+{h:"晶",p:"jīng",b:"日",z:"水晶、晶亮、亮晶晶",tip:"三个太阳，表示非常明亮。"}
+];
+const poems=[
+{t:"山行",a:"杜牧",c:"远上寒山石径斜，\n白云生处有人家。\n停车坐爱枫林晚，\n霜叶红于二月花。"},
+{t:"静夜思",a:"李白",c:"床前明月光，\n疑是地上霜。\n举头望明月，\n低头思故乡。"}
+];
+const defaults={stars:0,xp:0,streak:1,lastBonus:"",tasks:[
+{id:1,icon:"➕",name:"数学练习",desc:"完成 10 道题",stars:10,done:false},{id:2,icon:"🇩🇪",name:"德语学习",desc:"完成 10 张单词卡",stars:10,done:false},{id:3,icon:"📚",name:"中文学习",desc:"学习 3 个生字",stars:10,done:false},{id:4,icon:"🎾",name:"网球训练",desc:"训练或颠球 20 分钟",stars:15,done:false},{id:5,icon:"🏃",name:"运动打卡",desc:"跳绳、游泳或力量训练",stars:10,done:false},{id:6,icon:"😊",name:"成长任务",desc:"家务、礼貌、不发脾气",stars:10,done:false}],
+tennis:{minutes:0,sessions:0,balls:0,medals:0,skills:{正手:22,反手:18,发球:16,截击:12},history:[]},
+spirits:[{name:"闪电爪",face:"⚡🐾",type:"电系",desc:"喜欢速度与发球挑战",owned:true,level:1,xp:0},{name:"叶旋兽",face:"🌿🦊",type:"草系",desc:"擅长耐心和长回合",owned:false,level:1,xp:0},{name:"泡泡鳍",face:"💧🐟",type:"水系",desc:"游泳任务的最佳伙伴",owned:false,level:1,xp:0},{name:"火拍龙",face:"🔥🐲",type:"火系",desc:"比赛时最有斗志",owned:false,level:1,xp:0}],selectedSpirit:0,german:{index:0,wrong:[],seen:0},math:{correct:0,streak:0},chinese:{index:0,poem:0}};
+let old=JSON.parse(localStorage.getItem("growthPlanetV2")||"null");
+let state=old||JSON.parse(localStorage.getItem("growthPlanetV21")||"null")||structuredClone(defaults);
+state.german=state.german||structuredClone(defaults.german);state.math=state.math||structuredClone(defaults.math);state.chinese=state.chinese||structuredClone(defaults.chinese);state.tennis.history=state.tennis.history||[];state.spirits.forEach((s,i)=>{if(s.xp==null)s.xp=0});
+const save=()=>{localStorage.setItem("growthPlanetV21",JSON.stringify(state));localStorage.setItem("growthPlanetV2",JSON.stringify(state))}
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);const toast=t=>{let x=$("#toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1700)}
+function renderHeader(){let lv=Math.floor(state.xp/100)+1,rem=state.xp%100;$("#level").textContent=lv;$("#stars").textContent=state.stars;$("#xp").textContent=rem;$("#xpFill").style.width=rem+"%";$("#doneCount").textContent=state.tasks.filter(x=>x.done).length;$("#progressText").textContent=state.tasks.filter(x=>x.done).length+" / "+state.tasks.length;$("#spiritCount").textContent=state.spirits.filter(x=>x.owned).length;$("#streak").textContent=state.streak}
+function renderTasks(){$("#missionList").innerHTML=state.tasks.map(t=>`<div class="mission"><div class="micon">${t.icon}</div><div class="grow"><b>${t.name}</b><small>${t.desc} · +${t.stars}⭐</small></div><button class="done ${t.done?'completed':''}" data-task="${t.id}">${t.done?'已完成':'完成'}</button></div>`).join("");$$("[data-task]").forEach(b=>b.onclick=()=>{let t=state.tasks.find(x=>x.id==b.dataset.task);if(t.done)return toast("今天已经完成啦");t.done=true;state.stars+=t.stars;state.xp+=t.stars*2;save();renderAll();toast(`获得 ${t.stars} 颗星！`)})}
+function show(id){$$(".screen").forEach(x=>x.classList.toggle("active",x.id===id));$$("[data-nav]").forEach(x=>x.classList.toggle("active",x.dataset.nav===id));scrollTo({top:0,behavior:"smooth"})}
+$$("[data-nav]").forEach(b=>b.onclick=()=>show(b.dataset.nav));$$("[data-home]").forEach(b=>b.onclick=()=>show("home"));$$("[data-open]").forEach(b=>b.onclick=()=>show(b.dataset.open));
+let gmode="cards";
+function renderGerman(){let area=$("#germanArea"),w=words[state.german.index%words.length];if(gmode==="cards"){area.innerHTML=`<div class="row space"><span class="badge">${state.german.index+1} / ${words.length}</span><span class="hint">已学习 ${state.german.seen} 张</span></div><div class="flashcard"><button class="speak" id="speak">🔊</button><div class="cardemoji">${w.e}</div><div class="word">${w.w}</div><div class="article">${w.a} ${w.w}</div><div class="meaning">${w.m}</div><div class="plural">复数：die ${w.p}</div><div class="example">${w.x}</div></div><div class="row"><button class="action secondary" id="prevWord">上一张</button><button class="action" id="nextWord">下一张</button></div>`;$("#speak").onclick=()=>speechSynthesis.speak(new SpeechSynthesisUtterance(`${w.a} ${w.w}. ${w.x}`));$("#prevWord").onclick=()=>{state.german.index=(state.german.index-1+words.length)%words.length;save();renderGerman()};$("#nextWord").onclick=()=>{state.german.index=(state.german.index+1)%words.length;state.german.seen++;state.xp+=2;save();renderAll();renderGerman()}}
+else if(gmode==="quiz"){const opts=["der","die","das"];area.innerHTML=`<div class="hint">请选择正确冠词</div><div class="flashcard" style="min-height:220px"><div class="cardemoji">${w.e}</div><div class="word">___ ${w.w}</div><div class="meaning">${w.m}</div></div><div class="quiz-options">${opts.map(o=>`<button class="option" data-art="${o}">${o} ${w.w}</button>`).join("")}</div>`;$$("[data-art]").forEach(b=>b.onclick=()=>{if(b.dataset.art===w.a){b.classList.add("correct");state.stars+=2;state.xp+=4;toast("正确！+2 星")}else{b.classList.add("wrong");if(!state.german.wrong.includes(w.w))state.german.wrong.push(w.w);toast(`正确答案是 ${w.a}`)}save();setTimeout(()=>{state.german.index=(state.german.index+1)%words.length;renderAll();renderGerman()},700)})}
+else{let list=words.filter(x=>state.german.wrong.includes(x.w));area.innerHTML=list.length?`<h2>需要复习</h2>${list.map(x=>`<div class="mission"><div class="micon">${x.e}</div><div><b>${x.a} ${x.w}</b><small>die ${x.p} · ${x.m}</small></div></div>`).join("")}<button class="action secondary" id="clearWrong">清空错题本</button>`:`<div style="text-align:center;padding:30px"><div style="font-size:55px">🏆</div><h2>暂时没有错题</h2><p class="hint">继续保持！</p></div>`;if($("#clearWrong"))$("#clearWrong").onclick=()=>{state.german.wrong=[];save();renderGerman()}}
 }
-const levelEl=document.querySelector("#level"),starsEl=document.querySelector("#stars"),xpEl=document.querySelector("#xp");
-function renderTasks(){
-  missionList.innerHTML=state.tasks.map(t=>`<div class="mission"><div class="micon">${t.icon}</div><div class="grow"><b>${t.name}</b><small>${t.desc} · +${t.stars}⭐</small></div><button class="done ${t.done?'completed':''}" data-task="${t.id}">${t.done?'已完成':'完成'}</button></div>`).join("");
-  missionList.querySelectorAll("[data-task]").forEach(b=>b.onclick=()=>{
-    const t=state.tasks.find(x=>x.id==b.dataset.task);
-    if(t.done){toast("这个任务今天已经完成啦");return}
-    t.done=true;state.stars+=t.stars;state.xp+=t.stars*2;save();renderAll();toast(`获得 ${t.stars} 颗星！`);
-  })
+$$("[data-gmode]").forEach(b=>b.onclick=()=>{gmode=b.dataset.gmode;$$("[data-gmode]").forEach(x=>x.classList.toggle("active",x===b));renderGerman()});
+let currentMath={};function makeMath(){let type=Math.floor(Math.random()*3),a,b;if(type===0){a=10+Math.floor(Math.random()*90);b=10+Math.floor(Math.random()*90);currentMath={q:`${a} + ${b} = ?`,a:a+b}}else if(type===1){a=40+Math.floor(Math.random()*60);b=10+Math.floor(Math.random()*Math.min(40,a));currentMath={q:`${a} − ${b} = ?`,a:a-b}}else{a=2+Math.floor(Math.random()*8);b=2+Math.floor(Math.random()*9);currentMath={q:`${a} × ${b} = ?`,a:a*b}}$("#mathQuestion").textContent=currentMath.q;$("#mathAnswer").value=""}
+$("#checkMath").onclick=()=>{let v=+$("#mathAnswer").value;if(v===currentMath.a){state.math.correct++;state.math.streak++;state.stars+=2;state.xp+=4;toast("答对了！+2 星");makeMath()}else{state.math.streak=0;toast(`正确答案是 ${currentMath.a}`)}save();renderMath();renderHeader()};$("#nextMath").onclick=makeMath;function renderMath(){$("#mathCorrect").textContent=state.math.correct;$("#mathStreak").textContent=state.math.streak}
+let cmode="hanzi";function renderChinese(){let area=$("#chineseArea");if(cmode==="hanzi"){let x=hanzi[state.chinese.index%hanzi.length];area.innerHTML=`<div class="chinese-card"><div class="hanzi">${x.h}</div><div class="pinyin">${x.p}</div><p><b>部首：</b>${x.b}</p><p><b>组词：</b>${x.z}</p><p class="hint">${x.tip}</p></div><button class="action" id="nextHanzi">学会了，下一字</button>`;$("#nextHanzi").onclick=()=>{state.chinese.index=(state.chinese.index+1)%hanzi.length;state.xp+=3;state.stars+=1;save();renderAll();renderChinese();toast("获得 1 颗星")}}else{let p=poems[state.chinese.poem%poems.length];area.innerHTML=`<div class="chinese-card"><h2>${p.t}</h2><div class="hint">${p.a}</div><div class="poem">${p.c.replaceAll("\n","<br>")}</div></div><button class="action" id="nextPoem">下一首</button>`;$("#nextPoem").onclick=()=>{state.chinese.poem=(state.chinese.poem+1)%poems.length;save();renderChinese()}}
 }
-function renderTennis(){
-  tennisMinutes.textContent=state.tennis.minutes;tennisSessions.textContent=state.tennis.sessions;tennisBalls.textContent=state.tennis.balls;tennisMedals.textContent=state.tennis.medals;
-  skills.innerHTML=Object.entries(state.tennis.skills).map(([k,v])=>`<div class="skill"><div class="skilltop"><b>${k}</b><span>${v}/100</span></div><div class="skillbar"><i style="width:${v}%"></i></div></div>`).join("");
-}
-function renderSpirits(){
-  spiritGrid.innerHTML=state.spirits.map((s,i)=>`<button class="spirit-card ${i==state.selectedSpirit?'selected':''}" data-spirit="${i}"><div class="spirit-face">${s.face}</div><b>${s.name}</b><div class="type">${s.owned?s.type:"🔒 未发现"}</div></button>`).join("");
-  const s=state.spirits[state.selectedSpirit];bigSpirit.textContent=s.face;spiritName.textContent=s.name+" · Lv."+s.level;spiritDesc.textContent=s.type+" · "+s.desc;
-  spiritGrid.querySelectorAll("[data-spirit]").forEach(b=>b.onclick=()=>{
-    const i=+b.dataset.spirit;if(!state.spirits[i].owned){toast("继续完成任务，伙伴就可能出现");return}
-    state.selectedSpirit=i;save();renderSpirits();
-  })
-}
-const items=[["🎮","周末游戏 30 分钟",40],["🍦","冰激凌一次",50],["🎬","家庭电影之夜",70],["🃏","一包收藏卡",100],["🎾","选择一次网球活动",120]];
-function renderShop(){
-  shopList.innerHTML="<h2>可兑换奖励</h2>"+items.map((x,i)=>`<div class="shopitem"><div class="micon">${x[0]}</div><div><b>${x[1]}</b><div class="hint">需要家长确认</div></div><div class="price">${x[2]}⭐</div><button class="redeem" data-redeem="${i}">兑换</button></div>`).join("");
-  shopList.querySelectorAll("[data-redeem]").forEach(b=>b.onclick=()=>{
-    let it=items[+b.dataset.redeem];if(state.stars<it[2]){toast("星星还不够，继续加油！");return}
-    state.stars-=it[2];save();renderAll();toast("兑换成功，请找家长确认");
-  })
-}
-function renderAll(){renderHeader();renderTasks();renderTennis();renderSpirits();renderShop()}
-function show(id){
-  document.querySelectorAll(".screen").forEach(x=>x.classList.toggle("active",x.id===id));
-  document.querySelectorAll("[data-nav]").forEach(x=>x.classList.toggle("active",x.dataset.nav===id));
-  scrollTo({top:0,behavior:"smooth"});
-}
-document.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>show(b.dataset.nav));
-document.querySelectorAll("[data-home]").forEach(b=>b.onclick=()=>show("home"));
-document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{
-  const id=b.dataset.open;
-  if(["tennis","spirits","shop"].includes(id)) show(id);
-  else openInfo(id);
-});
-function openInfo(id){
- const data={
- german:["🇩🇪 德语学院","V2 第一阶段已经完成入口。下一阶段将加入 der/die/das、复数、发音、翻卡、自测和错题本。"],
- math:["➕ 数学实验室","这里将提供适合三年级的每日数学挑战、计时练习和连续答对奖励。"],
- chinese:["📚 中文图书馆","这里将加入阅读、练字、生字、部首、笔顺、古诗和成语任务。"]
- };
- modalBody.innerHTML=`<h3>${data[id][0]}</h3><p>${data[id][1]}</p><button class="action-primary" onclick="modal.classList.remove('show')">知道了</button>`;
- modal.classList.add("show");
-}
-closeModal.onclick=()=>modal.classList.remove("show");modal.onclick=e=>{if(e.target===modal)modal.classList.remove("show")};
-logTennis.onclick=()=>{
- modalBody.innerHTML=`<h3>记录网球训练</h3><div class="parent-form"><input id="tm" type="number" value="30" placeholder="训练分钟"><input id="tb" type="number" value="100" placeholder="击球数量"><select id="focus"><option>正手</option><option>反手</option><option>发球</option><option>截击</option></select><button class="action-primary" id="saveTennis">保存训练</button></div>`;
- modal.classList.add("show");
- saveTennis.onclick=()=>{
-   const m=+tm.value||0,b=+tb.value||0,f=focus.value;
-   state.tennis.minutes+=m;state.tennis.balls+=b;state.tennis.sessions++;state.tennis.skills[f]=Math.min(100,state.tennis.skills[f]+3);
-   state.xp+=20;state.stars+=10;
-   if(state.tennis.sessions===3 && !state.spirits[1].owned){state.spirits[1].owned=true;toast("发现新伙伴：叶旋兽！")}
-   save();renderAll();modal.classList.remove("show");toast("训练记录成功，获得 10 星！");
- }
-};
-feedSpirit.onclick=()=>{
- const s=state.spirits[state.selectedSpirit];if(state.stars<5){toast("需要 5 颗星");return}
- state.stars-=5;s.level++;state.xp+=8;save();renderAll();toast(`${s.name} 升到 Lv.${s.level}`);
-};
-addTask.onclick=()=>{
- const name=newTaskName.value.trim();if(!name){toast("请填写任务名称");return}
- state.tasks.push({id:Date.now(),icon:newTaskIcon.value,name,desc:"家长自定义任务",stars:+newTaskStars.value||10,done:false});
- newTaskName.value="";save();renderAll();toast("任务已添加");
-};
-dailyBonus.onclick=()=>{
- const today=new Date().toISOString().slice(0,10);
- if(state.lastBonus===today){toast("今天已经领取过了");return}
- const yesterday=new Date(Date.now()-86400000).toISOString().slice(0,10);
- state.streak=state.lastBonus===yesterday?state.streak+1:1;state.lastBonus=today;state.stars+=5;state.xp+=10;
- save();renderAll();toast("登录奖励：5 颗星！");
-};
-resetData.onclick=()=>{
- if(confirm("确定清空这台设备上的所有成长记录吗？")){state=structuredClone(defaults);save();renderAll();toast("记录已清空")}
-};
-renderAll();
-if("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js");
+$$("[data-cmode]").forEach(b=>b.onclick=()=>{cmode=b.dataset.cmode;$$("[data-cmode]").forEach(x=>x.classList.toggle("active",x===b));renderChinese()});
+function renderTennis(){let t=state.tennis;$("#tennisMinutes").textContent=t.minutes;$("#tennisSessions").textContent=t.sessions;$("#tennisBalls").textContent=t.balls;$("#tennisMedals").textContent=t.medals;$("#skills").innerHTML=Object.entries(t.skills).map(([k,v])=>`<div class="skill"><div class="skilltop"><b>${k}</b><span>${v}/100</span></div><div class="skillbar"><i style="width:${v}%"></i></div></div>`).join("");$("#tennisHistory").innerHTML=t.history.length?t.history.slice(0,8).map(x=>`<div class="history-item"><div><b>${x.title}</b><div class="hint">${x.detail}</div></div><span class="hint">${x.date}</span></div>`).join(""):`<p class="hint">还没有记录，开始第一次训练吧。</p>`}
+const openModal=html=>{$("#modalBody").innerHTML=html;$("#modal").classList.add("show")};$("#closeModal").onclick=()=>$("#modal").classList.remove("show");$("#modal").onclick=e=>{if(e.target===$("#modal"))$("#modal").classList.remove("show")};
+$("#logTennis").onclick=()=>{openModal(`<h3>记录网球训练</h3><div class="parent-form"><input id="tm" type="number" value="30" placeholder="训练分钟"><input id="tb" type="number" value="100" placeholder="击球数量"><select id="focus"><option>正手</option><option>反手</option><option>发球</option><option>截击</option></select><button class="action" id="saveTennis">保存训练</button></div>`);$("#saveTennis").onclick=()=>{let m=+$("#tm").value||0,b=+$("#tb").value||0,f=$("#focus").value,t=state.tennis;t.minutes+=m;t.balls+=b;t.sessions++;t.skills[f]=Math.min(100,t.skills[f]+3);t.history.unshift({title:`${f}训练`,detail:`${m} 分钟 · ${b} 次击球`,date:new Date().toLocaleDateString("zh-CN")});state.stars+=10;state.xp+=20;if(t.sessions===3&&!state.spirits[1].owned)state.spirits[1].owned=true;save();renderAll();$("#modal").classList.remove("show");toast("训练记录成功，+10 星")}}
+$("#logMatch").onclick=()=>{openModal(`<h3>记录比赛</h3><div class="parent-form"><input id="opponent" placeholder="对手或赛事名称"><select id="result"><option>胜利</option><option>惜败</option><option>参加比赛</option></select><input id="score" placeholder="比分，例如 6:4 6:3"><label><input id="medal" type="checkbox"> 获得奖牌</label><button class="action" id="saveMatch">保存比赛</button></div>`);$("#saveMatch").onclick=()=>{let t=state.tennis,r=$("#result").value;t.history.unshift({title:`🏆 ${r} · ${$("#opponent").value||"网球比赛"}`,detail:$("#score").value||"已完成比赛",date:new Date().toLocaleDateString("zh-CN")});if($("#medal").checked)t.medals++;state.xp+=30;state.stars+=15;if(t.history.filter(x=>x.title.includes("🏆")).length>=2&&!state.spirits[3].owned)state.spirits[3].owned=true;save();renderAll();$("#modal").classList.remove("show");toast("比赛记录成功，+15 星")}}
+function renderSpirits(){$("#spiritGrid").innerHTML=state.spirits.map((s,i)=>`<button class="spirit-card ${i===state.selectedSpirit?'selected':''}" data-spirit="${i}"><div class="spirit-face">${s.face}</div><b>${s.name}</b><div class="type">${s.owned?s.type:"🔒 未发现"}</div></button>`).join("");let s=state.spirits[state.selectedSpirit];$("#bigSpirit").textContent=s.face;$("#spiritName").textContent=`${s.name} · Lv.${s.level}`;$("#spiritDesc").textContent=`${s.type} · ${s.desc}`;$("#spiritXp").style.width=(s.xp%20)/20*100+"%";$$("[data-spirit]").forEach(b=>b.onclick=()=>{let i=+b.dataset.spirit;if(!state.spirits[i].owned)return toast("继续完成任务，伙伴就会出现");state.selectedSpirit=i;save();renderSpirits()})}
+$("#feedSpirit").onclick=()=>{let s=state.spirits[state.selectedSpirit];if(state.stars<5)return toast("需要 5 颗星");state.stars-=5;s.xp+=5;if(s.xp>=20){s.xp-=20;s.level++;toast(`${s.name} 升到 Lv.${s.level}`)}else toast(`${s.name} 获得成长能量`);state.xp+=5;save();renderAll()}
+const items=[["🎮","周末游戏 30 分钟",40],["🍦","冰激凌一次",50],["🎬","家庭电影之夜",70],["🃏","一包收藏卡",100],["🎾","选择一次网球活动",120]];function renderShop(){$("#shopList").innerHTML="<h2>可兑换奖励</h2>"+items.map((x,i)=>`<div class="shopitem"><div class="micon">${x[0]}</div><div><b>${x[1]}</b><div class="hint">需要家长确认</div></div><div class="price">${x[2]}⭐</div><button class="redeem" data-redeem="${i}">兑换</button></div>`).join("");$$("[data-redeem]").forEach(b=>b.onclick=()=>{let it=items[+b.dataset.redeem];if(state.stars<it[2])return toast("星星还不够");state.stars-=it[2];save();renderAll();toast("兑换成功，请找家长确认")})}
+$("#addTask").onclick=()=>{let n=$("#newTaskName").value.trim();if(!n)return toast("请填写任务名称");state.tasks.push({id:Date.now(),icon:$("#newTaskIcon").value,name:n,desc:"家长自定义任务",stars:+$("#newTaskStars").value||10,done:false});$("#newTaskName").value="";save();renderAll();toast("任务已添加")};$("#dailyBonus").onclick=()=>{let today=new Date().toISOString().slice(0,10),y=new Date(Date.now()-864e5).toISOString().slice(0,10);if(state.lastBonus===today)return toast("今天已经领取过了");state.streak=state.lastBonus===y?state.streak+1:1;state.lastBonus=today;state.stars+=5;state.xp+=10;save();renderAll();toast("登录奖励：5 星")};$("#resetTasks").onclick=()=>{state.tasks.forEach(x=>x.done=false);save();renderAll();toast("今日任务已重置")};$("#resetData").onclick=()=>{if(confirm("确定清空所有记录吗？")){state=structuredClone(defaults);save();renderAll();toast("记录已清空")}}
+function renderAll(){renderHeader();renderTasks();renderGerman();renderMath();renderChinese();renderTennis();renderSpirits();renderShop()}
+makeMath();renderAll();if("serviceWorker"in navigator)navigator.serviceWorker.register("./sw.js");
 </script>
-</body>
-</html>
+</body></html>

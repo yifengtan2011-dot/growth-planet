@@ -1,0 +1,9 @@
+{
+  "name": "成长星球 Growth Planet",
+  "short_name": "成长星球",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F4F6FF",
+  "theme_color": "#6C5CE7",
+  "description": "儿童学习、运动和习惯成长管理"
+}

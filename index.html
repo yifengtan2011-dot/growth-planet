@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#6C5CE7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="成长星球">
+  <link rel="manifest" href="manifest.webmanifest">
+  <title>成长星球</title>
+  <style>
+    :root{
+      --purple:#6C5CE7;--purple2:#8E7CFF;--ink:#20304A;--muted:#7E8AA3;
+      --bg:#F4F6FF;--card:#fff;--green:#33B679;--red:#EE6464;--gold:#FFB703;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:linear-gradient(180deg,#EEF1FF 0%,#FFF9F0 100%);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+    body{min-height:100vh;padding-bottom:95px}
+    button,input,select{font:inherit}
+    .app{max-width:520px;margin:0 auto;padding:18px 16px 28px}
+    .hero{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border-radius:30px;padding:24px;box-shadow:0 18px 42px rgba(81,67,177,.28);position:relative;overflow:hidden}
+    .hero:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.09);right:-65px;top:-70px}
+    .hero h1{margin:0;font-size:32px}.hero p{margin:5px 0 0;color:rgba(255,255,255,.85)}
+    .profile{display:flex;justify-content:space-between;align-items:center;margin-top:22px}
+    .level{font-weight:800}.stars{background:rgba(255,255,255,.18);padding:10px 14px;border-radius:999px;font-weight:800}
+    .mission{margin-top:20px;font-weight:800}.progress{height:12px;background:rgba(255,255,255,.23);border-radius:999px;overflow:hidden;margin-top:10px}
+    .progress>div{height:100%;background:#fff;border-radius:inherit;width:0;transition:.3s}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+    .stat,.card{background:var(--card);border-radius:24px;box-shadow:0 10px 28px rgba(47,59,105,.09)}
+    .stat{text-align:center;padding:16px 8px}.stat b{font-size:27px;display:block}.stat span{font-size:12px;color:var(--muted)}
+    .card{padding:20px;margin:14px 0}.section-title{font-size:21px;font-weight:900;margin-bottom:10px}
+    .task{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #EEF0F5}.task:last-child{border-bottom:0}
+    .icon{font-size:34px;width:48px;text-align:center}.task-main{flex:1}.task-title{font-weight:850}.task-sub{font-size:13px;color:var(--muted);margin-top:3px}
+    .task button{border:0;background:#EEF0FF;color:var(--purple);font-weight:800;padding:9px 12px;border-radius:14px}
+    .tabs{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(520px,100%);display:grid;grid-template-columns:repeat(4,1fr);background:rgba(255,255,255,.96);backdrop-filter:blur(16px);padding:9px 8px calc(9px + env(safe-area-inset-bottom));border-top:1px solid #ECEEF6;z-index:30}
+    .tab{border:0;background:transparent;color:var(--muted);font-size:12px}.tab span{display:block;font-size:23px}.tab.active{color:var(--purple);font-weight:800}
+    .view{display:none}.view.active{display:block}
+    .modebar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+    .modebar button{border:0;border-radius:14px;padding:11px;background:#fff;color:var(--muted);font-weight:800}.modebar .active{background:var(--purple);color:#fff}
+    .wordcard{min-height:450px;background:#fff;border-radius:30px;padding:24px;box-shadow:0 16px 36px rgba(47,59,105,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative}
+    .badge{position:absolute;top:18px;left:18px;background:#EEF0FF;color:var(--purple);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:800}
+    .article{font-size:45px;color:var(--purple);font-weight:950}.word{font-size:58px;font-weight:950;margin:4px 0 12px;word-break:break-word}
+    .meaning{font-size:30px;font-weight:900}.plural,.example{margin-top:12px}.example{background:#F5F7FB;padding:14px;border-radius:18px}
+    .hint{color:var(--muted)}.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    .btn{border:0;border-radius:17px;padding:14px;font-weight:900}.bad{background:var(--red);color:#fff}.good{background:var(--green);color:#fff}.primary{background:var(--purple);color:#fff}
+    .reward{display:flex;align-items:center;gap:12px}.reward .emoji{font-size:38px}.reward .grow{flex:1}.reward button{border:0;background:var(--purple);color:#fff;border-radius:14px;padding:10px 13px;font-weight:800}
+    .parent-line{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #EEF0F5}.parent-line:last-child{border-bottom:0}
+    .inputrow{display:grid;grid-template-columns:1fr 92px;gap:8px;margin-top:10px}.inputrow input,.inputrow select{border:1px solid #E0E5F0;border-radius:14px;padding:12px;background:#fff}
+    .mini{font-size:13px;color:var(--muted)}
+    .toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(20px);background:#1F2A44;color:#fff;padding:12px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:translateX(-50%)}
+  </style>
+</head>
+<body>
+<div class="app">
+  <section id="home" class="view active">
+    <div class="hero">
+      <h1>🚀 成长星球</h1>
+      <p>每天进步一点点</p>
+      <div class="profile">
+        <div><div class="level">👦 Tino · Lv.<span id="level">1</span></div><small>Explorer</small></div>
+        <div class="stars">⭐ <span id="heroStars">0</span></div>
+      </div>
+      <div class="mission">今日任务：完成 6 项成长任务</div>
+      <div class="progress"><div id="progressBar"></div></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="statStars">0</b><span>⭐ 星星</span></div>
+      <div class="stat"><b id="statDone">0</b><span>✅ 今日完成</span></div>
+      <div class="stat"><b id="statStreak">0</b><span>🔥 连续天数</span></div>
+    </div>
+    <div class="card">
+      <div class="section-title">今天的任务</div>
+      <div id="taskList"></div>
+    </div>
+  </section>
+
+  <section id="words" class="view">
+    <div class="card">
+      <div class="section-title">🇩🇪 德语单词冒险</div>
+      <div class="mini">词性 · 复数 · 中文 · 例句 · 德语发音</div>
+    </div>
+    <div class="modebar">
+      <button class="active" data-mode="learn">学习</button>
+      <button data-mode="quiz">自测</button>
+      <button data-mode="wrong">错题</button>
+    </div>
+    <div id="wordCard" class="wordcard"></div>
+    <div class="actions">
+      <button class="btn bad" id="wrongBtn">❌ 还不会</button>
+      <button class="btn good" id="knownBtn">✅ 记住了</button>
+    </div>
+    <button class="btn primary" id="nextBtn" style="width:100%;margin-top:12px">➡️ 下一个</button>
+  </section>
+
+  <section id="rewards" class="view">
+    <div class="card">
+      <div class="section-title">🎁 奖励商城</div>
+      <div>当前余额：<b>⭐ <span id="rewardStars">0</span></b></div>
+    </div>
+    <div id="rewardList"></div>
+  </section>
+
+  <section id="parent" class="view">
+    <div class="card">
+      <div class="section-title">👨‍👩‍👦 家长中心</div>
+      <div class="parent-line"><span>累计星星</span><b id="pStars">0</b></div>
+      <div class="parent-line"><span>记住单词</span><b id="pKnown">0</b></div>
+      <div class="parent-line"><span>错题数量</span><b id="pWrong">0</b></div>
+      <div class="parent-line"><span>今日任务</span><b id="pDone">0</b></div>
+    </div>
+    <div class="card">
+      <div class="section-title">新增临时任务</div>
+      <div class="inputrow"><input id="customTask" placeholder="例如：整理书桌"><select id="customStars"><option>5</option><option>10</option><option>15</option><option>20</option></select></div>
+      <button class="btn primary" id="addTaskBtn" style="width:100%;margin-top:10px">添加任务</button>
+    </div>
+    <button class="btn bad" id="resetBtn" style="width:100%">清空全部记录</button>
+  </section>
+</div>
+
+<nav class="tabs">
+  <button class="tab active" data-view="home"><span>🏠</span>首页</button>
+  <button class="tab" data-view="words"><span>🇩🇪</span>德语</button>
+  <button class="tab" data-view="rewards"><span>🎁</span>奖励</button>
+  <button class="tab" data-view="parent"><span>👨‍👩‍👦</span>家长</button>
+</nav>
+<div class="toast" id="toast"></div>
+
+<script>
+const baseTasks=[
+ {id:"math",icon:"➕",name:"数学练习",sub:"完成 15 分钟",stars:10},
+ {id:"german",icon:"🇩🇪",name:"德语学习",sub:"完成 10 张单词卡",stars:10},
+ {id:"chinese",icon:"🇨🇳",name:"中文学习",sub:"阅读或练字 15 分钟",stars:10},
+ {id:"sport",icon:"🎾",name:"运动打卡",sub:"网球、游泳、跳绳任选",stars:15},
+ {id:"chores",icon:"🧹",name:"完成家务",sub:"主动完成一项家务",stars:10},
+ {id:"mood",icon:"😊",name:"礼貌与情绪",sub:"不发脾气，礼貌表达",stars:15}
+];
+const words=[
+ ["der","Apfel","Äpfel","苹果","Ich esse einen Apfel."],
+ ["die","Banane","Bananen","香蕉","Die Banane ist gelb."],
+ ["das","Buch","Bücher","书","Ich lese ein Buch."],
+ ["die","Schule","Schulen","学校","Ich gehe in die Schule."],
+ ["der","Stift","Stifte","笔","Der Stift ist blau."],
+ ["das","Fahrrad","Fahrräder","自行车","Ich fahre mit dem Fahrrad."],
+ ["die","Aufgabe","Aufgaben","题目；任务","Ich mache meine Aufgabe."],
+ ["die","Wolke","Wolken","云","Die Wolke ist grau."],
+ ["die","Geschichte","Geschichten","故事；历史","Die Geschichte ist spannend."],
+ ["das","Ergebnis","Ergebnisse","结果","Das Ergebnis ist richtig."],
+ ["das","Nomen","Nomen","名词","Ein Nomen schreibt man groß."],
+ ["das","Verb","Verben","动词","Das Verb beschreibt eine Handlung."]
+];
+const rewards=[
+ ["🎬","周末多看 20 分钟动画",30],["🍰","选择一次家庭甜点",50],
+ ["🎾","选择一次周末活动",100],["🎁","神秘小礼物",150]
+];
+const todayKey=new Date().toISOString().slice(0,10);
+let state=JSON.parse(localStorage.getItem("growthPlanet")||"null")||{stars:0,known:[],wrong:[],streak:1,today:todayKey,done:[],custom:[]};
+if(state.today!==todayKey){state.today=todayKey;state.done=[];state.streak=(state.streak||0)+1}
+let mode="learn",idx=0,flipped=false;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+function save(){localStorage.setItem("growthPlanet",JSON.stringify(state));renderAll()}
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1500)}
+function allTasks(){return [...baseTasks,...(state.custom||[])]}
+function renderTasks(){
+ const list=$("#taskList");list.innerHTML="";
+ allTasks().forEach(t=>{
+  const done=state.done.includes(t.id);
+  const div=document.createElement("div");div.className="task";
+  div.innerHTML=`<div class="icon">${t.icon}</div><div class="task-main"><div class="task-title">${t.name}</div><div class="task-sub">${t.sub} · +${t.stars}⭐</div></div><button>${done?"已完成":"完成"}</button>`;
+  div.querySelector("button").onclick=()=>{if(done)return;state.done.push(t.id);state.stars+=Number(t.stars);save();toast(`完成！+${t.stars}⭐`)};
+  list.appendChild(div);
+ })
+}
+function filteredWords(){
+ if(mode!=="wrong") return words;
+ return words.filter(w=>state.wrong.includes(w[1]))
+}
+function renderWord(){
+ const deck=filteredWords(),card=$("#wordCard");
+ if(!deck.length){card.innerHTML="<div class='hint'>错题本是空的，继续保持！</div>";return}
+ idx%=deck.length;const w=deck[idx];
+ if(!flipped){
+  card.innerHTML=`<div class="badge">${mode==="quiz"?"自测模式":"学习模式"}</div><div class="article">${mode==="quiz"?"?":w[0]}</div><div class="word">${w[1]}</div><div class="hint">${mode==="quiz"?"先回答词性、中文和复数，再点击翻面":"点击卡片查看答案"}</div>`;
+ }else{
+  card.innerHTML=`<div class="badge">答案</div><div class="article">${w[0]}</div><div class="word">${w[1]}</div><div class="meaning">${w[3]}</div><div class="plural">复数：die ${w[2]}</div><div class="example">${w[4]}</div><button class="btn primary" id="speakBtn" style="margin-top:16px">🔊 听发音</button>`;
+  $("#speakBtn").onclick=e=>{e.stopPropagation();speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(`${w[0]} ${w[1]}. ${w[4]}`);u.lang="de-DE";speechSynthesis.speak(u)}
+ }
+}
+function currentWord(){const d=filteredWords();return d.length?d[idx%d.length]:null}
+function renderRewards(){
+ $("#rewardList").innerHTML=rewards.map((r,i)=>`<div class="card reward"><div class="emoji">${r[0]}</div><div class="grow"><b>${r[1]}</b><div class="mini">${r[2]} ⭐</div></div><button data-r="${i}">兑换</button></div>`).join("");
+ $$("#rewardList button").forEach(b=>b.onclick=()=>{const r=rewards[+b.dataset.r];if(state.stars<r[2])return toast("星星还不够");state.stars-=r[2];save();toast("兑换成功，请家长确认")})
+}
+function renderAll(){
+ renderTasks();renderWord();renderRewards();
+ const done=state.done.length,total=allTasks().length,pct=Math.min(100,Math.round(done/total*100));
+ $("#progressBar").style.width=pct+"%";
+ $("#heroStars").textContent=$("#statStars").textContent=$("#rewardStars").textContent=$("#pStars").textContent=state.stars;
+ $("#statDone").textContent=$("#pDone").textContent=done;$("#statStreak").textContent=state.streak||1;
+ $("#level").textContent=Math.max(1,Math.floor(state.stars/100)+1);
+ $("#pKnown").textContent=state.known.length;$("#pWrong").textContent=state.wrong.length;
+}
+$$(".tab").forEach(b=>b.onclick=()=>{$$(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");$$(".view").forEach(v=>v.classList.remove("active"));$("#"+b.dataset.view).classList.add("active");scrollTo(0,0)})
+$$(".modebar button").forEach(b=>b.onclick=()=>{$$(".modebar button").forEach(x=>x.classList.remove("active"));b.classList.add("active");mode=b.dataset.mode;idx=0;flipped=false;renderWord()})
+$("#wordCard").onclick=()=>{flipped=!flipped;renderWord()}
+$("#nextBtn").onclick=()=>{idx++;flipped=false;renderWord()}
+$("#knownBtn").onclick=()=>{const w=currentWord();if(!w)return;state.stars+=2;if(!state.known.includes(w[1]))state.known.push(w[1]);state.wrong=state.wrong.filter(x=>x!==w[1]);idx++;flipped=false;save();toast("+2 ⭐")}
+$("#wrongBtn").onclick=()=>{const w=currentWord();if(!w)return;if(!state.wrong.includes(w[1]))state.wrong.push(w[1]);idx++;flipped=false;save();toast("已加入错题本")}
+$("#addTaskBtn").onclick=()=>{const name=$("#customTask").value.trim();if(!name)return toast("请输入任务名称");state.custom.push({id:"c"+Date.now(),icon:"🌟",name,sub:"家长临时任务",stars:+$("#customStars").value});$("#customTask").value="";save();toast("任务已添加")}
+$("#resetBtn").onclick=()=>{if(confirm("确认清空全部学习记录？")){localStorage.removeItem("growthPlanet");location.reload()}}
+renderAll();
+if("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js");
+</script>
+</body>
+</html>

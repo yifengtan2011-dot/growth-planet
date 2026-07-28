@@ -1,213 +1,309 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#6C5CE7">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="成长星球">
-  <link rel="manifest" href="manifest.webmanifest">
-  <title>成长星球</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#5b4ff3" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>成长星球 V2</title>
+  <link rel="manifest" href="manifest.webmanifest" />
   <style>
     :root{
-      --purple:#6C5CE7;--purple2:#8E7CFF;--ink:#20304A;--muted:#7E8AA3;
-      --bg:#F4F6FF;--card:#fff;--green:#33B679;--red:#EE6464;--gold:#FFB703;
+      --ink:#17213d; --muted:#7d86a4; --purple:#6658f6; --purple2:#8d6fff;
+      --card:rgba(255,255,255,.92); --bg1:#edf1ff; --bg2:#fff7e9;
+      --line:rgba(35,45,90,.08); --shadow:0 18px 46px rgba(75,70,160,.16);
+      --safe-bottom:max(18px,env(safe-area-inset-bottom));
     }
     *{box-sizing:border-box}
-    html,body{margin:0;background:linear-gradient(180deg,#EEF1FF 0%,#FFF9F0 100%);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
-    body{min-height:100vh;padding-bottom:95px}
+    html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink)}
+    body{background:linear-gradient(145deg,var(--bg1),#fafaff 48%,var(--bg2));overflow-x:hidden}
     button,input,select{font:inherit}
-    .app{max-width:520px;margin:0 auto;padding:18px 16px 28px}
-    .hero{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border-radius:30px;padding:24px;box-shadow:0 18px 42px rgba(81,67,177,.28);position:relative;overflow:hidden}
-    .hero:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.09);right:-65px;top:-70px}
-    .hero h1{margin:0;font-size:32px}.hero p{margin:5px 0 0;color:rgba(255,255,255,.85)}
-    .profile{display:flex;justify-content:space-between;align-items:center;margin-top:22px}
-    .level{font-weight:800}.stars{background:rgba(255,255,255,.18);padding:10px 14px;border-radius:999px;font-weight:800}
-    .mission{margin-top:20px;font-weight:800}.progress{height:12px;background:rgba(255,255,255,.23);border-radius:999px;overflow:hidden;margin-top:10px}
-    .progress>div{height:100%;background:#fff;border-radius:inherit;width:0;transition:.3s}
-    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
-    .stat,.card{background:var(--card);border-radius:24px;box-shadow:0 10px 28px rgba(47,59,105,.09)}
-    .stat{text-align:center;padding:16px 8px}.stat b{font-size:27px;display:block}.stat span{font-size:12px;color:var(--muted)}
-    .card{padding:20px;margin:14px 0}.section-title{font-size:21px;font-weight:900;margin-bottom:10px}
-    .task{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #EEF0F5}.task:last-child{border-bottom:0}
-    .icon{font-size:34px;width:48px;text-align:center}.task-main{flex:1}.task-title{font-weight:850}.task-sub{font-size:13px;color:var(--muted);margin-top:3px}
-    .task button{border:0;background:#EEF0FF;color:var(--purple);font-weight:800;padding:9px 12px;border-radius:14px}
-    .tabs{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(520px,100%);display:grid;grid-template-columns:repeat(4,1fr);background:rgba(255,255,255,.96);backdrop-filter:blur(16px);padding:9px 8px calc(9px + env(safe-area-inset-bottom));border-top:1px solid #ECEEF6;z-index:30}
-    .tab{border:0;background:transparent;color:var(--muted);font-size:12px}.tab span{display:block;font-size:23px}.tab.active{color:var(--purple);font-weight:800}
-    .view{display:none}.view.active{display:block}
-    .modebar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
-    .modebar button{border:0;border-radius:14px;padding:11px;background:#fff;color:var(--muted);font-weight:800}.modebar .active{background:var(--purple);color:#fff}
-    .wordcard{min-height:450px;background:#fff;border-radius:30px;padding:24px;box-shadow:0 16px 36px rgba(47,59,105,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative}
-    .badge{position:absolute;top:18px;left:18px;background:#EEF0FF;color:var(--purple);padding:8px 12px;border-radius:999px;font-size:12px;font-weight:800}
-    .article{font-size:45px;color:var(--purple);font-weight:950}.word{font-size:58px;font-weight:950;margin:4px 0 12px;word-break:break-word}
-    .meaning{font-size:30px;font-weight:900}.plural,.example{margin-top:12px}.example{background:#F5F7FB;padding:14px;border-radius:18px}
-    .hint{color:var(--muted)}.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
-    .btn{border:0;border-radius:17px;padding:14px;font-weight:900}.bad{background:var(--red);color:#fff}.good{background:var(--green);color:#fff}.primary{background:var(--purple);color:#fff}
-    .reward{display:flex;align-items:center;gap:12px}.reward .emoji{font-size:38px}.reward .grow{flex:1}.reward button{border:0;background:var(--purple);color:#fff;border-radius:14px;padding:10px 13px;font-weight:800}
-    .parent-line{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #EEF0F5}.parent-line:last-child{border-bottom:0}
-    .inputrow{display:grid;grid-template-columns:1fr 92px;gap:8px;margin-top:10px}.inputrow input,.inputrow select{border:1px solid #E0E5F0;border-radius:14px;padding:12px;background:#fff}
-    .mini{font-size:13px;color:var(--muted)}
-    .toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(20px);background:#1F2A44;color:#fff;padding:12px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:translateX(-50%)}
+    button{border:0;cursor:pointer}
+    .app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:98px}
+    .screen{display:none}.screen.active{display:block}
+    .hero{
+      margin:18px 18px 14px;border-radius:32px;padding:24px;color:#fff;position:relative;overflow:hidden;
+      background:linear-gradient(135deg,#5949ed,#8c6df7 65%,#ad8eff);box-shadow:var(--shadow)
+    }
+    .hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.10)}
+    .hero:before{width:230px;height:230px;right:-72px;top:-100px}
+    .hero:after{width:135px;height:135px;right:36px;bottom:-72px}
+    .eyebrow{font-size:13px;opacity:.82;letter-spacing:.08em}
+    h1{font-size:32px;margin:5px 0 4px}.sub{opacity:.88}
+    .profile{display:flex;align-items:center;gap:12px;margin-top:22px}
+    .avatar{width:52px;height:52px;border-radius:18px;background:#fff3;display:grid;place-items:center;font-size:30px;border:1px solid #fff5}
+    .grow{flex:1}.name{font-weight:800;font-size:18px}.rank{font-size:13px;opacity:.82;margin-top:3px}
+    .stars{background:#fff2;padding:10px 13px;border-radius:18px;font-weight:800;white-space:nowrap}
+    .xpbar{height:10px;background:#ffffff32;border-radius:99px;margin-top:18px;overflow:hidden}
+    .xpbar i{display:block;height:100%;background:linear-gradient(90deg,#ffe15a,#fff0a3);border-radius:99px;width:0;transition:.5s}
+    .xptext{font-size:12px;opacity:.88;margin-top:7px}
+    .section{padding:0 18px;margin-top:22px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:12px}
+    h2{font-size:22px;margin:0}.hint{font-size:13px;color:var(--muted)}
+    .daily{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .metric{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px 10px;text-align:center;box-shadow:0 10px 26px rgba(71,73,130,.08)}
+    .metric b{display:block;font-size:26px}.metric span{font-size:12px;color:var(--muted)}
+    .map{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    .place{min-height:154px;border-radius:26px;padding:17px;text-align:left;position:relative;overflow:hidden;color:#fff;box-shadow:0 14px 32px rgba(80,78,150,.14)}
+    .place .emoji{font-size:39px;display:block;margin-bottom:17px}.place b{font-size:18px;display:block}.place small{opacity:.84}
+    .place:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-25px;top:-22px;background:#fff2}
+    .german{background:linear-gradient(145deg,#ffba45,#ff7859)}
+    .tennis{background:linear-gradient(145deg,#39c989,#0aa56d)}
+    .spirit{background:linear-gradient(145deg,#7962ff,#b36fff)}
+    .rewards{background:linear-gradient(145deg,#ff769a,#ff4b67)}
+    .math{background:linear-gradient(145deg,#4f9cff,#5368f4)}
+    .chinese{background:linear-gradient(145deg,#ff6e58,#ef3c52)}
+    .missions{background:var(--card);border-radius:27px;padding:8px 16px;border:1px solid var(--line);box-shadow:var(--shadow)}
+    .mission{display:flex;align-items:center;gap:13px;padding:15px 2px;border-bottom:1px solid var(--line)}
+    .mission:last-child{border-bottom:0}.micon{width:46px;height:46px;border-radius:16px;background:#f0f2ff;display:grid;place-items:center;font-size:24px}
+    .mission b{display:block}.mission small{color:var(--muted)}
+    .done{background:#eeeaff;color:var(--purple);padding:9px 13px;border-radius:15px;font-weight:800}
+    .done.completed{background:#dcf8e9;color:#168258}
+    .pagehead{padding:25px 18px 5px;display:flex;align-items:center;gap:12px}
+    .back{width:42px;height:42px;border-radius:16px;background:#fff;box-shadow:0 8px 20px #4552a018;font-size:20px}
+    .panel{margin:12px 18px;background:var(--card);border:1px solid var(--line);border-radius:28px;padding:18px;box-shadow:var(--shadow)}
+    .court{background:linear-gradient(135deg,#0aa56d,#4ed29b);color:#fff;position:relative;overflow:hidden}
+    .court:after{content:"";position:absolute;inset:18px;border:2px solid #ffffff66;border-radius:18px;pointer-events:none}
+    .court-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1}
+    .court-card{background:#ffffff20;border:1px solid #ffffff35;border-radius:18px;padding:15px}
+    .court-card b{font-size:25px;display:block}.court-card small{opacity:.85}
+    .skills{display:grid;gap:11px}.skill{background:#f7f8ff;border-radius:20px;padding:14px}
+    .skilltop{display:flex;justify-content:space-between}.skillbar{height:9px;background:#e6e9f5;border-radius:99px;margin-top:10px;overflow:hidden}
+    .skillbar i{display:block;height:100%;background:linear-gradient(90deg,#3ccf8d,#0aa56d);border-radius:99px}
+    .action-primary{width:100%;padding:15px;border-radius:18px;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;font-weight:800;margin-top:12px}
+    .spirits{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .spirit-card{background:#f7f7ff;border-radius:22px;padding:13px 8px;text-align:center;border:2px solid transparent}
+    .spirit-card.selected{border-color:var(--purple);background:#eeebff}
+    .spirit-face{font-size:46px}.type{font-size:11px;padding:4px 7px;border-radius:99px;background:#fff;display:inline-block;color:var(--muted)}
+    .capsule{height:160px;border-radius:28px;background:radial-gradient(circle at 50% 35%,#fff,#f6f4ff 50%,#e4e1ff);display:grid;place-items:center;font-size:76px;position:relative}
+    .capsule:after{content:"伙伴胶囊";position:absolute;bottom:13px;font-size:13px;color:var(--muted)}
+    .shopitem{display:flex;gap:13px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+    .shopitem:last-child{border-bottom:0}.price{margin-left:auto;color:#f0a000;font-weight:900}
+    .redeem{padding:8px 11px;border-radius:13px;background:#fff0c9;color:#a56b00;font-weight:800}
+    .parent-form{display:grid;gap:10px}.parent-form input,.parent-form select{width:100%;padding:13px 14px;border-radius:16px;border:1px solid #dfe3f2;background:#fff}
+    .toast{position:fixed;left:50%;bottom:105px;transform:translate(-50%,20px);opacity:0;background:#17213de8;color:white;padding:11px 16px;border-radius:14px;transition:.25s;z-index:50;white-space:nowrap}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(760px,100%);background:rgba(255,255,255,.94);backdrop-filter:blur(18px);display:grid;grid-template-columns:repeat(4,1fr);padding:10px 8px var(--safe-bottom);border-top:1px solid var(--line);z-index:20}
+    .nav button{background:none;color:var(--muted);font-size:12px}.nav span{display:block;font-size:23px;margin-bottom:3px}.nav button.active{color:var(--purple);font-weight:800}
+    .modal{position:fixed;inset:0;background:#11182f88;display:none;align-items:flex-end;justify-content:center;z-index:100}
+    .modal.show{display:flex}.sheet{width:min(760px,100%);background:#fff;border-radius:30px 30px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom));max-height:82vh;overflow:auto}
+    .sheet h3{margin:0 0 8px;font-size:22px}.close{float:right;width:38px;height:38px;border-radius:14px;background:#f1f2f8}
+    @media(min-width:650px){.map{grid-template-columns:repeat(3,1fr)}.place{min-height:170px}}
   </style>
 </head>
 <body>
 <div class="app">
-  <section id="home" class="view active">
-    <div class="hero">
-      <h1>🚀 成长星球</h1>
-      <p>每天进步一点点</p>
+  <main id="home" class="screen active">
+    <section class="hero">
+      <div class="eyebrow">GROWTH PLANET · V2</div>
+      <h1>🚀 成长星球</h1><div class="sub">收集伙伴，练好网球，每天升级一点点</div>
       <div class="profile">
-        <div><div class="level">👦 Tino · Lv.<span id="level">1</span></div><small>Explorer</small></div>
-        <div class="stars">⭐ <span id="heroStars">0</span></div>
+        <div class="avatar">👦</div><div class="grow"><div class="name">Tino · Lv.<span id="level">1</span></div><div class="rank">星球训练家 · 网球新星</div></div>
+        <div class="stars">⭐ <span id="stars">0</span></div>
       </div>
-      <div class="mission">今日任务：完成 6 项成长任务</div>
-      <div class="progress"><div id="progressBar"></div></div>
-    </div>
-    <div class="stats">
-      <div class="stat"><b id="statStars">0</b><span>⭐ 星星</span></div>
-      <div class="stat"><b id="statDone">0</b><span>✅ 今日完成</span></div>
-      <div class="stat"><b id="statStreak">0</b><span>🔥 连续天数</span></div>
-    </div>
-    <div class="card">
-      <div class="section-title">今天的任务</div>
-      <div id="taskList"></div>
-    </div>
-  </section>
+      <div class="xpbar"><i id="xpFill"></i></div><div class="xptext"><span id="xp">0</span> / <span id="xpNeed">100</span> XP</div>
+    </section>
 
-  <section id="words" class="view">
-    <div class="card">
-      <div class="section-title">🇩🇪 德语单词冒险</div>
-      <div class="mini">词性 · 复数 · 中文 · 例句 · 德语发音</div>
-    </div>
-    <div class="modebar">
-      <button class="active" data-mode="learn">学习</button>
-      <button data-mode="quiz">自测</button>
-      <button data-mode="wrong">错题</button>
-    </div>
-    <div id="wordCard" class="wordcard"></div>
-    <div class="actions">
-      <button class="btn bad" id="wrongBtn">❌ 还不会</button>
-      <button class="btn good" id="knownBtn">✅ 记住了</button>
-    </div>
-    <button class="btn primary" id="nextBtn" style="width:100%;margin-top:12px">➡️ 下一个</button>
-  </section>
+    <section class="section">
+      <div class="daily">
+        <div class="metric"><b id="doneCount">0</b><span>今日完成</span></div>
+        <div class="metric"><b id="streak">1</b><span>连续天数</span></div>
+        <div class="metric"><b id="spiritCount">1</b><span>伙伴图鉴</span></div>
+      </div>
+    </section>
 
-  <section id="rewards" class="view">
-    <div class="card">
-      <div class="section-title">🎁 奖励商城</div>
-      <div>当前余额：<b>⭐ <span id="rewardStars">0</span></b></div>
-    </div>
-    <div id="rewardList"></div>
-  </section>
+    <section class="section">
+      <div class="section-head"><h2>探索地图</h2><span class="hint">点击进入</span></div>
+      <div class="map">
+        <button class="place german" data-open="german"><span class="emoji">🇩🇪</span><b>德语学院</b><small>单词 · 发音 · 翻卡</small></button>
+        <button class="place tennis" data-open="tennis"><span class="emoji">🎾</span><b>网球竞技场</b><small>训练 · 技能 · 比赛</small></button>
+        <button class="place spirit" data-open="spirits"><span class="emoji">✨</span><b>伙伴研究所</b><small>收集 · 属性 · 进化</small></button>
+        <button class="place rewards" data-open="shop"><span class="emoji">🎁</span><b>星星商店</b><small>兑换家庭奖励</small></button>
+        <button class="place math" data-open="math"><span class="emoji">➕</span><b>数学实验室</b><small>每日挑战</small></button>
+        <button class="place chinese" data-open="chinese"><span class="emoji">📚</span><b>中文图书馆</b><small>阅读 · 练字 · 古诗</small></button>
+      </div>
+    </section>
 
-  <section id="parent" class="view">
-    <div class="card">
-      <div class="section-title">👨‍👩‍👦 家长中心</div>
-      <div class="parent-line"><span>累计星星</span><b id="pStars">0</b></div>
-      <div class="parent-line"><span>记住单词</span><b id="pKnown">0</b></div>
-      <div class="parent-line"><span>错题数量</span><b id="pWrong">0</b></div>
-      <div class="parent-line"><span>今日任务</span><b id="pDone">0</b></div>
-    </div>
-    <div class="card">
-      <div class="section-title">新增临时任务</div>
-      <div class="inputrow"><input id="customTask" placeholder="例如：整理书桌"><select id="customStars"><option>5</option><option>10</option><option>15</option><option>20</option></select></div>
-      <button class="btn primary" id="addTaskBtn" style="width:100%;margin-top:10px">添加任务</button>
-    </div>
-    <button class="btn bad" id="resetBtn" style="width:100%">清空全部记录</button>
-  </section>
+    <section class="section">
+      <div class="section-head"><h2>今日任务</h2><span class="hint" id="progressText">0 / 6</span></div>
+      <div class="missions" id="missionList"></div>
+    </section>
+  </main>
+
+  <main id="tennis" class="screen">
+    <div class="pagehead"><button class="back" data-home>‹</button><div><h2>🎾 网球竞技场</h2><div class="hint">每次训练都会提升技能与经验</div></div></div>
+    <section class="panel court">
+      <h2 style="position:relative;z-index:1">本周训练</h2>
+      <div class="court-grid">
+        <div class="court-card"><b id="tennisMinutes">0</b><small>训练分钟</small></div>
+        <div class="court-card"><b id="tennisSessions">0</b><small>训练次数</small></div>
+        <div class="court-card"><b id="tennisBalls">0</b><small>击球数量</small></div>
+        <div class="court-card"><b id="tennisMedals">0</b><small>比赛奖牌</small></div>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>技能树</h2><div class="skills" id="skills"></div>
+      <button class="action-primary" id="logTennis">＋记录一次训练</button>
+    </section>
+  </main>
+
+  <main id="spirits" class="screen">
+    <div class="pagehead"><button class="back" data-home>‹</button><div><h2>✨ 伙伴研究所</h2><div class="hint">原创星球伙伴：收集、培养、进化</div></div></div>
+    <section class="panel">
+      <div class="capsule" id="bigSpirit">⚡🐾</div>
+      <h2 id="spiritName" style="text-align:center;margin-top:14px">闪电爪</h2>
+      <p class="hint" id="spiritDesc" style="text-align:center">电系 · 喜欢速度与发球挑战</p>
+      <button class="action-primary" id="feedSpirit">🍓 喂养伙伴（消耗 5 星）</button>
+    </section>
+    <section class="panel"><h2>我的图鉴</h2><div class="spirits" id="spiritGrid"></div></section>
+  </main>
+
+  <main id="shop" class="screen">
+    <div class="pagehead"><button class="back" data-home>‹</button><div><h2>🎁 星星商店</h2><div class="hint">家长确认后兑换</div></div></div>
+    <section class="panel" id="shopList"></section>
+  </main>
+
+  <main id="parent" class="screen">
+    <div class="pagehead"><div><h2>👨‍👩‍👦 家长中心</h2><div class="hint">任务与奖励会保存在这台设备上</div></div></div>
+    <section class="panel">
+      <h2>新增今日任务</h2>
+      <div class="parent-form">
+        <input id="newTaskName" placeholder="例如：练习发球 50 个" />
+        <select id="newTaskIcon"><option>🎾</option><option>🇩🇪</option><option>📚</option><option>🏊</option><option>🧹</option><option>😊</option></select>
+        <input id="newTaskStars" type="number" value="10" min="1" max="100" placeholder="星星奖励" />
+        <button class="action-primary" id="addTask">添加任务</button>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>数据管理</h2>
+      <button class="action-primary" id="dailyBonus">领取今日登录奖励</button>
+      <button class="action-primary" id="resetData" style="background:#eef0f8;color:#576078">清空本机记录</button>
+    </section>
+  </main>
+
+  <nav class="nav">
+    <button class="active" data-nav="home"><span>🏠</span>首页</button>
+    <button data-nav="tennis"><span>🎾</span>网球</button>
+    <button data-nav="spirits"><span>✨</span>伙伴</button>
+    <button data-nav="parent"><span>👨‍👩‍👦</span>家长</button>
+  </nav>
 </div>
-
-<nav class="tabs">
-  <button class="tab active" data-view="home"><span>🏠</span>首页</button>
-  <button class="tab" data-view="words"><span>🇩🇪</span>德语</button>
-  <button class="tab" data-view="rewards"><span>🎁</span>奖励</button>
-  <button class="tab" data-view="parent"><span>👨‍👩‍👦</span>家长</button>
-</nav>
 <div class="toast" id="toast"></div>
+<div class="modal" id="modal"><div class="sheet"><button class="close" id="closeModal">✕</button><div id="modalBody"></div></div></div>
 
 <script>
-const baseTasks=[
- {id:"math",icon:"➕",name:"数学练习",sub:"完成 15 分钟",stars:10},
- {id:"german",icon:"🇩🇪",name:"德语学习",sub:"完成 10 张单词卡",stars:10},
- {id:"chinese",icon:"🇨🇳",name:"中文学习",sub:"阅读或练字 15 分钟",stars:10},
- {id:"sport",icon:"🎾",name:"运动打卡",sub:"网球、游泳、跳绳任选",stars:15},
- {id:"chores",icon:"🧹",name:"完成家务",sub:"主动完成一项家务",stars:10},
- {id:"mood",icon:"😊",name:"礼貌与情绪",sub:"不发脾气，礼貌表达",stars:15}
-];
-const words=[
- ["der","Apfel","Äpfel","苹果","Ich esse einen Apfel."],
- ["die","Banane","Bananen","香蕉","Die Banane ist gelb."],
- ["das","Buch","Bücher","书","Ich lese ein Buch."],
- ["die","Schule","Schulen","学校","Ich gehe in die Schule."],
- ["der","Stift","Stifte","笔","Der Stift ist blau."],
- ["das","Fahrrad","Fahrräder","自行车","Ich fahre mit dem Fahrrad."],
- ["die","Aufgabe","Aufgaben","题目；任务","Ich mache meine Aufgabe."],
- ["die","Wolke","Wolken","云","Die Wolke ist grau."],
- ["die","Geschichte","Geschichten","故事；历史","Die Geschichte ist spannend."],
- ["das","Ergebnis","Ergebnisse","结果","Das Ergebnis ist richtig."],
- ["das","Nomen","Nomen","名词","Ein Nomen schreibt man groß."],
- ["das","Verb","Verben","动词","Das Verb beschreibt eine Handlung."]
-];
-const rewards=[
- ["🎬","周末多看 20 分钟动画",30],["🍰","选择一次家庭甜点",50],
- ["🎾","选择一次周末活动",100],["🎁","神秘小礼物",150]
-];
-const todayKey=new Date().toISOString().slice(0,10);
-let state=JSON.parse(localStorage.getItem("growthPlanet")||"null")||{stars:0,known:[],wrong:[],streak:1,today:todayKey,done:[],custom:[]};
-if(state.today!==todayKey){state.today=todayKey;state.done=[];state.streak=(state.streak||0)+1}
-let mode="learn",idx=0,flipped=false;
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-function save(){localStorage.setItem("growthPlanet",JSON.stringify(state));renderAll()}
-function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),1500)}
-function allTasks(){return [...baseTasks,...(state.custom||[])]}
+const defaults={
+  stars:0,xp:0,streak:1,lastBonus:"",
+  tasks:[
+    {id:1,icon:"➕",name:"数学练习",desc:"完成 15 分钟",stars:10,done:false},
+    {id:2,icon:"🇩🇪",name:"德语学习",desc:"完成 10 张单词卡",stars:10,done:false},
+    {id:3,icon:"📚",name:"中文学习",desc:"阅读或练字 15 分钟",stars:10,done:false},
+    {id:4,icon:"🎾",name:"网球训练",desc:"训练或颠球 20 分钟",stars:15,done:false},
+    {id:5,icon:"🏃",name:"运动打卡",desc:"跳绳、游泳或力量训练",stars:10,done:false},
+    {id:6,icon:"😊",name:"成长任务",desc:"家务、礼貌、不发脾气",stars:10,done:false}
+  ],
+  tennis:{minutes:0,sessions:0,balls:0,medals:0,skills:{正手:22,反手:18,发球:16,截击:12}},
+  spirits:[
+    {name:"闪电爪",face:"⚡🐾",type:"电系",desc:"喜欢速度与发球挑战",owned:true,level:1},
+    {name:"叶旋兽",face:"🌿🦊",type:"草系",desc:"擅长耐心和长回合",owned:false,level:1},
+    {name:"泡泡鳍",face:"💧🐟",type:"水系",desc:"游泳任务的最佳伙伴",owned:false,level:1}
+  ],
+  selectedSpirit:0
+};
+let state=JSON.parse(localStorage.getItem("growthPlanetV2")||"null")||structuredClone(defaults);
+const save=()=>localStorage.setItem("growthPlanetV2",JSON.stringify(state));
+const toast=t=>{let x=document.querySelector("#toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1800)};
+function renderHeader(){
+  const level=Math.floor(state.xp/100)+1, rem=state.xp%100;
+  levelEl.textContent=level;starsEl.textContent=state.stars;xpEl.textContent=rem;xpNeed.textContent=100;xpFill.style.width=rem+"%";
+  doneCount.textContent=state.tasks.filter(x=>x.done).length;
+  progressText.textContent=state.tasks.filter(x=>x.done).length+" / "+state.tasks.length;
+  spiritCount.textContent=state.spirits.filter(x=>x.owned).length;
+  streak.textContent=state.streak;
+}
+const levelEl=document.querySelector("#level"),starsEl=document.querySelector("#stars"),xpEl=document.querySelector("#xp");
 function renderTasks(){
- const list=$("#taskList");list.innerHTML="";
- allTasks().forEach(t=>{
-  const done=state.done.includes(t.id);
-  const div=document.createElement("div");div.className="task";
-  div.innerHTML=`<div class="icon">${t.icon}</div><div class="task-main"><div class="task-title">${t.name}</div><div class="task-sub">${t.sub} · +${t.stars}⭐</div></div><button>${done?"已完成":"完成"}</button>`;
-  div.querySelector("button").onclick=()=>{if(done)return;state.done.push(t.id);state.stars+=Number(t.stars);save();toast(`完成！+${t.stars}⭐`)};
-  list.appendChild(div);
- })
+  missionList.innerHTML=state.tasks.map(t=>`<div class="mission"><div class="micon">${t.icon}</div><div class="grow"><b>${t.name}</b><small>${t.desc} · +${t.stars}⭐</small></div><button class="done ${t.done?'completed':''}" data-task="${t.id}">${t.done?'已完成':'完成'}</button></div>`).join("");
+  missionList.querySelectorAll("[data-task]").forEach(b=>b.onclick=()=>{
+    const t=state.tasks.find(x=>x.id==b.dataset.task);
+    if(t.done){toast("这个任务今天已经完成啦");return}
+    t.done=true;state.stars+=t.stars;state.xp+=t.stars*2;save();renderAll();toast(`获得 ${t.stars} 颗星！`);
+  })
 }
-function filteredWords(){
- if(mode!=="wrong") return words;
- return words.filter(w=>state.wrong.includes(w[1]))
+function renderTennis(){
+  tennisMinutes.textContent=state.tennis.minutes;tennisSessions.textContent=state.tennis.sessions;tennisBalls.textContent=state.tennis.balls;tennisMedals.textContent=state.tennis.medals;
+  skills.innerHTML=Object.entries(state.tennis.skills).map(([k,v])=>`<div class="skill"><div class="skilltop"><b>${k}</b><span>${v}/100</span></div><div class="skillbar"><i style="width:${v}%"></i></div></div>`).join("");
 }
-function renderWord(){
- const deck=filteredWords(),card=$("#wordCard");
- if(!deck.length){card.innerHTML="<div class='hint'>错题本是空的，继续保持！</div>";return}
- idx%=deck.length;const w=deck[idx];
- if(!flipped){
-  card.innerHTML=`<div class="badge">${mode==="quiz"?"自测模式":"学习模式"}</div><div class="article">${mode==="quiz"?"?":w[0]}</div><div class="word">${w[1]}</div><div class="hint">${mode==="quiz"?"先回答词性、中文和复数，再点击翻面":"点击卡片查看答案"}</div>`;
- }else{
-  card.innerHTML=`<div class="badge">答案</div><div class="article">${w[0]}</div><div class="word">${w[1]}</div><div class="meaning">${w[3]}</div><div class="plural">复数：die ${w[2]}</div><div class="example">${w[4]}</div><button class="btn primary" id="speakBtn" style="margin-top:16px">🔊 听发音</button>`;
-  $("#speakBtn").onclick=e=>{e.stopPropagation();speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(`${w[0]} ${w[1]}. ${w[4]}`);u.lang="de-DE";speechSynthesis.speak(u)}
+function renderSpirits(){
+  spiritGrid.innerHTML=state.spirits.map((s,i)=>`<button class="spirit-card ${i==state.selectedSpirit?'selected':''}" data-spirit="${i}"><div class="spirit-face">${s.face}</div><b>${s.name}</b><div class="type">${s.owned?s.type:"🔒 未发现"}</div></button>`).join("");
+  const s=state.spirits[state.selectedSpirit];bigSpirit.textContent=s.face;spiritName.textContent=s.name+" · Lv."+s.level;spiritDesc.textContent=s.type+" · "+s.desc;
+  spiritGrid.querySelectorAll("[data-spirit]").forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.spirit;if(!state.spirits[i].owned){toast("继续完成任务，伙伴就可能出现");return}
+    state.selectedSpirit=i;save();renderSpirits();
+  })
+}
+const items=[["🎮","周末游戏 30 分钟",40],["🍦","冰激凌一次",50],["🎬","家庭电影之夜",70],["🃏","一包收藏卡",100],["🎾","选择一次网球活动",120]];
+function renderShop(){
+  shopList.innerHTML="<h2>可兑换奖励</h2>"+items.map((x,i)=>`<div class="shopitem"><div class="micon">${x[0]}</div><div><b>${x[1]}</b><div class="hint">需要家长确认</div></div><div class="price">${x[2]}⭐</div><button class="redeem" data-redeem="${i}">兑换</button></div>`).join("");
+  shopList.querySelectorAll("[data-redeem]").forEach(b=>b.onclick=()=>{
+    let it=items[+b.dataset.redeem];if(state.stars<it[2]){toast("星星还不够，继续加油！");return}
+    state.stars-=it[2];save();renderAll();toast("兑换成功，请找家长确认");
+  })
+}
+function renderAll(){renderHeader();renderTasks();renderTennis();renderSpirits();renderShop()}
+function show(id){
+  document.querySelectorAll(".screen").forEach(x=>x.classList.toggle("active",x.id===id));
+  document.querySelectorAll("[data-nav]").forEach(x=>x.classList.toggle("active",x.dataset.nav===id));
+  scrollTo({top:0,behavior:"smooth"});
+}
+document.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>show(b.dataset.nav));
+document.querySelectorAll("[data-home]").forEach(b=>b.onclick=()=>show("home"));
+document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{
+  const id=b.dataset.open;
+  if(["tennis","spirits","shop"].includes(id)) show(id);
+  else openInfo(id);
+});
+function openInfo(id){
+ const data={
+ german:["🇩🇪 德语学院","V2 第一阶段已经完成入口。下一阶段将加入 der/die/das、复数、发音、翻卡、自测和错题本。"],
+ math:["➕ 数学实验室","这里将提供适合三年级的每日数学挑战、计时练习和连续答对奖励。"],
+ chinese:["📚 中文图书馆","这里将加入阅读、练字、生字、部首、笔顺、古诗和成语任务。"]
+ };
+ modalBody.innerHTML=`<h3>${data[id][0]}</h3><p>${data[id][1]}</p><button class="action-primary" onclick="modal.classList.remove('show')">知道了</button>`;
+ modal.classList.add("show");
+}
+closeModal.onclick=()=>modal.classList.remove("show");modal.onclick=e=>{if(e.target===modal)modal.classList.remove("show")};
+logTennis.onclick=()=>{
+ modalBody.innerHTML=`<h3>记录网球训练</h3><div class="parent-form"><input id="tm" type="number" value="30" placeholder="训练分钟"><input id="tb" type="number" value="100" placeholder="击球数量"><select id="focus"><option>正手</option><option>反手</option><option>发球</option><option>截击</option></select><button class="action-primary" id="saveTennis">保存训练</button></div>`;
+ modal.classList.add("show");
+ saveTennis.onclick=()=>{
+   const m=+tm.value||0,b=+tb.value||0,f=focus.value;
+   state.tennis.minutes+=m;state.tennis.balls+=b;state.tennis.sessions++;state.tennis.skills[f]=Math.min(100,state.tennis.skills[f]+3);
+   state.xp+=20;state.stars+=10;
+   if(state.tennis.sessions===3 && !state.spirits[1].owned){state.spirits[1].owned=true;toast("发现新伙伴：叶旋兽！")}
+   save();renderAll();modal.classList.remove("show");toast("训练记录成功，获得 10 星！");
  }
-}
-function currentWord(){const d=filteredWords();return d.length?d[idx%d.length]:null}
-function renderRewards(){
- $("#rewardList").innerHTML=rewards.map((r,i)=>`<div class="card reward"><div class="emoji">${r[0]}</div><div class="grow"><b>${r[1]}</b><div class="mini">${r[2]} ⭐</div></div><button data-r="${i}">兑换</button></div>`).join("");
- $$("#rewardList button").forEach(b=>b.onclick=()=>{const r=rewards[+b.dataset.r];if(state.stars<r[2])return toast("星星还不够");state.stars-=r[2];save();toast("兑换成功，请家长确认")})
-}
-function renderAll(){
- renderTasks();renderWord();renderRewards();
- const done=state.done.length,total=allTasks().length,pct=Math.min(100,Math.round(done/total*100));
- $("#progressBar").style.width=pct+"%";
- $("#heroStars").textContent=$("#statStars").textContent=$("#rewardStars").textContent=$("#pStars").textContent=state.stars;
- $("#statDone").textContent=$("#pDone").textContent=done;$("#statStreak").textContent=state.streak||1;
- $("#level").textContent=Math.max(1,Math.floor(state.stars/100)+1);
- $("#pKnown").textContent=state.known.length;$("#pWrong").textContent=state.wrong.length;
-}
-$$(".tab").forEach(b=>b.onclick=()=>{$$(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");$$(".view").forEach(v=>v.classList.remove("active"));$("#"+b.dataset.view).classList.add("active");scrollTo(0,0)})
-$$(".modebar button").forEach(b=>b.onclick=()=>{$$(".modebar button").forEach(x=>x.classList.remove("active"));b.classList.add("active");mode=b.dataset.mode;idx=0;flipped=false;renderWord()})
-$("#wordCard").onclick=()=>{flipped=!flipped;renderWord()}
-$("#nextBtn").onclick=()=>{idx++;flipped=false;renderWord()}
-$("#knownBtn").onclick=()=>{const w=currentWord();if(!w)return;state.stars+=2;if(!state.known.includes(w[1]))state.known.push(w[1]);state.wrong=state.wrong.filter(x=>x!==w[1]);idx++;flipped=false;save();toast("+2 ⭐")}
-$("#wrongBtn").onclick=()=>{const w=currentWord();if(!w)return;if(!state.wrong.includes(w[1]))state.wrong.push(w[1]);idx++;flipped=false;save();toast("已加入错题本")}
-$("#addTaskBtn").onclick=()=>{const name=$("#customTask").value.trim();if(!name)return toast("请输入任务名称");state.custom.push({id:"c"+Date.now(),icon:"🌟",name,sub:"家长临时任务",stars:+$("#customStars").value});$("#customTask").value="";save();toast("任务已添加")}
-$("#resetBtn").onclick=()=>{if(confirm("确认清空全部学习记录？")){localStorage.removeItem("growthPlanet");location.reload()}}
+};
+feedSpirit.onclick=()=>{
+ const s=state.spirits[state.selectedSpirit];if(state.stars<5){toast("需要 5 颗星");return}
+ state.stars-=5;s.level++;state.xp+=8;save();renderAll();toast(`${s.name} 升到 Lv.${s.level}`);
+};
+addTask.onclick=()=>{
+ const name=newTaskName.value.trim();if(!name){toast("请填写任务名称");return}
+ state.tasks.push({id:Date.now(),icon:newTaskIcon.value,name,desc:"家长自定义任务",stars:+newTaskStars.value||10,done:false});
+ newTaskName.value="";save();renderAll();toast("任务已添加");
+};
+dailyBonus.onclick=()=>{
+ const today=new Date().toISOString().slice(0,10);
+ if(state.lastBonus===today){toast("今天已经领取过了");return}
+ const yesterday=new Date(Date.now()-86400000).toISOString().slice(0,10);
+ state.streak=state.lastBonus===yesterday?state.streak+1:1;state.lastBonus=today;state.stars+=5;state.xp+=10;
+ save();renderAll();toast("登录奖励：5 颗星！");
+};
+resetData.onclick=()=>{
+ if(confirm("确定清空这台设备上的所有成长记录吗？")){state=structuredClone(defaults);save();renderAll();toast("记录已清空")}
+};
 renderAll();
 if("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js");
 </script>

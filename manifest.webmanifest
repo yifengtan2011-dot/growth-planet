@@ -1,10 +1,10 @@
 {
-  "name": "成长星球 完整版",
+  "name": "成长星球 Daily Progress",
   "short_name": "成长星球",
-  "start_url": "./",
+  "start_url": "./?v=minimal",
   "display": "standalone",
-  "background_color": "#edf1ff",
-  "theme_color": "#5b50ef",
-  "description": "儿童学习、运动、成长任务、伙伴养成和奖励管理平台",
+  "background_color": "#f4f5f7",
+  "theme_color": "#17213d",
+  "description": "以每日完成情况和成长进展为核心的儿童成长记录平台",
   "icons": []
 }

@@ -203,13 +203,53 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 }
 @media (display-mode:standalone){body{overscroll-behavior-y:none}}
 
+
+/* V5: improved iPad and task management */
+.form-grid{display:grid;gap:10px}
+.form-grid.two{grid-template-columns:1fr 1fr}
+.form-label{font-size:12px;color:var(--muted);font-weight:700;margin:2px 0 -4px}
+.task-manage{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.task-manage:last-child{border-bottom:0}
+.delete-task{width:36px;height:36px;border-radius:11px;background:#fff0f1;color:var(--danger);font-weight:900}
+.activity-total{display:flex;align-items:center;justify-content:space-between;padding:14px;border-radius:16px;background:var(--soft);margin-bottom:12px}
+.activity-total b{font-size:25px}
+.activity-total small{color:var(--muted)}
+.time-badge{display:inline-block;padding:3px 7px;border-radius:8px;background:var(--soft2);color:var(--muted);font-size:11px;margin-top:4px}
+@media (min-width:760px) and (orientation:portrait){
+ .app{padding:16px 22px 120px}
+ #home.active{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+ #home .header{grid-column:1/-1}
+ #home .hero{grid-column:1/-1;grid-row:auto}
+ #home .section:nth-of-type(2){grid-column:1;grid-row:auto}
+ #home .section:nth-of-type(3){grid-column:2;grid-row:auto}
+ #home .section:nth-of-type(4){grid-column:1/-1;grid-row:auto}
+ #home .section:nth-of-type(5){grid-column:1/-1;grid-row:auto}
+ .today-list{max-height:470px}
+ #parent.active{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+ #parent .pagehead{grid-column:1/-1}
+ #parent .panel{margin:0}
+ #parent .panel:last-of-type{grid-column:1/-1}
+}
+@media (min-width:1024px) and (orientation:landscape){
+ .app{padding-left:160px;padding-right:28px}
+ #home.active{grid-template-columns:minmax(0,1fr) minmax(390px,.72fr);gap:20px}
+ #home .hero{grid-column:1;grid-row:2}
+ #home .section:nth-of-type(2){grid-column:2;grid-row:2}
+ #home .section:nth-of-type(3){grid-column:2;grid-row:3/5}
+ #home .section:nth-of-type(4){grid-column:1;grid-row:3}
+ #home .section:nth-of-type(5){grid-column:1;grid-row:4}
+ .today-list{max-height:560px}
+ #parent.active{grid-template-columns:minmax(340px,.42fr) minmax(0,.58fr)}
+ #parent .panel{margin:0 0 16px}
+}
+
 </style>
 </head>
 <body>
 <div class="app">
 <main id="home" class="screen active">
   <div class="header">
-    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · RESPONSIVE</div></div>
+    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V5</div></div>
     <div class="grow"></div>
     <div class="balance">⭐ <span id="stars">0</span></div>
   </div>
@@ -271,7 +311,7 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 
 <main id="german" class="screen">
 <div class="pagehead"><button class="back" data-home>‹</button><div><h2>Deutsch lernen</h2><div class="hint">Lernkarten nach Klassenstufe und Fehlerliste</div></div></div>
-<section class="panel"><select id="grade" class="select"><option value="1">1. Klasse</option><option value="2">2. Klasse</option><option value="3">3. Klasse</option><option value="4">4. Klasse</option></select><div class="tabs" style="margin-top:12px"><button class="tab active" data-gmode="cards">Lernkarten</button><button class="tab" data-gmode="quiz">Artikel</button><button class="tab" data-gmode="spell">Schreiben</button><button class="tab" data-gmode="wrong">Fehler</button></div></section>
+<section class="panel"><select id="grade" class="select"><option value="1">1. Klasse</option><option value="2">2. Klasse</option><option value="3">3. Klasse</option><option value="4">4. Klasse</option></select><div class="tabs" style="margin-top:12px"><button class="tab active" data-gmode="cards">Lernkarten</button><button class="tab" data-gmode="quiz">Artikel</button><button class="tab" data-gmode="spell">Schreiben</button><button class="tab" data-gmode="wrong">Fehler</button><button class="tab" data-gmode="reading">Lesen</button></div></section>
 <section class="panel" id="germanContent"></section>
 </main>
 
@@ -304,7 +344,25 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 
 <main id="parent" class="screen">
 <div class="pagehead"><div><h2>Elternbereich</h2><div class="hint">Aufgaben, Belohnungen und Datensicherung</div></div></div>
-<section class="panel"><h2>Neue Aufgabe</h2><input id="taskName" placeholder="Zum Beispiel: 50 Aufschläge üben"><select id="taskIcon" class="select" style="margin-top:10px"><option>🎾</option><option>🇩🇪</option><option>📚</option><option>🎹</option><option>🇬🇧</option><option>🏊</option><option>🧹</option><option>😊</option></select><input id="taskStars" type="number" value="10" min="1" max="100" style="margin-top:10px"><button class="action" id="saveTask">Aufgabe hinzufügen</button></section>
+<section class="panel"><h2>Neue Aufgabe</h2>
+<div class="form-grid">
+<label class="form-label" for="taskName">Aufgabe</label>
+<input id="taskName" placeholder="Zum Beispiel: 50 Aufschläge üben">
+<div class="form-grid two">
+  <div><label class="form-label" for="taskIcon">Symbol</label><select id="taskIcon" class="select"><option>🎾</option><option>🇩🇪</option><option>📚</option><option>🎹</option><option>🇬🇧</option><option>🏊</option><option>🧹</option><option>😊</option></select></div>
+  <div><label class="form-label" for="taskStars">Sterne</label><input id="taskStars" type="number" value="10" min="1" max="100"></div>
+</div>
+<div class="form-grid two">
+  <div><label class="form-label" for="taskUnit">Zielart</label><select id="taskUnit" class="select"><option value="check">Nur erledigen</option><option value="minutes">Minuten</option><option value="count">Anzahl</option></select></div>
+  <div><label class="form-label" for="taskTarget">Ziel</label><input id="taskTarget" type="number" value="20" min="1"></div>
+</div>
+<button class="action" id="saveTask" type="button">Aufgabe hinzufügen</button>
+</div></section>
+<section class="panel"><h2>Aufgaben verwalten</h2><div id="taskManager"></div></section>
+<section class="panel"><h2>Zeitübersicht</h2>
+<div class="history" id="timeOverview"></div>
+<button class="action secondary" id="addPianoTime">Klavierzeit eintragen</button>
+</section>
 <section class="panel"><h2>Tagesverwaltung</h2><button class="action" id="dailyBonus">Tägliche Belohnung abholen</button><button class="action secondary" id="resetToday">Heutige Aufgaben zurücksetzen</button></section>
 <section class="panel"><h2>Fortschrittsbericht</h2><div id="report"></div></section>
 <section class="panel"><h2>Erfolge</h2><div class="achievement-grid" id="achievementGrid"></div></section>
@@ -335,14 +393,17 @@ const WORDS=[
 const HANZI=[["规","guī","见","规则、规定、规矩"],["墙","qiáng","土","墙壁、围墙、城墙"],["印","yìn","卩","印章、脚印、印象"],["迟","chí","辶","迟到、推迟、迟早"],["晶","jīng","日","水晶、晶亮、亮晶晶"]];
 const POEMS=[["山行","杜牧","远上寒山石径斜，\n白云生处有人家。\n停车坐爱枫林晚，\n霜叶红于二月花。"],["静夜思","李白","床前明月光，\n疑是地上霜。\n举头望明月，\n低头思故乡。"]];
 const DEFAULTS={stars:0,xp:0,streak:1,lastBonus:"",daily:{xp:0,stars:0},week:[0,0,0,0,0,0,0],quests:[
-{id:1,icon:"🇩🇪",name:"Deutsch lernen",desc:"8 Lernkarten bearbeiten",stars:10,done:false},
-{id:2,icon:"➕",name:"Mathematik",desc:"10 Aufgaben richtig lösen",stars:10,done:false},
-{id:3,icon:"📚",name:"Chinesisch",desc:"3 Schriftzeichen lernen",stars:10,done:false},
-{id:4,icon:"🎾",name:"Tennistraining",desc:"20 Minuten trainieren",stars:15,done:false},
-{id:5,icon:"🎹",name:"Klavier üben",desc:"20 Minuten üben",stars:10,done:false},
-{id:6,icon:"🇬🇧",name:"Englisch lesen",desc:"15 Minuten lesen",stars:10,done:false},
-{id:7,icon:"😊",name:"Alltagsziel",desc:"Helfen, höflich sein und ruhig bleiben",stars:10,done:false}],
+{id:1,icon:"🇩🇪",name:"Deutsch lernen",desc:"8 Lernkarten bearbeiten",stars:10,done:false,unit:"check",target:1},
+{id:2,icon:"➕",name:"Mathematik",desc:"10 Aufgaben richtig lösen",stars:10,done:false,unit:"check",target:1},
+{id:3,icon:"📚",name:"Chinesisch",desc:"3 Schriftzeichen lernen",stars:10,done:false,unit:"check",target:1},
+{id:4,icon:"🎾",name:"Tennistraining",desc:"20 Minuten trainieren",stars:15,done:false,unit:"minutes",target:20,activity:"tennis"},
+{id:5,icon:"🎹",name:"Klavier üben",desc:"20 Minuten üben",stars:10,done:false,unit:"minutes",target:20,activity:"piano"},
+{id:6,icon:"🇬🇧",name:"Englisch lesen",desc:"15 Minuten lesen",stars:10,done:false,unit:"minutes",target:15,activity:"englishReading"},
+{id:7,icon:"📖",name:"Deutsch lesen",desc:"15 Minuten lesen",stars:10,done:false,unit:"minutes",target:15,activity:"germanReading"},
+{id:8,icon:"📕",name:"Chinesisch lesen",desc:"15 Minuten lesen",stars:10,done:false,unit:"minutes",target:15,activity:"chineseReading"},
+{id:9,icon:"😊",name:"Alltagsziel",desc:"Helfen, höflich sein und ruhig bleiben",stars:10,done:false,unit:"check",target:1}],
 german:{grade:1,index:0,seen:0,wrong:[]},math:{correct:0,streak:0,floor:1},chinese:{index:0,poem:0,reading:[],writing:[]},
+activities:{piano:[],germanReading:[],chineseReading:[],englishReading:[]},
 sports:{tennis:{sessions:0,minutes:0},counts:{Schwimmen:0,Seilspringen:0,"Liegestütze":0,"Sit-ups":0},history:[]},
 partners:[{name:"Pikachu",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",desc:"Elektro-Pokémon · erhält XP durch tägliche Aufgaben",owned:true,level:1,xp:0},{name:"Bisasam",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",desc:"Pflanzen-Pokémon · wird durch Lernaufgaben freigeschaltet",owned:false,level:1,xp:0},{name:"Gengar",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png",desc:"Geist-Pokémon · wird durch Klavier oder Englisch freigeschaltet",owned:false,level:1,xp:0},{name:"Schiggy",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png",desc:"Wasser-Pokémon · wird durch Schwimmen freigeschaltet",owned:false,level:1,xp:0},{name:"Glumanda",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png",desc:"Feuer-Pokémon · wird durch Tennistraining freigeschaltet",owned:false,level:1,xp:0}],selectedPartner:0};
 
@@ -365,6 +426,9 @@ function patch(){
   S.chinese=S.chinese||structuredClone(DEFAULTS.chinese);
   S.chinese.reading=S.chinese.reading||[];
   S.chinese.writing=S.chinese.writing||[];
+  S.activities=S.activities||{piano:[],germanReading:[],chineseReading:[],englishReading:[]};
+  for(const k of ["piano","germanReading","chineseReading","englishReading"])S.activities[k]=S.activities[k]||[];
+  S.quests.forEach(q=>{q.unit=q.unit||"check";q.target=q.target||1});
   S.sports=S.sports||structuredClone(DEFAULTS.sports);
   S.sports.tennis=S.sports.tennis||{sessions:0,minutes:0};
   S.sports.counts=S.sports.counts||{Schwimmen:0,Seilspringen:0,"Liegestütze":0,"Sit-ups":0};
@@ -428,23 +492,45 @@ function renderHome(){
   $("#questList").innerHTML=S.quests.map(q=>`
     <div class="task">
       <div class="task-icon">${q.icon}</div>
-      <div class="grow"><b>${q.name}</b><small>${q.desc} · +${q.stars}⭐</small></div>
+      <div class="grow"><b>${q.name}</b><small>${q.desc} · +${q.stars}⭐</small>${q.done&&q.value&&q.unit!=="check"?`<span class="time-badge">${q.value} ${q.unit==="minutes"?"Min.":"×"}</span>`:""}</div>
       <button class="task-btn ${q.done?'done':''}" data-q="${q.id}">${q.done?'Erledigt':'Erledigen'}</button>
     </div>`).join("");
 
   $$("[data-q]").forEach(b=>b.onclick=()=>{
     const q=S.quests.find(x=>String(x.id)===String(b.dataset.q));
     if(!q||q.done)return toast("Heute bereits erledigt");
-    q.done=true;
-    addReward(q.stars,q.stars*2);
-    const ap=S.partners[S.selectedPartner]||S.partners[0];
-    ap.xp+=3;
-    if(ap.xp>=20){ap.xp-=20;ap.level++;toast(ap.name+" ist auf Level "+ap.level+" gestiegen");}
-    const learningNames=["Deutsch lernen","Mathematik","Chinesisch","Englisch lesen"];
-    if(learningNames.includes(q.name)&&S.quests.filter(x=>x.done&&learningNames.includes(x.name)).length>=3)S.partners[1].owned=true;
-    if(q.name==="Englisch lesen"||q.name==="Klavier üben")S.partners[2].owned=true;
-    S.week[6]=S.quests.filter(x=>x.done).length;
-    save();render();
+    const finish=(value=1)=>{
+      q.done=true;
+      q.value=value;
+      q.completedAt=new Date().toISOString();
+      if(q.activity){
+        S.activities[q.activity]=S.activities[q.activity]||[];
+        S.activities[q.activity].unshift({minutes:value,date:new Date().toLocaleDateString("de-DE")});
+        if(q.activity==="tennis"){
+          S.sports.tennis.sessions++;
+          S.sports.tennis.minutes+=value;
+          S.sports.history.unshift({title:"Tennistraining",detail:value+" Minuten"});
+        }
+      }
+      addReward(q.stars,q.stars*2);
+      const ap=S.partners[S.selectedPartner]||S.partners[0];
+      ap.xp+=3;
+      if(ap.xp>=20){ap.xp-=20;ap.level++;toast(ap.name+" ist auf Level "+ap.level+" gestiegen");}
+      const learningNames=["Deutsch lernen","Mathematik","Chinesisch","Englisch lesen","Deutsch lesen","Chinesisch lesen"];
+      if(learningNames.includes(q.name)&&S.quests.filter(x=>x.done&&learningNames.includes(x.name)).length>=3)S.partners[1].owned=true;
+      if(q.name==="Englisch lesen"||q.name==="Klavier üben")S.partners[2].owned=true;
+      S.week[6]=S.quests.filter(x=>x.done).length;
+      save();render();
+    };
+    if(q.unit==="minutes"||q.unit==="count"){
+      const unit=q.unit==="minutes"?"Minuten":"Anzahl";
+      openModal(`<h3>${q.icon} ${q.name}</h3><p class="hint">Ziel: ${q.target} ${unit}</p><input id="taskValue" type="number" min="1" value="${q.target}"><button class="action" id="confirmTask">Speichern und erledigen</button>`);
+      $("#confirmTask").onclick=()=>{
+        const value=+$("#taskValue").value||0;
+        if(value<1)return toast("Bitte einen Wert eingeben");
+        finish(value);$("#modal").classList.remove("show");
+      };
+    }else finish(1);
   });
 
   $("#homePartnerFace").src=p.img;
@@ -488,9 +574,21 @@ function german(){
       else{if(!S.german.wrong.includes(w.w))S.german.wrong.push(w.w);toast("Richtige Schreibweise: "+w.w);}
       S.german.index=(S.german.index+1)%L.length;save();render();german();
     };
-  }else{
+  }else if(gm==="wrong"){
     const list=WORDS.filter(x=>S.german.wrong.includes(x.w));
     A.innerHTML=list.length?list.map(x=>`<div class="history-item"><b>${x.a} ${x.w}</b><span>${x.m}</span></div>`).join(""):`<p class="hint">Keine Fehler gespeichert</p>`;
+  }else{
+    const total=S.activities.germanReading.reduce((a,x)=>a+(+x.minutes||0),0);
+    A.innerHTML=`<div class="activity-total"><div><small>Deutsch gelesen</small><b>${total} Min.</b></div><div style="font-size:36px">📖</div></div>
+    <input id="germanBook" placeholder="Buchtitel (optional)">
+    <input id="germanMinutes" type="number" value="15" min="1" style="margin-top:10px">
+    <button class="action" id="saveGermanReading">Lesezeit speichern</button>
+    <div class="history" style="margin-top:12px">${S.activities.germanReading.slice(0,10).map(x=>`<div class="history-item"><b>${x.book||"Deutsch lesen"}</b><span>${x.minutes} Min. · ${x.date}</span></div>`).join("")||'<p class="hint">Noch keine Einträge</p>'}</div>`;
+    $("#saveGermanReading").onclick=()=>{
+      const minutes=+$("#germanMinutes").value||0;if(minutes<1)return toast("Bitte Minuten eingeben");
+      S.activities.germanReading.unshift({book:$("#germanBook").value.trim(),minutes,date:new Date().toLocaleDateString("de-DE")});
+      addReward(5,8);save();render();german();toast("Lesezeit gespeichert");
+    };
   }
 }
 $("#grade").onchange=e=>{S.german.grade=+e.target.value;S.german.index=0;save();german()};
@@ -520,8 +618,12 @@ function chinese(){
     A.innerHTML=`<div style="text-align:center"><h2>${p[0]}</h2><div class="hint">${p[1]}</div><div class="poem">${p[2].replaceAll("\n","<br>")}</div></div><button class="action" id="nextP">Nächstes Gedicht</button>`;
     $("#nextP").onclick=()=>{S.chinese.poem=(S.chinese.poem+1)%POEMS.length;save();chinese()};
   }else if(cm==="reading"){
-    A.innerHTML=`<input id="book" placeholder="Buchtitel"><input id="mins" type="number" value="20" style="margin-top:10px"><button class="action" id="saveRead">Leseeintrag speichern</button><div class="history" style="margin-top:12px">${S.chinese.reading.map(x=>`<div class="history-item"><b>${x.book}</b><span>${x.mins} Minuten</span></div>`).join("")}</div>`;
-    $("#saveRead").onclick=()=>{const b=$("#book").value.trim();if(!b)return toast("Bitte einen Buchtitel eingeben");S.chinese.reading.unshift({book:b,mins:+$("#mins").value||20});addReward(5,10);save();render();chinese()};
+    const total=S.chinese.reading.reduce((a,x)=>a+(+x.mins||0),0);
+    A.innerHTML=`<div class="activity-total"><div><small>Chinesisch gelesen</small><b>${total} Min.</b></div><div style="font-size:36px">📕</div></div>
+    <input id="book" placeholder="Buchtitel"><input id="mins" type="number" value="15" min="1" style="margin-top:10px">
+    <button class="action" id="saveRead">Lesezeit speichern</button>
+    <div class="history" style="margin-top:12px">${S.chinese.reading.slice(0,10).map(x=>`<div class="history-item"><b>${x.book||"Chinesisch lesen"}</b><span>${x.mins} Min.</span></div>`).join("")||'<p class="hint">Noch keine Einträge</p>'}</div>`;
+    $("#saveRead").onclick=()=>{const b=$("#book").value.trim();const mins=+$("#mins").value||0;if(mins<1)return toast("Bitte Minuten eingeben");S.chinese.reading.unshift({book:b,mins,date:new Date().toLocaleDateString("de-DE")});S.activities.chineseReading.unshift({book:b,minutes:mins,date:new Date().toLocaleDateString("de-DE")});addReward(5,10);save();render();chinese();toast("Lesezeit gespeichert")};
   }else{
     A.innerHTML=`<textarea id="writing" rows="7" placeholder="Schreibe über den schönsten Moment des Tages"></textarea><button class="action" id="saveWriting">Text speichern</button>`;
     $("#saveWriting").onclick=()=>{const t=$("#writing").value.trim();if(t.length<10)return toast("Bitte mindestens 10 Zeichen schreiben");S.chinese.writing.unshift({text:t});addReward(8,15);save();render();chinese()};
@@ -562,6 +664,24 @@ function partners(){
 $("#feedPartner").onclick=()=>{const p=S.partners[S.selectedPartner];if(S.stars<5)return toast("Nicht genug Sterne");S.stars-=5;p.xp+=5;if(p.xp>=20){p.xp-=20;p.level++;toast(p.name+" ist auf Level "+p.level+" gestiegen");}else toast("Der Partner erhält 5 XP");save();render()};
 $("#trainPartner").onclick=()=>{const p=S.partners[S.selectedPartner];if(S.stars<10)return toast("Nicht genug Sterne");S.stars-=10;p.xp+=10;if(p.xp>=20){p.xp-=20;p.level++;toast(p.name+" ist auf Level "+p.level+" gestiegen");}else toast("Partnertraining abgeschlossen");save();render()};
 
+function renderTimeOverview(){
+  const box=$("#timeOverview");if(!box)return;
+  const sum=k=>(S.activities[k]||[]).reduce((a,x)=>a+(+x.minutes||0),0);
+  box.innerHTML=[
+    ["🎹","Klavier",sum("piano")],
+    ["📖","Deutsch lesen",sum("germanReading")],
+    ["📕","Chinesisch lesen",sum("chineseReading")],
+    ["🇬🇧","Englisch lesen",sum("englishReading")]
+  ].map(x=>`<div class="history-item"><b>${x[0]} ${x[1]}</b><span>${x[2]} Min.</span></div>`).join("");
+}
+$("#addPianoTime").onclick=()=>{
+  openModal(`<h3>🎹 Klavierzeit</h3><input id="pianoMinutes" type="number" min="1" value="20"><button class="action" id="savePianoTime">Speichern</button>`);
+  $("#savePianoTime").onclick=()=>{
+    const minutes=+$("#pianoMinutes").value||0;if(minutes<1)return toast("Bitte Minuten eingeben");
+    S.activities.piano.unshift({minutes,date:new Date().toLocaleDateString("de-DE")});
+    addReward(5,8);save();render();$("#modal").classList.remove("show");toast("Klavierzeit gespeichert");
+  };
+}
 function report(){
   const t=S.sports.tennis;
   const R=[["Deutsch",Math.min(100,S.german.seen*2)],["Mathematik",Math.min(100,S.math.correct*2)],["Chinesisch",Math.min(100,(S.chinese.index+S.chinese.reading.length*3)*5)],["Sport",Math.min(100,(t.sessions+(S.sports.counts.Schwimmen||0))*8)]];
@@ -570,9 +690,29 @@ function report(){
   $("#achievementGrid").innerHTML=A.map(x=>`<div class="achievement ${x[2]?'':'locked'}"><div class="ico">${x[0]}</div><b>${x[1]}</b><div class="hint">${x[2]?'Erledigt':'Offen'}</div></div>`).join("");
 }
 
-$("#saveTask").onclick=()=>{const n=$("#taskName").value.trim();if(!n)return toast("Bitte einen Aufgabennamen eingeben");S.quests.push({id:Date.now(),icon:$("#taskIcon").value,name:n,desc:"Benutzerdefinierte Aufgabe",stars:+$("#taskStars").value||10,done:false});save();render()};
+function renderTaskManager(){
+  const box=$("#taskManager");if(!box)return;
+  box.innerHTML=S.quests.map(q=>`<div class="task-manage"><div class="task-icon">${q.icon}</div><div class="grow"><b>${q.name}</b><small>${q.unit==="minutes"?q.target+" Minuten":q.unit==="count"?q.target+" Stück":"Einmal erledigen"} · ${q.stars} Sterne</small></div><button class="delete-task" data-delete-task="${q.id}" title="Löschen">×</button></div>`).join("");
+  $$("[data-delete-task]").forEach(b=>b.onclick=()=>{
+    const id=String(b.dataset.deleteTask);
+    if(!confirm("Diese Aufgabe wirklich löschen?"))return;
+    S.quests=S.quests.filter(q=>String(q.id)!==id);save();render();
+  });
+}
+$("#taskUnit").addEventListener("change",()=>{$("#taskTarget").disabled=$("#taskUnit").value==="check"});
+$("#taskTarget").disabled=$("#taskUnit").value==="check";
+$("#saveTask").addEventListener("click",()=>{
+  const n=$("#taskName").value.trim();
+  if(!n)return toast("Bitte einen Aufgabennamen eingeben");
+  const unit=$("#taskUnit").value;
+  const target=unit==="check"?1:(+$("#taskTarget").value||1);
+  const desc=unit==="minutes"?target+" Minuten":unit==="count"?target+" Wiederholungen":"Einmal erledigen";
+  S.quests.push({id:Date.now(),icon:$("#taskIcon").value,name:n,desc,stars:+$("#taskStars").value||10,done:false,unit,target});
+  $("#taskName").value="";
+  save();render();toast("Aufgabe hinzugefügt");
+});
 $("#dailyBonus").onclick=()=>{const today=new Date().toISOString().slice(0,10);if(S.lastBonus===today)return toast("Heute bereits abgeholt");S.lastBonus=today;S.streak++;addReward(5,10);save();render()};
-$("#resetToday").onclick=()=>{S.quests.forEach(x=>x.done=false);S.daily={xp:0,stars:0};S.week=[...S.week.slice(1),0];save();render()};
+$("#resetToday").onclick=()=>{S.quests.forEach(x=>{x.done=false;delete x.value;delete x.completedAt});S.daily={xp:0,stars:0};S.week=[...S.week.slice(1),0];save();render()};
 $("#exportData").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));a.download="Wachstumsplanet-Sicherung.json";a.click()};
 $("#importData").onchange=e=>{const r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);patch();save();render();toast("Sicherung importiert");}catch{toast("Ungültige Datei")}};r.readAsText(e.target.files[0])};
 $("#clearData").onclick=()=>{if(confirm("Wirklich alle Daten löschen?")){S=structuredClone(DEFAULTS);save();render()}};
@@ -584,11 +724,11 @@ function render(){
   $("#mCorrect").textContent=S.math.correct;
   $("#mStreak").textContent=S.math.streak;
   $("#mFloor").textContent=S.math.floor;
-  chinese();sports();partners();report();
+  chinese();sports();partners();report();renderTaskManager();renderTimeOverview();
 }
 createMath();
 render();
-if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=responsive").then(r=>r.update()).catch(()=>{})}
+if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v5").then(r=>r.update()).catch(()=>{})}
 </script>
 </body>
 </html>

@@ -1,9 +1,10 @@
 {
-  "name": "Wachstumsplanet – Responsive",
+  "name": "Wachstumsplanet V5",
   "short_name": "Wachstumsplanet",
-  "start_url": "./?v=responsive",
+  "start_url": "./?v=v5",
   "display": "standalone",
   "background_color": "#f4f5f7",
   "theme_color": "#17213d",
-  "description": "Responsive Kinder-App für iPhone und iPad."
+  "description": "Responsive Kinder-App mit Aufgabenverwaltung und Zeitaufzeichnung.",
+  "icons": []
 }

@@ -1,9 +1,9 @@
-# Wachstumsplanet V6.2
+# Wachstumsplanet V7
 
-Neu:
-- Zeit für Klavier, Deutsch lesen, Chinesisch lesen und Englisch lesen direkt im Elternbereich eintragen
-- eigene deutsche Wörter mit Artikel, Bedeutung, Plural und Beispielsatz
-- vier Übungsarten: Artikel, Schreiben, Plural und Lückensatz
-- falsche Wörter bleiben in der Wiederholung
-- nach mehreren richtigen Antworten werden sichere Wörter automatisch entfernt
-- alte Daten bleiben erhalten
+Deutscher Wortschatz:
+- insgesamt 480 Wörter
+- 120 Wörter je Klassenstufe
+- je Klasse: 50 Nomen, 40 Verben, 30 Adjektive
+- Karteikarten und Schreibübungen verwenden alle Wortarten
+- Artikeltests verwenden nur Nomen
+- eigene Wörter und Wiederholungsmodus bleiben erhalten

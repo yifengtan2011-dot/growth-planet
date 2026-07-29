@@ -1,15 +1,10 @@
-# 成长星球 · Daily Progress Kids
+# Wachstumsplanet – Deutsche Pokémon-Version
 
-本版在简洁高级 UI 的基础上新增：
+- vollständige deutsche Benutzeroberfläche
+- offizielle Artwork-Darstellungen für Pikachu, Bisasam, Gengar, Schiggy und Glumanda
+- Pokémon-Level, XP, Füttern und Training
+- Aufgaben für Deutsch, Mathematik, Chinesisch, Tennis, Klavier und Englisch
+- Tages- und Wochenfortschritt
+- Elternbereich und Datensicherung
 
-- 皮卡丘、妙蛙种子、耿鬼、杰尼龟、小火龙伙伴
-- 伙伴喂养、训练、经验和等级
-- 首页显示当前伙伴及升级进度
-- 默认任务新增弹钢琴 20 分钟
-- 默认任务新增英语阅读 15 分钟
-- 完成任务时伙伴同步获得经验
-- 学习、钢琴、英语、游泳和网球任务可解锁不同伙伴
-- 自动兼容之前版本的数据
-
-说明：
-网站没有内置官方宝可梦图片，仅使用名称和简洁符号表现，避免加载与版权问题。
+Die Pokémon-Grafiken werden aus der öffentlichen Sprite-Sammlung des PokeAPI-Projekts geladen. Eine Internetverbindung ist für die Bilder erforderlich.

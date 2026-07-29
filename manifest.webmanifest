@@ -1,9 +1,9 @@
 {
-  "name": "Wachstumsplanet V6.1 Final",
+  "name": "Wachstumsplanet V6.2",
   "short_name": "Wachstumsplanet",
-  "start_url": "./?v=v61",
+  "start_url": "./?v=v62",
   "display": "standalone",
   "background_color": "#f4f5f7",
   "theme_color": "#17213d",
-  "description": "Final geprüfte Lern- und Wachstums-App für iPhone und iPad."
+  "description": "Zeitaufzeichnung für alle Aktivitäten und eigene deutsche Wörter mit Wiederholung."
 }

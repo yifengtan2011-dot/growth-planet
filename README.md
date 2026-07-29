@@ -1,12 +1,9 @@
-# Wachstumsplanet V6.1 Final
+# Wachstumsplanet V6.2
 
-Letzte Korrekturen:
-- lokales Datum statt UTC-Datum
-- Tageszeichen werden am neuen Tag geleert
-- Fehler vom Vortag erscheinen zuerst
-- nach später richtiger Antwort wird ein Zeichen aus der Fehlerliste entfernt
-- kein mehrfaches Sammeln von Sternen durch Doppelklick
-- deutsche Eingabeaufgaben wechseln zuverlässig zur nächsten Aufgabe
-- unbekannte chinesische Zeichen erzeugen keine falschen Fantasie-Wörter
-- eigene Wortgruppen können ergänzt werden
+Neu:
+- Zeit für Klavier, Deutsch lesen, Chinesisch lesen und Englisch lesen direkt im Elternbereich eintragen
+- eigene deutsche Wörter mit Artikel, Bedeutung, Plural und Beispielsatz
+- vier Übungsarten: Artikel, Schreiben, Plural und Lückensatz
+- falsche Wörter bleiben in der Wiederholung
+- nach mehreren richtigen Antworten werden sichere Wörter automatisch entfernt
 - alte Daten bleiben erhalten

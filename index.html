@@ -258,13 +258,30 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 .review-badge{display:inline-block;padding:4px 8px;border-radius:9px;background:#fff0cf;color:#8f6b18;font-size:11px;font-weight:800;margin-left:6px}
 @media(min-width:760px){.word-grid{grid-template-columns:repeat(3,1fr)}}
 
+
+.time-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.time-actions button{margin:0}
+.vocab-form{display:grid;gap:10px}
+.vocab-list{margin-top:14px}
+.vocab-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.vocab-item:last-child{border-bottom:0}
+.vocab-main{flex:1}
+.vocab-main b{display:block}
+.vocab-main small{color:var(--muted)}
+.vocab-actions{display:flex;gap:6px}
+.vocab-actions button{width:34px;height:34px;border-radius:10px}
+.review-card{padding:16px;border-radius:18px;background:var(--soft)}
+.review-prompt{font-size:26px;font-weight:900;margin:10px 0}
+.review-meta{font-size:12px;color:var(--muted)}
+@media(min-width:760px){.time-actions{grid-template-columns:repeat(4,1fr)}}
+
 </style>
 </head>
 <body>
 <div class="app">
 <main id="home" class="screen active">
   <div class="header">
-    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V6.1 FINAL</div></div>
+    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V6.2</div></div>
     <div class="grow"></div>
     <div class="balance">⭐ <span id="stars">0</span></div>
   </div>
@@ -326,7 +343,7 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 
 <main id="german" class="screen">
 <div class="pagehead"><button class="back" data-home>‹</button><div><h2>Deutsch lernen</h2><div class="hint">Lernkarten nach Klassenstufe und Fehlerliste</div></div></div>
-<section class="panel"><select id="grade" class="select"><option value="1">1. Klasse</option><option value="2">2. Klasse</option><option value="3">3. Klasse</option><option value="4">4. Klasse</option></select><div class="tabs" style="margin-top:12px"><button class="tab active" data-gmode="cards">Lernkarten</button><button class="tab" data-gmode="quiz">Artikel</button><button class="tab" data-gmode="spell">Schreiben</button><button class="tab" data-gmode="wrong">Fehler</button><button class="tab" data-gmode="reading">Lesen</button><button class="tab" data-gmode="tasks">Aufgaben</button></div></section>
+<section class="panel"><select id="grade" class="select"><option value="1">1. Klasse</option><option value="2">2. Klasse</option><option value="3">3. Klasse</option><option value="4">4. Klasse</option></select><div class="tabs" style="margin-top:12px"><button class="tab active" data-gmode="cards">Lernkarten</button><button class="tab" data-gmode="quiz">Artikel</button><button class="tab" data-gmode="spell">Schreiben</button><button class="tab" data-gmode="wrong">Fehler</button><button class="tab" data-gmode="reading">Lesen</button><button class="tab" data-gmode="tasks">Aufgaben</button><button class="tab" data-gmode="custom">Eigene Wörter</button><button class="tab" data-gmode="review">Wiederholen</button></div></section>
 <section class="panel" id="germanContent"></section>
 </main>
 
@@ -376,7 +393,12 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 <section class="panel"><h2>Aufgaben verwalten</h2><div id="taskManager"></div><button class="action secondary" id="restoreDefaultTasks" type="button">Standardaufgaben wiederherstellen</button></section>
 <section class="panel"><h2>Zeitübersicht</h2>
 <div class="history" id="timeOverview"></div>
-<button class="action secondary" id="addPianoTime">Klavierzeit eintragen</button>
+<div class="time-actions">
+<button class="action secondary" data-add-time="piano" type="button">🎹 Klavier</button>
+<button class="action secondary" data-add-time="germanReading" type="button">📖 Deutsch</button>
+<button class="action secondary" data-add-time="chineseReading" type="button">📕 Chinesisch</button>
+<button class="action secondary" data-add-time="englishReading" type="button">🇬🇧 Englisch</button>
+</div>
 </section>
 <section class="panel"><h2>Tagesverwaltung</h2><button class="action" id="dailyBonus">Tägliche Belohnung abholen</button><button class="action secondary" id="resetToday">Heutige Aufgaben zurücksetzen</button></section>
 <section class="panel"><h2>Fortschrittsbericht</h2><div id="report"></div></section>
@@ -445,7 +467,7 @@ const DEFAULTS={stars:0,xp:0,streak:1,lastBonus:"",daily:{xp:0,stars:0},week:[0,
 {id:7,icon:"📖",name:"Deutsch lesen",desc:"15 Minuten lesen",stars:10,done:false,unit:"minutes",target:15,activity:"germanReading"},
 {id:8,icon:"📕",name:"Chinesisch lesen",desc:"15 Minuten lesen",stars:10,done:false,unit:"minutes",target:15,activity:"chineseReading"},
 {id:9,icon:"😊",name:"Alltagsziel",desc:"Helfen, höflich sein und ruhig bleiben",stars:10,done:false,unit:"check",target:1}],
-german:{grade:1,index:0,seen:0,wrong:[],taskIndex:0,taskCorrect:0,taskWrong:[]},math:{correct:0,streak:0,floor:1},chinese:{index:0,poem:0,reading:[],writing:[],dailyChars:[],dailyDate:"",dailyWrong:[],reviewQueue:[],dailyIndex:0,customWords:{}},
+german:{grade:1,index:0,seen:0,wrong:[],taskIndex:0,taskCorrect:0,taskWrong:[],customWords:[],customReview:[],customIndex:0},math:{correct:0,streak:0,floor:1},chinese:{index:0,poem:0,reading:[],writing:[],dailyChars:[],dailyDate:"",dailyWrong:[],reviewQueue:[],dailyIndex:0,customWords:{}},
 activities:{piano:[],germanReading:[],chineseReading:[],englishReading:[]},
 sports:{tennis:{sessions:0,minutes:0},counts:{Schwimmen:0,Seilspringen:0,"Liegestütze":0,"Sit-ups":0},history:[]},
 partners:[{name:"Pikachu",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",desc:"Elektro-Pokémon · erhält XP durch tägliche Aufgaben",owned:true,level:1,xp:0},{name:"Bisasam",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",desc:"Pflanzen-Pokémon · wird durch Lernaufgaben freigeschaltet",owned:false,level:1,xp:0},{name:"Gengar",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png",desc:"Geist-Pokémon · wird durch Klavier oder Englisch freigeschaltet",owned:false,level:1,xp:0},{name:"Schiggy",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png",desc:"Wasser-Pokémon · wird durch Schwimmen freigeschaltet",owned:false,level:1,xp:0},{name:"Glumanda",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png",desc:"Feuer-Pokémon · wird durch Tennistraining freigeschaltet",owned:false,level:1,xp:0}],selectedPartner:0};
@@ -480,6 +502,9 @@ function patch(){
   S.german.taskIndex=S.german.taskIndex||0;
   S.german.taskCorrect=S.german.taskCorrect||0;
   S.german.taskWrong=S.german.taskWrong||[];
+  S.german.customWords=S.german.customWords||[];
+  S.german.customReview=S.german.customReview||[];
+  S.german.customIndex=S.german.customIndex||0;
   S.math=S.math||structuredClone(DEFAULTS.math);
   S.chinese=S.chinese||structuredClone(DEFAULTS.chinese);
   S.chinese.reading=S.chinese.reading||[];
@@ -680,6 +705,92 @@ function german(){
       S.activities.germanReading.unshift({book:$("#germanBook").value.trim(),minutes,date:new Date().toLocaleDateString("de-DE")});
       addReward(5,8);save();render();german();toast("Lesezeit gespeichert");
     };
+  }else if(gm==="custom"){
+    A.innerHTML=`<h2>Eigene Wörter</h2>
+    <p class="hint">Neue Wörter eingeben. Diese Wörter können anschließend wiederholt und getestet werden.</p>
+    <div class="vocab-form">
+      <div class="form-grid two">
+        <input id="customArticle" placeholder="der / die / das">
+        <input id="customWord" placeholder="Wort">
+      </div>
+      <div class="form-grid two">
+        <input id="customMeaning" placeholder="Chinesische Bedeutung">
+        <input id="customPlural" placeholder="Plural">
+      </div>
+      <input id="customSentence" placeholder="Beispielsatz">
+      <button class="action" id="saveCustomWord">Wort speichern</button>
+    </div>
+    <div class="vocab-list">${S.german.customWords.map((x,i)=>`<div class="vocab-item">
+      <div class="vocab-main"><b>${x.article} ${x.word}</b><small>${x.meaning||""}${x.plural?" · Plural: "+x.plural:""}</small></div>
+      <div class="vocab-actions"><button class="secondary" data-review-custom="${i}">↻</button><button class="danger" data-delete-custom="${i}">×</button></div>
+    </div>`).join("")||'<p class="hint">Noch keine eigenen Wörter</p>'}</div>`;
+    $("#saveCustomWord").onclick=()=>{
+      const article=$("#customArticle").value.trim().toLowerCase();
+      const word=$("#customWord").value.trim();
+      if(!["der","die","das"].includes(article))return toast("Bitte der, die oder das eingeben");
+      if(!word)return toast("Bitte ein Wort eingeben");
+      const item={id:Date.now(),article,word,meaning:$("#customMeaning").value.trim(),plural:$("#customPlural").value.trim(),sentence:$("#customSentence").value.trim(),correct:0,wrong:0};
+      S.german.customWords.push(item);
+      if(!S.german.customReview.includes(item.id))S.german.customReview.push(item.id);
+      save();render();german();toast("Wort gespeichert");
+    };
+    $$("[data-delete-custom]").forEach(b=>b.onclick=()=>{
+      const i=+b.dataset.deleteCustom,item=S.german.customWords[i];
+      if(!confirm("Dieses Wort löschen?"))return;
+      S.german.customReview=S.german.customReview.filter(id=>id!==item.id);
+      S.german.customWords.splice(i,1);save();german();
+    });
+    $$("[data-review-custom]").forEach(b=>b.onclick=()=>{
+      const item=S.german.customWords[+b.dataset.reviewCustom];
+      if(item&&!S.german.customReview.includes(item.id))S.german.customReview.push(item.id);
+      save();gm="review";$$("[data-gmode]").forEach(x=>x.classList.toggle("active",x.dataset.gmode==="review"));german();
+    });
+  }else if(gm==="review"){
+    const pool=S.german.customReview.map(id=>S.german.customWords.find(x=>x.id===id)).filter(Boolean);
+    if(!pool.length){
+      A.innerHTML=`<h2>Wiederholen</h2><p class="hint">Keine Wörter in der Wiederholung. Füge unter „Eigene Wörter“ neue Wörter hinzu.</p>`;
+    }else{
+      const item=pool[S.german.customIndex%pool.length];
+      const type=S.german.customIndex%4;
+      let title="",prompt="",answer="";
+      if(type===0){title="Artikel";prompt=`___ ${item.word}`;answer=item.article;}
+      else if(type===1){title="Schreiben";prompt=item.meaning||("Schreibe: "+item.word);answer=item.word;}
+      else if(type===2){title="Plural";prompt=`Plural von ${item.article} ${item.word}`;answer=item.plural||item.word;}
+      else{
+        title="Lückensatz";
+        if(item.sentence&&item.sentence.toLowerCase().includes(item.word.toLowerCase())){
+          prompt=item.sentence.replace(new RegExp(item.word,"i"),"___");answer=item.word;
+        }else{prompt=`Schreibe das Wort: ${item.meaning||item.word}`;answer=item.word;}
+      }
+      A.innerHTML=`<div class="stats"><div class="stat"><b>${item.correct||0}</b><small>Richtig</small></div><div class="stat"><b>${item.wrong||0}</b><small>Fehler</small></div><div class="stat"><b>${pool.length}</b><small>Zu üben</small></div></div>
+      <div class="review-card"><div class="review-meta">${title}</div><div class="review-prompt">${prompt}</div>
+      <div class="answer-row"><input id="customReviewAnswer" autocomplete="off" placeholder="Antwort eingeben"><button class="action" id="checkCustomReview" style="width:auto;margin:0">Prüfen</button></div>
+      <div id="customReviewFeedback" class="feedback"></div></div>
+      <button class="action secondary" id="nextCustomReview">Überspringen</button>`;
+      const check=()=>{
+        const btn=$("#checkCustomReview"),input=$("#customReviewAnswer");
+        if(btn.disabled)return;
+        const val=input.value.trim().toLowerCase();
+        if(!val)return toast("Bitte eine Antwort eingeben");
+        btn.disabled=true;input.disabled=true;
+        const ok=val===String(answer).trim().toLowerCase(),fb=$("#customReviewFeedback");
+        fb.className="feedback show "+(ok?"ok":"bad");
+        if(ok){
+          fb.textContent="Richtig!";
+          item.correct=(item.correct||0)+1;addReward(1,3);
+          if(item.correct>=3&&item.correct>=(item.wrong||0)+2)S.german.customReview=S.german.customReview.filter(id=>id!==item.id);
+        }else{
+          fb.textContent="Richtige Antwort: "+answer;
+          item.wrong=(item.wrong||0)+1;
+          if(!S.german.customReview.includes(item.id))S.german.customReview.push(item.id);
+        }
+        save();render();
+        setTimeout(()=>{S.german.customIndex++;save();german()},900);
+      };
+      $("#checkCustomReview").onclick=check;
+      $("#customReviewAnswer").onkeydown=e=>{if(e.key==="Enter")check()};
+      $("#nextCustomReview").onclick=()=>{S.german.customIndex++;save();german()};
+    }
   }else{
     const type=S.german.taskIndex%3;
     const L=gradeWords(),w=L[S.german.taskIndex%L.length],s=GERMAN_SENTENCES[S.german.taskIndex%GERMAN_SENTENCES.length];
@@ -855,14 +966,26 @@ function renderTimeOverview(){
     ["🇬🇧","Englisch lesen",sum("englishReading")]
   ].map(x=>`<div class="history-item"><b>${x[0]} ${x[1]}</b><span>${x[2]} Min.</span></div>`).join("");
 }
-$("#addPianoTime").onclick=()=>{
-  openModal(`<h3>🎹 Klavierzeit</h3><input id="pianoMinutes" type="number" min="1" value="20"><button class="action" id="savePianoTime">Speichern</button>`);
-  $("#savePianoTime").onclick=()=>{
-    const minutes=+$("#pianoMinutes").value||0;if(minutes<1)return toast("Bitte Minuten eingeben");
-    S.activities.piano.unshift({minutes,date:new Date().toLocaleDateString("de-DE")});
-    addReward(5,8);save();render();$("#modal").classList.remove("show");toast("Klavierzeit gespeichert");
+
+
+const TIME_LABELS={
+  piano:["🎹","Klavier"],
+  germanReading:["📖","Deutsch lesen"],
+  chineseReading:["📕","Chinesisch lesen"],
+  englishReading:["🇬🇧","Englisch lesen"]
+};
+$$("[data-add-time]").forEach(btn=>btn.onclick=()=>{
+  const key=btn.dataset.addTime,label=TIME_LABELS[key];
+  openModal(`<h3>${label[0]} ${label[1]}</h3><input id="genericMinutes" type="number" min="1" value="20"><input id="genericNote" style="margin-top:10px" placeholder="Notiz oder Buchtitel (optional)"><button class="action" id="saveGenericTime">Speichern</button>`);
+  $("#saveGenericTime").onclick=()=>{
+    const minutes=+$("#genericMinutes").value||0;
+    if(minutes<1)return toast("Bitte Minuten eingeben");
+    S.activities[key]=S.activities[key]||[];
+    S.activities[key].unshift({minutes,note:$("#genericNote").value.trim(),date:new Date().toLocaleDateString("de-DE")});
+    addReward(5,8);save();render();$("#modal").classList.remove("show");toast("Zeit gespeichert");
   };
-}
+});
+
 function report(){
   const t=S.sports.tennis;
   const R=[["Deutsch",Math.min(100,S.german.seen*2)],["Mathematik",Math.min(100,S.math.correct*2)],["Chinesisch",Math.min(100,(S.chinese.index+S.chinese.reading.length*3)*5)],["Sport",Math.min(100,(t.sessions+(S.sports.counts.Schwimmen||0))*8)]];
@@ -927,7 +1050,7 @@ function render(){
 }
 createMath();
 render();
-if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v61").then(r=>r.update()).catch(()=>{})}
+if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v62").then(r=>r.update()).catch(()=>{})}
 </script>
 </body>
 </html>

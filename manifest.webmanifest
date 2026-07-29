@@ -1,10 +1,9 @@
 {
-  "name": "Wachstumsplanet V5",
+  "name": "Wachstumsplanet V6.1 Final",
   "short_name": "Wachstumsplanet",
-  "start_url": "./?v=v5",
+  "start_url": "./?v=v61",
   "display": "standalone",
   "background_color": "#f4f5f7",
   "theme_color": "#17213d",
-  "description": "Responsive Kinder-App mit Aufgabenverwaltung und Zeitaufzeichnung.",
-  "icons": []
+  "description": "Final geprüfte Lern- und Wachstums-App für iPhone und iPad."
 }

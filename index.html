@@ -243,13 +243,28 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
  #parent .panel{margin:0 0 16px}
 }
 
+
+.exercise-box{background:var(--soft);border-radius:18px;padding:16px;margin-top:12px}
+.exercise-title{font-size:13px;color:var(--muted);margin-bottom:8px}
+.answer-row{display:flex;gap:9px;margin-top:11px}
+.answer-row input{flex:1}
+.feedback{margin-top:10px;padding:10px 12px;border-radius:12px;font-weight:700;display:none}
+.feedback.show{display:block}.feedback.ok{background:#e8f3ed;color:var(--success)}.feedback.bad{background:#fff0f1;color:var(--danger)}
+.hanzi-chip{display:inline-flex;align-items:center;gap:6px;padding:9px 11px;border-radius:13px;background:var(--soft);margin:5px;font-weight:800}
+.hanzi-chip button{width:24px;height:24px;border-radius:8px;background:#fff;color:var(--danger)}
+.word-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.word-card{padding:14px;border-radius:16px;background:var(--soft);text-align:center}
+.word-card b{font-size:23px;display:block}.word-card small{color:var(--muted)}
+.review-badge{display:inline-block;padding:4px 8px;border-radius:9px;background:#fff0cf;color:#8f6b18;font-size:11px;font-weight:800;margin-left:6px}
+@media(min-width:760px){.word-grid{grid-template-columns:repeat(3,1fr)}}
+
 </style>
 </head>
 <body>
 <div class="app">
 <main id="home" class="screen active">
   <div class="header">
-    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V5</div></div>
+    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V6.1 FINAL</div></div>
     <div class="grow"></div>
     <div class="balance">⭐ <span id="stars">0</span></div>
   </div>
@@ -311,7 +326,7 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 
 <main id="german" class="screen">
 <div class="pagehead"><button class="back" data-home>‹</button><div><h2>Deutsch lernen</h2><div class="hint">Lernkarten nach Klassenstufe und Fehlerliste</div></div></div>
-<section class="panel"><select id="grade" class="select"><option value="1">1. Klasse</option><option value="2">2. Klasse</option><option value="3">3. Klasse</option><option value="4">4. Klasse</option></select><div class="tabs" style="margin-top:12px"><button class="tab active" data-gmode="cards">Lernkarten</button><button class="tab" data-gmode="quiz">Artikel</button><button class="tab" data-gmode="spell">Schreiben</button><button class="tab" data-gmode="wrong">Fehler</button><button class="tab" data-gmode="reading">Lesen</button></div></section>
+<section class="panel"><select id="grade" class="select"><option value="1">1. Klasse</option><option value="2">2. Klasse</option><option value="3">3. Klasse</option><option value="4">4. Klasse</option></select><div class="tabs" style="margin-top:12px"><button class="tab active" data-gmode="cards">Lernkarten</button><button class="tab" data-gmode="quiz">Artikel</button><button class="tab" data-gmode="spell">Schreiben</button><button class="tab" data-gmode="wrong">Fehler</button><button class="tab" data-gmode="reading">Lesen</button><button class="tab" data-gmode="tasks">Aufgaben</button></div></section>
 <section class="panel" id="germanContent"></section>
 </main>
 
@@ -323,7 +338,7 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 
 <main id="chinese" class="screen">
 <div class="pagehead"><button class="back" data-home>‹</button><div><h2>Chinesisch</h2><div class="hint">Schriftzeichen, Gedichte, Lesen und Schreiben</div></div></div>
-<section class="panel"><div class="tabs"><button class="tab active" data-cmode="hanzi">Schriftzeichen</button><button class="tab" data-cmode="poem">Gedichte</button><button class="tab" data-cmode="reading">Lesen</button><button class="tab" data-cmode="writing">Schreiben</button></div></section>
+<section class="panel"><div class="tabs"><button class="tab active" data-cmode="hanzi">Schriftzeichen</button><button class="tab" data-cmode="daily">Tageszeichen</button><button class="tab" data-cmode="poem">Gedichte</button><button class="tab" data-cmode="reading">Lesen</button><button class="tab" data-cmode="writing">Schreiben</button></div></section>
 <section class="panel" id="chineseContent"></section>
 </main>
 
@@ -358,7 +373,7 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 </div>
 <button class="action" id="saveTask" type="button">Aufgabe hinzufügen</button>
 </div></section>
-<section class="panel"><h2>Aufgaben verwalten</h2><div id="taskManager"></div></section>
+<section class="panel"><h2>Aufgaben verwalten</h2><div id="taskManager"></div><button class="action secondary" id="restoreDefaultTasks" type="button">Standardaufgaben wiederherstellen</button></section>
 <section class="panel"><h2>Zeitübersicht</h2>
 <div class="history" id="timeOverview"></div>
 <button class="action secondary" id="addPianoTime">Klavierzeit eintragen</button>
@@ -392,6 +407,34 @@ const WORDS=[
 ].map(x=>({g:x[0],a:x[1],w:x[2],p:x[3],m:x[4],e:x[5],x:x[6]}));
 const HANZI=[["规","guī","见","规则、规定、规矩"],["墙","qiáng","土","墙壁、围墙、城墙"],["印","yìn","卩","印章、脚印、印象"],["迟","chí","辶","迟到、推迟、迟早"],["晶","jīng","日","水晶、晶亮、亮晶晶"]];
 const POEMS=[["山行","杜牧","远上寒山石径斜，\n白云生处有人家。\n停车坐爱枫林晚，\n霜叶红于二月花。"],["静夜思","李白","床前明月光，\n疑是地上霜。\n举头望明月，\n低头思故乡。"]];
+
+const GERMAN_SENTENCES=[
+ {q:"Ich ___ einen Ball.",a:"habe",hint:"haben"},
+ {q:"Der Hund ___ im Garten.",a:"spielt",hint:"spielen"},
+ {q:"Wir ___ heute Deutsch.",a:"lernen",hint:"lernen"},
+ {q:"Tino ___ ein Buch.",a:"liest",hint:"lesen"},
+ {q:"Die Kinder ___ zur Schule.",a:"gehen",hint:"gehen"},
+ {q:"Meine Mutter ___ das Essen.",a:"kocht",hint:"kochen"},
+ {q:"Am Samstag ___ ich Tennis.",a:"spiele",hint:"spielen"},
+ {q:"Das Fenster ___ offen.",a:"ist",hint:"sein"}
+];
+
+const CHINESE_WORD_BANK={
+"规":["规则","规定","规矩","规范"],"墙":["墙壁","围墙","城墙","墙角"],"印":["印章","脚印","印象","打印"],
+"迟":["迟到","推迟","迟早","延迟"],"晶":["水晶","晶亮","晶莹","亮晶晶"],"棕":["棕色","棕树","棕熊","棕毛"],
+"铺":["铺路","铺开","店铺","床铺"],"院":["院子","医院","学院","庭院"],"增":["增加","增添","增长","增强"],
+"列":["排列","列车","队列","列举"],"则":["规则","原则","否则","准则"],"乱":["杂乱","混乱","打乱","忙乱"],
+"泥":["泥土","泥巴","水泥","泥泞"],"靴":["皮靴","雨靴","长靴","靴子"],"橙":["橙子","橙色","甜橙","橙汁"],
+"铺":["铺路","铺开","店铺","床铺"],"排":["排列","排队","安排","排球"],"残":["残阳","残留","残缺","伤残"],
+"赠":["赠送","赠品","赠言","馈赠"],"挑":["挑选","挑水","挑战","挑食"],"院":["院子","医院","学院","庭院"],
+"墙":["墙壁","围墙","城墙","墙角"],"印":["印章","脚印","印象","打印"],"迟":["迟到","推迟","迟早","延迟"]
+};
+
+function generatedWordsFor(char){
+  if(S&&S.chinese&&S.chinese.customWords&&S.chinese.customWords[char]?.length)return S.chinese.customWords[char];
+  if(CHINESE_WORD_BANK[char])return CHINESE_WORD_BANK[char];
+  return [];
+}
 const DEFAULTS={stars:0,xp:0,streak:1,lastBonus:"",daily:{xp:0,stars:0},week:[0,0,0,0,0,0,0],quests:[
 {id:1,icon:"🇩🇪",name:"Deutsch lernen",desc:"8 Lernkarten bearbeiten",stars:10,done:false,unit:"check",target:1},
 {id:2,icon:"➕",name:"Mathematik",desc:"10 Aufgaben richtig lösen",stars:10,done:false,unit:"check",target:1},
@@ -402,7 +445,7 @@ const DEFAULTS={stars:0,xp:0,streak:1,lastBonus:"",daily:{xp:0,stars:0},week:[0,
 {id:7,icon:"📖",name:"Deutsch lesen",desc:"15 Minuten lesen",stars:10,done:false,unit:"minutes",target:15,activity:"germanReading"},
 {id:8,icon:"📕",name:"Chinesisch lesen",desc:"15 Minuten lesen",stars:10,done:false,unit:"minutes",target:15,activity:"chineseReading"},
 {id:9,icon:"😊",name:"Alltagsziel",desc:"Helfen, höflich sein und ruhig bleiben",stars:10,done:false,unit:"check",target:1}],
-german:{grade:1,index:0,seen:0,wrong:[]},math:{correct:0,streak:0,floor:1},chinese:{index:0,poem:0,reading:[],writing:[]},
+german:{grade:1,index:0,seen:0,wrong:[],taskIndex:0,taskCorrect:0,taskWrong:[]},math:{correct:0,streak:0,floor:1},chinese:{index:0,poem:0,reading:[],writing:[],dailyChars:[],dailyDate:"",dailyWrong:[],reviewQueue:[],dailyIndex:0,customWords:{}},
 activities:{piano:[],germanReading:[],chineseReading:[],englishReading:[]},
 sports:{tennis:{sessions:0,minutes:0},counts:{Schwimmen:0,Seilspringen:0,"Liegestütze":0,"Sit-ups":0},history:[]},
 partners:[{name:"Pikachu",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",desc:"Elektro-Pokémon · erhält XP durch tägliche Aufgaben",owned:true,level:1,xp:0},{name:"Bisasam",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",desc:"Pflanzen-Pokémon · wird durch Lernaufgaben freigeschaltet",owned:false,level:1,xp:0},{name:"Gengar",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png",desc:"Geist-Pokémon · wird durch Klavier oder Englisch freigeschaltet",owned:false,level:1,xp:0},{name:"Schiggy",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png",desc:"Wasser-Pokémon · wird durch Schwimmen freigeschaltet",owned:false,level:1,xp:0},{name:"Glumanda",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png",desc:"Feuer-Pokémon · wird durch Tennistraining freigeschaltet",owned:false,level:1,xp:0}],selectedPartner:0};
@@ -416,16 +459,37 @@ S=S||structuredClone(DEFAULTS);
 function patch(){
   S.daily=S.daily||{xp:0,stars:0};
   S.week=Array.isArray(S.week)&&S.week.length===7?S.week:[0,0,0,0,0,0,0];
-  S.quests=S.quests||S.tasks||structuredClone(DEFAULTS.quests);
+  S.deletedDefaultTasks=S.deletedDefaultTasks||[];
+  S.quests=S.quests||S.tasks||[];
+  const oldNameMap={"德语学习":"Deutsch lernen","数学练习":"Mathematik","中文学习":"Chinesisch","网球训练":"Tennistraining","弹钢琴":"Klavier üben","英语阅读":"Englisch lesen","成长任务":"Alltagsziel"};
+  S.quests.forEach(q=>{
+    if(oldNameMap[q.name])q.name=oldNameMap[q.name];
+    if(q.name==="Deutsch lernen")q.desc="8 Lernkarten bearbeiten";
+    if(q.name==="Mathematik")q.desc="10 Aufgaben richtig lösen";
+    if(q.name==="Chinesisch")q.desc="3 Schriftzeichen lernen";
+    if(q.name==="Tennistraining"){q.desc="20 Minuten trainieren";q.unit="minutes";q.target=q.target||20;q.activity="tennis";}
+    if(q.name==="Klavier üben"){q.desc="20 Minuten üben";q.unit="minutes";q.target=q.target||20;q.activity="piano";}
+    if(q.name==="Englisch lesen"){q.desc="15 Minuten lesen";q.unit="minutes";q.target=q.target||15;q.activity="englishReading";}
+  });
+  S.quests=S.quests.filter((q,i,a)=>a.findIndex(x=>x.name===q.name)===i);
   for(const q of DEFAULTS.quests){
-    if(!S.quests.some(x=>x.name===q.name)) S.quests.push(structuredClone(q));
+    if(!S.deletedDefaultTasks.includes(q.name)&&!S.quests.some(x=>x.name===q.name))S.quests.push(structuredClone(q));
   }
   S.german=S.german||structuredClone(DEFAULTS.german);
   S.german.wrong=S.german.wrong||[];
+  S.german.taskIndex=S.german.taskIndex||0;
+  S.german.taskCorrect=S.german.taskCorrect||0;
+  S.german.taskWrong=S.german.taskWrong||[];
   S.math=S.math||structuredClone(DEFAULTS.math);
   S.chinese=S.chinese||structuredClone(DEFAULTS.chinese);
   S.chinese.reading=S.chinese.reading||[];
   S.chinese.writing=S.chinese.writing||[];
+  S.chinese.dailyChars=S.chinese.dailyChars||[];
+  S.chinese.dailyWrong=S.chinese.dailyWrong||[];
+  S.chinese.reviewQueue=S.chinese.reviewQueue||[];
+  S.chinese.dailyIndex=S.chinese.dailyIndex||0;
+  S.chinese.dailyDate=S.chinese.dailyDate||"";
+  S.chinese.customWords=S.chinese.customWords||{};
   S.activities=S.activities||{piano:[],germanReading:[],chineseReading:[],englishReading:[]};
   for(const k of ["piano","germanReading","chineseReading","englishReading"])S.activities[k]=S.activities[k]||[];
   S.quests.forEach(q=>{q.unit=q.unit||"check";q.target=q.target||1});
@@ -439,9 +503,27 @@ function patch(){
 }
 patch();
 
+function localDateKey(d=new Date()){
+  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
+function prepareDailyReview(){
+  const today=localDateKey();
+  if(S.chinese.dailyDate&&S.chinese.dailyDate!==today){
+    const carry=[...new Set([...(S.chinese.reviewQueue||[]),...(S.chinese.dailyWrong||[])])];
+    S.chinese.reviewQueue=carry;
+    S.chinese.dailyWrong=[];
+    S.chinese.dailyChars=[];
+    S.chinese.dailyIndex=0;
+  }
+  S.chinese.dailyDate=today;
+  try{localStorage.setItem("growthPlanetMinimal",JSON.stringify(S))}catch(e){}
+}
+prepareDailyReview();
+
 const $=s=>document.querySelector(s);
 const $$=s=>document.querySelectorAll(s);
-const save=()=>localStorage.setItem("growthPlanetMinimal",JSON.stringify(S));
+const save=()=>{try{localStorage.setItem("growthPlanetMinimal",JSON.stringify(S));return true}catch(e){toast("Daten konnten nicht gespeichert werden");return false}};
 const toast=t=>{
   const x=$("#toast");
   if(!x)return;
@@ -551,7 +633,10 @@ function renderHome(){
 }
 
 let gm="cards";
-function gradeWords(){return WORDS.filter(x=>x.g===S.german.grade)}
+function gradeWords(){
+  const list=WORDS.filter(x=>x.g===Number(S.german.grade));
+  return list.length?list:WORDS.filter(x=>x.g===1);
+}
 function german(){
   const A=$("#germanContent"),L=gradeWords(),w=L[S.german.index%L.length];
   if(gm==="cards"){
@@ -562,6 +647,8 @@ function german(){
   }else if(gm==="quiz"){
     A.innerHTML=`<div class="flash"><div class="flash-emoji">${w.e}</div><div class="flash-word">___ ${w.w}</div><div>${w.m}</div></div><div class="options">${["der","die","das"].map(o=>`<button class="option" data-art="${o}">${o} ${w.w}</button>`).join("")}</div>`;
     $$("[data-art]").forEach(b=>b.onclick=()=>{
+      if([...$$("[data-art]")].some(x=>x.disabled))return;
+      $$("[data-art]").forEach(x=>x.disabled=true);
       if(b.dataset.art===w.a){b.classList.add("correct");addReward(2,4);toast("Richtig");}
       else{b.classList.add("wrong");if(!S.german.wrong.includes(w.w))S.german.wrong.push(w.w);toast("Richtige Antwort: "+w.a);}
       S.german.index=(S.german.index+1)%L.length;save();setTimeout(()=>{render();german()},500);
@@ -570,14 +657,18 @@ function german(){
     A.innerHTML=`<div class="flash"><button class="speak" id="speak2">🔊</button><div class="flash-emoji">${w.e}</div><div>${w.m}</div></div><input id="spell" class="select" placeholder="Deutsches Wort eingeben"><button class="action" id="checkSpell">Prüfen</button>`;
     $("#speak2").onclick=()=>{const u=new SpeechSynthesisUtterance(w.w);u.lang="de-DE";speechSynthesis.speak(u)};
     $("#checkSpell").onclick=()=>{
-      if($("#spell").value.trim().toLowerCase()===w.w.toLowerCase()){addReward(3,5);toast("Richtig geschrieben");}
+      if($("#checkSpell").disabled)return;
+      const value=$("#spell").value.trim();
+      if(!value)return toast("Bitte ein Wort eingeben");
+      $("#checkSpell").disabled=true;$("#spell").disabled=true;
+      if(value.toLowerCase()===w.w.toLowerCase()){addReward(3,5);toast("Richtig geschrieben");}
       else{if(!S.german.wrong.includes(w.w))S.german.wrong.push(w.w);toast("Richtige Schreibweise: "+w.w);}
       S.german.index=(S.german.index+1)%L.length;save();render();german();
     };
   }else if(gm==="wrong"){
     const list=WORDS.filter(x=>S.german.wrong.includes(x.w));
     A.innerHTML=list.length?list.map(x=>`<div class="history-item"><b>${x.a} ${x.w}</b><span>${x.m}</span></div>`).join(""):`<p class="hint">Keine Fehler gespeichert</p>`;
-  }else{
+  }else if(gm==="reading"){
     const total=S.activities.germanReading.reduce((a,x)=>a+(+x.minutes||0),0);
     A.innerHTML=`<div class="activity-total"><div><small>Deutsch gelesen</small><b>${total} Min.</b></div><div style="font-size:36px">📖</div></div>
     <input id="germanBook" placeholder="Buchtitel (optional)">
@@ -589,6 +680,34 @@ function german(){
       S.activities.germanReading.unshift({book:$("#germanBook").value.trim(),minutes,date:new Date().toLocaleDateString("de-DE")});
       addReward(5,8);save();render();german();toast("Lesezeit gespeichert");
     };
+  }else{
+    const type=S.german.taskIndex%3;
+    const L=gradeWords(),w=L[S.german.taskIndex%L.length],s=GERMAN_SENTENCES[S.german.taskIndex%GERMAN_SENTENCES.length];
+    let title="",question="",answer="",hint="";
+    if(type===0){title="Artikel einsetzen";question=`___ ${w.w}`;answer=w.a;hint="der / die / das";}
+    else if(type===1){title="Wort schreiben";question=`${w.m} ${w.e}`;answer=w.w;hint="Schreibe das deutsche Wort";}
+    else{title="Lücke ausfüllen";question=s.q;answer=s.a;hint="Grundform: "+s.hint;}
+    A.innerHTML=`<div class="stats"><div class="stat"><b>${S.german.taskCorrect}</b><small>Richtig</small></div><div class="stat"><b>${S.german.taskWrong.length}</b><small>Fehler</small></div><div class="stat"><b>${S.german.taskIndex+1}</b><small>Aufgabe</small></div></div>
+    <div class="exercise-box"><div class="exercise-title">${title}</div><div style="font-size:28px;font-weight:900">${question}</div><div class="hint" style="margin-top:7px">${hint}</div>
+    <div class="answer-row"><input id="germanTaskAnswer" autocomplete="off" placeholder="Antwort eingeben"><button class="action" id="checkGermanTask" style="width:auto;margin:0">Prüfen</button></div>
+    <div id="germanTaskFeedback" class="feedback"></div></div>
+    <button class="action secondary" id="nextGermanTask">Nächste Aufgabe</button>
+    ${S.german.taskWrong.length?`<div class="history" style="margin-top:14px"><h3>Zu wiederholen</h3>${S.german.taskWrong.slice(-8).reverse().map(x=>`<div class="history-item"><b>${x.question}</b><span>${x.answer}</span></div>`).join("")}</div>`:""}`;
+    const check=()=>{
+      const btn=$("#checkGermanTask"),input=$("#germanTaskAnswer");
+      if(btn.disabled)return;
+      const val=input.value.trim().toLowerCase(),fb=$("#germanTaskFeedback");
+      if(!val)return toast("Bitte eine Antwort eingeben");
+      btn.disabled=true;input.disabled=true;
+      fb.className="feedback show "+(val===answer.toLowerCase()?"ok":"bad");
+      if(val===answer.toLowerCase()){fb.textContent="Richtig!";S.german.taskCorrect++;addReward(1,3);}
+      else{fb.textContent="Richtige Antwort: "+answer;S.german.taskWrong.push({question,answer,date:new Date().toLocaleDateString("de-DE")});}
+      save();render();
+      setTimeout(()=>{S.german.taskIndex++;save();german()},900);
+    };
+    $("#checkGermanTask").onclick=check;
+    $("#germanTaskAnswer").onkeydown=e=>{if(e.key==="Enter")check()};
+    $("#nextGermanTask").onclick=()=>{S.german.taskIndex++;save();german()};
   }
 }
 $("#grade").onchange=e=>{S.german.grade=+e.target.value;S.german.index=0;save();german()};
@@ -613,6 +732,68 @@ function chinese(){
     const x=HANZI[S.chinese.index%HANZI.length];
     A.innerHTML=`<div style="text-align:center"><div class="hanzi">${x[0]}</div><div class="pinyin">${x[1]}</div><p><b>Radikal: </b>${x[2]}</p><p><b>Wörter: </b>${x[3]}</p></div><button class="action" id="nextH">Gelernt</button>`;
     $("#nextH").onclick=()=>{S.chinese.index=(S.chinese.index+1)%HANZI.length;addReward(1,3);save();render();chinese()};
+  }else if(cm==="daily"){
+    const today=localDateKey();
+    const review=[...new Set(S.chinese.reviewQueue||[])];
+    const pool=[...review,...S.chinese.dailyChars.filter(x=>!review.includes(x))];
+    const current=pool[S.chinese.dailyIndex%Math.max(pool.length,1)];
+    A.innerHTML=`<h2>Tageszeichen</h2>
+    <p class="hint">Die Eltern können chinesische Schriftzeichen für heute eingeben. Fehler erscheinen am nächsten Tag zuerst.</p>
+    <div class="answer-row"><input id="dailyCharInput" maxlength="20" placeholder="Zum Beispiel: 规 墙 印"><button class="action" id="addDailyChars" style="width:auto;margin:0">Hinzufügen</button></div>
+    <input id="dailyWordInput" style="margin-top:9px" placeholder="Optional: 规:规则,规定; 墙:墙壁,围墙">
+    <p class="hint" style="margin-top:7px">Bekannte Zeichen erhalten automatisch Wortgruppen. Eigene Wortgruppen können ergänzt oder korrigiert werden.</p>
+    <div style="margin-top:10px">${S.chinese.dailyChars.map(c=>`<span class="hanzi-chip">${c}<button data-remove-char="${c}">×</button></span>`).join("")||'<span class="hint">Noch keine Tageszeichen</span>'}</div>
+    ${pool.length?`<div class="exercise-box">
+      <div class="exercise-title">${review.includes(current)?'Wiederholung vom Vortag':'Heutiges Zeichen'} ${review.includes(current)?'<span class="review-badge">Wiederholen</span>':''}</div>
+      <div class="hanzi">${current}</div>
+      <div class="word-grid">${generatedWordsFor(current).map(w=>`<div class="word-card"><b>${w}</b><small>Wortgruppe</small></div>`).join("")||'<p class="hint">Bitte Wortgruppen ergänzen.</p>'}</div>
+      <div class="exercise-title" style="margin-top:15px">Schreibe eine passende Wortgruppe</div>
+      <div class="answer-row"><input id="chineseWordAnswer" placeholder="Wortgruppe eingeben"><button class="action" id="checkChineseWord" style="width:auto;margin:0">Prüfen</button></div>
+      <div id="chineseFeedback" class="feedback"></div>
+      <div class="answer-row"><button class="action secondary" id="markChineseWrong" style="margin:0">Noch unsicher</button><button class="action" id="nextChineseDaily" style="margin:0">Nächstes Zeichen</button></div>
+    </div>`:""}`;
+    $("#addDailyChars").onclick=()=>{
+      const customText=$("#dailyWordInput").value.trim();
+      customText.split(/[;；]/).map(x=>x.trim()).filter(Boolean).forEach(part=>{
+        const pieces=part.split(/[:：]/),char=pieces[0],wordsText=pieces.slice(1).join(":");
+        if(char&&wordsText){
+          const c=[...char.trim()][0];
+          const words=wordsText.split(/[,，、]/).map(x=>x.trim()).filter(w=>w&&w.includes(c));
+          if(c&&words.length)S.chinese.customWords[c]=[...new Set(words)].slice(0,6);
+        }
+      });
+      const chars=[...$("#dailyCharInput").value.replace(/[\s,，、]/g,"")].filter(c=>/[\u4e00-\u9fff]/.test(c));
+      if(!chars.length)return toast("Bitte chinesische Schriftzeichen eingeben");
+      const unsupported=chars.filter(c=>!generatedWordsFor(c).length);
+      if(unsupported.length)return toast("Bitte Wortgruppen ergänzen: "+unsupported.join("、"));
+      S.chinese.dailyChars=[...new Set([...S.chinese.dailyChars,...chars])];
+      S.chinese.dailyDate=today;S.chinese.dailyIndex=0;save();render();chinese();
+    };
+    $$("[data-remove-char]").forEach(b=>b.onclick=()=>{S.chinese.dailyChars=S.chinese.dailyChars.filter(c=>c!==b.dataset.removeChar);S.chinese.dailyIndex=0;save();chinese()});
+    if(pool.length){
+      const words=generatedWordsFor(current);
+      $("#checkChineseWord").onclick=()=>{
+        const btn=$("#checkChineseWord");
+        if(btn.disabled)return;
+        const val=$("#chineseWordAnswer").value.trim(),ok=words.includes(val),fb=$("#chineseFeedback");
+        if(!val)return toast("Bitte eine Wortgruppe eingeben");
+        btn.disabled=true;$("#chineseWordAnswer").disabled=true;
+        fb.className="feedback show "+(ok?"ok":"bad");
+        if(ok){
+          fb.textContent="Richtig!";
+          S.chinese.reviewQueue=S.chinese.reviewQueue.filter(x=>x!==current);
+          S.chinese.dailyWrong=S.chinese.dailyWrong.filter(x=>x!==current);
+          addReward(1,3);
+        }else{
+          fb.textContent="Mögliche Wörter: "+words.join("、");
+          if(!S.chinese.dailyWrong.includes(current))S.chinese.dailyWrong.push(current);
+        }
+        save();render();
+        setTimeout(()=>{S.chinese.dailyIndex++;save();chinese()},900);
+      };
+      $("#markChineseWrong").onclick=()=>{if(!S.chinese.dailyWrong.includes(current))S.chinese.dailyWrong.push(current);S.chinese.dailyIndex++;save();chinese();toast("Für morgen vorgemerkt")};
+      $("#nextChineseDaily").onclick=()=>{S.chinese.dailyIndex++;save();chinese()};
+    }
   }else if(cm==="poem"){
     const p=POEMS[S.chinese.poem%POEMS.length];
     A.innerHTML=`<div style="text-align:center"><h2>${p[0]}</h2><div class="hint">${p[1]}</div><div class="poem">${p[2].replaceAll("\n","<br>")}</div></div><button class="action" id="nextP">Nächstes Gedicht</button>`;
@@ -696,11 +877,18 @@ function renderTaskManager(){
   $$("[data-delete-task]").forEach(b=>b.onclick=()=>{
     const id=String(b.dataset.deleteTask);
     if(!confirm("Diese Aufgabe wirklich löschen?"))return;
+    const target=S.quests.find(q=>String(q.id)===id);
+    if(target&&DEFAULTS.quests.some(x=>x.name===target.name)&&!S.deletedDefaultTasks.includes(target.name))S.deletedDefaultTasks.push(target.name);
     S.quests=S.quests.filter(q=>String(q.id)!==id);save();render();
   });
 }
 $("#taskUnit").addEventListener("change",()=>{$("#taskTarget").disabled=$("#taskUnit").value==="check"});
 $("#taskTarget").disabled=$("#taskUnit").value==="check";
+$("#restoreDefaultTasks").addEventListener("click",()=>{
+  S.deletedDefaultTasks=[];
+  for(const q of DEFAULTS.quests)if(!S.quests.some(x=>x.name===q.name))S.quests.push(structuredClone(q));
+  save();render();toast("Standardaufgaben wiederhergestellt");
+});
 $("#saveTask").addEventListener("click",()=>{
   const n=$("#taskName").value.trim();
   if(!n)return toast("Bitte einen Aufgabennamen eingeben");
@@ -711,8 +899,19 @@ $("#saveTask").addEventListener("click",()=>{
   $("#taskName").value="";
   save();render();toast("Aufgabe hinzugefügt");
 });
-$("#dailyBonus").onclick=()=>{const today=new Date().toISOString().slice(0,10);if(S.lastBonus===today)return toast("Heute bereits abgeholt");S.lastBonus=today;S.streak++;addReward(5,10);save();render()};
-$("#resetToday").onclick=()=>{S.quests.forEach(x=>{x.done=false;delete x.value;delete x.completedAt});S.daily={xp:0,stars:0};S.week=[...S.week.slice(1),0];save();render()};
+$("#dailyBonus").onclick=()=>{
+  const today=localDateKey(),yesterday=new Date(Date.now()-86400000).toISOString().slice(0,10);
+  if(S.lastBonus===today)return toast("Heute bereits abgeholt");
+  S.streak=S.lastBonus===yesterday?(S.streak||0)+1:1;
+  S.lastBonus=today;addReward(5,10);save();render();toast("Tagesbelohnung erhalten");
+};
+$("#resetToday").onclick=()=>{
+  const today=localDateKey();
+  S.quests.forEach(x=>{x.done=false;delete x.value;delete x.completedAt});
+  S.daily={xp:0,stars:0};
+  if(S.lastTaskReset!==today){S.week=[...S.week.slice(1),0];S.lastTaskReset=today;}
+  save();render();toast("Heutige Aufgaben zurückgesetzt");
+};
 $("#exportData").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));a.download="Wachstumsplanet-Sicherung.json";a.click()};
 $("#importData").onchange=e=>{const r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);patch();save();render();toast("Sicherung importiert");}catch{toast("Ungültige Datei")}};r.readAsText(e.target.files[0])};
 $("#clearData").onclick=()=>{if(confirm("Wirklich alle Daten löschen?")){S=structuredClone(DEFAULTS);save();render()}};
@@ -728,7 +927,7 @@ function render(){
 }
 createMath();
 render();
-if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v5").then(r=>r.update()).catch(()=>{})}
+if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v61").then(r=>r.update()).catch(()=>{})}
 </script>
 </body>
 </html>

@@ -1,10 +1,8 @@
-# Wachstumsplanet – Deutsche Pokémon-Version
+# Wachstumsplanet – Deutsche Kompaktversion
 
-- vollständige deutsche Benutzeroberfläche
-- offizielle Artwork-Darstellungen für Pikachu, Bisasam, Gengar, Schiggy und Glumanda
-- Pokémon-Level, XP, Füttern und Training
-- Aufgaben für Deutsch, Mathematik, Chinesisch, Tennis, Klavier und Englisch
-- Tages- und Wochenfortschritt
-- Elternbereich und Datensicherung
-
-Die Pokémon-Grafiken werden aus der öffentlichen Sprite-Sammlung des PokeAPI-Projekts geladen. Eine Internetverbindung ist für die Bilder erforderlich.
+- vollständige deutsche Oberfläche
+- kürzere Startseite
+- direkte Navigation zu Deutsch, Mathe, Chinesisch, Sport, Pokémon und Eltern
+- Tagesaufgaben im Mittelpunkt
+- Fortschrittsbericht im Elternbereich
+- vorhandene Daten werden übernommen

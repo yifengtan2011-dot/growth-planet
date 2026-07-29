@@ -1,10 +1,10 @@
 {
   "name": "Wachstumsplanet – Tagesfortschritt",
   "short_name": "Wachstumsplanet",
-  "start_url": "./?v=de-pokemon",
+  "start_url": "./?v=de-compact",
   "display": "standalone",
   "background_color": "#f4f5f7",
   "theme_color": "#17213d",
-  "description": "Deutschsprachige Kinder-App für tägliche Aufgaben, Lernen, Sport und Pokémon-Partner.",
+  "description": "Kompakte deutschsprachige Kinder-App für tägliche Aufgaben, Lernen, Sport und Pokémon-Partner.",
   "icons": []
 }

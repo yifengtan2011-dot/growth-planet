@@ -143,9 +143,10 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 .achievement.locked{opacity:.45;filter:grayscale(1)}
 .achievement .ico{font-size:30px}
 
-.nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(780px,100%);background:rgba(255,255,255,.95);backdrop-filter:blur(18px);display:grid;grid-template-columns:repeat(5,1fr);padding:9px 6px var(--safe);border-top:1px solid var(--line);z-index:20}
-.nav button{background:none;color:var(--muted);font-size:11px}
-.nav span{display:block;font-size:21px;margin-bottom:3px}
+.nav{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(780px,100%);background:rgba(255,255,255,.96);backdrop-filter:blur(18px);display:flex;overflow-x:auto;scrollbar-width:none;padding:8px 5px var(--safe);border-top:1px solid var(--line);z-index:20}
+.nav::-webkit-scrollbar{display:none}
+.nav button{background:none;color:var(--muted);font-size:10px;min-width:68px;flex:1 0 68px;padding:2px 4px}
+.nav span{display:block;font-size:20px;margin-bottom:2px}
 .nav button.active{color:var(--accent);font-weight:850}
 
 .toast{position:fixed;left:50%;bottom:108px;transform:translate(-50%,20px);opacity:0;background:#17213dea;color:#fff;padding:11px 16px;border-radius:14px;transition:.25s;z-index:50;white-space:nowrap}
@@ -161,6 +162,16 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 .pokemon-img.home{width:56px;height:56px}
 .partner .face img{width:54px;height:54px;object-fit:contain}
 .partner-face img{width:108px;height:108px;object-fit:contain}
+
+.quick-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.quick-action{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 8px;text-align:center;box-shadow:var(--shadow)}
+.quick-action span{display:block;font-size:25px;margin-bottom:6px}
+.quick-action b{font-size:13px}
+.quick-action small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.compact-summary{display:flex;gap:10px;overflow-x:auto;padding-bottom:2px}
+.summary-pill{min-width:115px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px}
+.summary-pill b{display:block;font-size:20px}
+.summary-pill small{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -176,7 +187,7 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
     <div class="hero-top">
       <div class="avatar">👦</div>
       <div class="grow"><h1>Tino · Lv.<span id="level">1</span></h1><p id="rank">Jeden Tag ein Stück weiter</p></div>
-      <div style="font-size:42px" id="miniPartner">⚡🐾</div>
+      <img id="miniPartner" class="pokemon-img small" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu">
     </div>
     <div class="progress-row"><b>Heutiger Fortschritt</b><span id="todayPercent">0%</span></div>
     <div class="progress"><i id="todayBar" style="width:0%"></i></div>
@@ -188,44 +199,41 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
   </section>
 
   <section class="section">
-    <div class="card" style="display:flex;align-items:center;gap:14px;padding:15px 17px">
+    <div class="card" style="display:flex;align-items:center;gap:14px;padding:14px 16px">
       <img id="homePartnerFace" class="pokemon-img home" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" alt="Pikachu">
       <div class="grow">
-        <div style="display:flex;align-items:center;gap:8px"><b id="homePartnerName">皮卡丘</b><span id="homePartnerLevel" style="font-size:11px;color:var(--gold);font-weight:850">Lv.1</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><b id="homePartnerName">Pikachu</b><span id="homePartnerLevel" style="font-size:11px;color:var(--gold);font-weight:850">Lv.1</span></div>
         <div class="hint" id="homePartnerMood">Lass uns heute gemeinsam weitermachen!</div>
-        <div class="bar" style="margin-top:9px"><i id="homePartnerXp" style="background:linear-gradient(90deg,var(--gold),#e7cf93);width:0%"></i></div>
+        <div class="bar" style="margin-top:8px"><i id="homePartnerXp" style="background:linear-gradient(90deg,var(--gold),#e7cf93);width:0%"></i></div>
       </div>
-      <button data-open="partners" style="background:var(--soft);border-radius:13px;padding:9px 11px;font-weight:800">Ansehen</button>
+      <button data-open="partners" style="background:var(--soft);border-radius:12px;padding:8px 10px;font-weight:800">Öffnen</button>
     </div>
   </section>
 
   <section class="section">
-    <div class="section-head"><h2>Heute im Überblick</h2><span class="hint">Live aktualisiert</span></div>
-    <div class="grid-2">
-      <div class="card metric"><b id="todayXp">0</b><span>XP heute</span><div class="delta">Schritt für Schritt</div></div>
-      <div class="card metric"><b id="todayStars">0</b><span>Sterne heute</span><div class="delta">Für Belohnungen</div></div>
-      <div class="card metric"><b id="weekDone">0</b><span>Diese Woche</span><div class="delta">Erledigte Aufgaben</div></div>
-      <div class="card metric"><b id="ownedPartners">1</b><span>Pokémon-Partner</span><div class="delta">Langfristig sammeln</div></div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-head"><h2>Was heute geschafft wurde</h2><span class="hint" id="questProgress"></span></div>
+    <div class="section-head"><h2>Heutige Aufgaben</h2><span class="hint" id="questProgress"></span></div>
     <div class="today-list" id="questList"></div>
   </section>
 
   <section class="section">
-    <div class="section-head"><h2>Wochenfortschritt</h2><span class="hint">Letzte 7 Tage</span></div>
-    <div class="timeline" id="weekTimeline"></div>
+    <div class="section-head"><h2>Schnellzugriff</h2><span class="hint">Direkt starten</span></div>
+    <div class="quick-actions">
+      <button class="quick-action" data-open="german"><span>🇩🇪</span><b>Deutsch</b><small id="germanText">0 Lernkarten</small></button>
+      <button class="quick-action" data-open="math"><span>➕</span><b>Mathe</b><small id="mathText">0 richtig</small></button>
+      <button class="quick-action" data-open="chinese"><span>📚</span><b>Chinesisch</b><small id="chineseText">0 Einträge</small></button>
+      <button class="quick-action" data-open="sports"><span>🎾</span><b>Sport</b><small id="sportsText">0 Trainings</small></button>
+      <button class="quick-action" data-open="partners"><span>⚡</span><b>Pokémon</b><small id="partnerQuickText">1 Partner</small></button>
+      <button class="quick-action" data-open="parent"><span>👨‍👩‍👦</span><b>Eltern</b><small>Verwalten</small></button>
+    </div>
   </section>
 
-  <section class="section">
-    <div class="section-head"><h2>Fortschritt nach Bereich</h2><span class="hint">Öffnen</span></div>
-    <div class="module-list">
-      <button class="module" data-open="german"><div class="module-icon">🇩🇪</div><div class="grow"><b>Deutsch</b><small id="germanText">0 张Lernkarten</small></div><div class="module-progress"><div class="bar"><i id="germanBar"></i></div></div></button>
-      <button class="module" data-open="math"><div class="module-icon">➕</div><div class="grow"><b>Mathematik</b><small id="mathText">0 道答对</small></div><div class="module-progress"><div class="bar"><i id="mathBar"></i></div></div></button>
-      <button class="module" data-open="chinese"><div class="module-icon">📚</div><div class="grow"><b>Chinesisch</b><small id="chineseText">0 项记录</small></div><div class="module-progress"><div class="bar"><i id="chineseBar"></i></div></div></button>
-      <button class="module" data-open="sports"><div class="module-icon">🎾</div><div class="grow"><b>Sport</b><small id="sportsText">0 次训练</small></div><div class="module-progress"><div class="bar"><i id="sportsBar"></i></div></div></button>
+  <section class="section" style="margin-bottom:4px">
+    <div class="section-head"><h2>Diese Woche</h2><span class="hint">Kurzüberblick</span></div>
+    <div class="compact-summary">
+      <div class="summary-pill"><b id="todayXp">0</b><small>XP heute</small></div>
+      <div class="summary-pill"><b id="todayStars">0</b><small>Sterne heute</small></div>
+      <div class="summary-pill"><b id="weekDone">0</b><small>Aufgaben</small></div>
+      <div class="summary-pill"><b id="ownedPartners">1</b><small>Pokémon</small></div>
     </div>
   </section>
 </main>
@@ -251,7 +259,7 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 <main id="sports" class="screen">
 <div class="pagehead"><button class="back" data-home>‹</button><div><h2>Sport</h2><div class="hint">Tennis, Schwimmen und Fitness</div></div></div>
 <section class="panel"><div class="stats"><div class="stat"><b id="tennisSessions">0</b><small>Tennistraining</small></div><div class="stat"><b id="tennisMinutes">0</b><small>Trainingsminuten</small></div><div class="stat"><b id="swimCount">0</b><small>Schwimmeinträge</small></div></div></section>
-<section class="panel"><h2>Schneller Eintrag</h2><button class="action" id="addTennis">Tennistraining eintragen</button><button class="action secondary" data-quick="游泳">Schwimmen eintragen</button><button class="action secondary" data-quick="跳绳">Seilspringen eintragen</button><button class="action secondary" data-quick="俯卧撑">Liegestütze eintragen</button><button class="action secondary" data-quick="仰卧起坐">Sit-ups eintragen</button></section>
+<section class="panel"><h2>Schneller Eintrag</h2><button class="action" id="addTennis">Tennistraining eintragen</button><button class="action secondary" data-quick="Schwimmen">Schwimmen eintragen</button><button class="action secondary" data-quick="Seilspringen">Seilspringen eintragen</button><button class="action secondary" data-quick="Liegestütze">Liegestütze eintragen</button><button class="action secondary" data-quick="Sit-ups">Sit-ups eintragen</button></section>
 <section class="panel"><h2>Letzte Einträge</h2><div class="history" id="sportHistory"></div></section>
 </main>
 
@@ -261,24 +269,24 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 <section class="panel"><div class="partner-grid" id="partnerGrid"></div></section>
 </main>
 
-<main id="achievements" class="screen">
-<div class="pagehead"><button class="back" data-home>‹</button><div><h2>Fortschrittsbericht</h2><div class="hint">Gesamtentwicklung und langfristige Trends</div></div></div>
-<section class="panel"><h2>Gesamtfortschritt</h2><div id="report"></div></section>
-<section class="panel"><h2>Erfolge</h2><div class="achievement-grid" id="achievementGrid"></div></section>
-</main>
+
 
 <main id="parent" class="screen">
 <div class="pagehead"><div><h2>Elternbereich</h2><div class="hint">Aufgaben, Belohnungen und Datensicherung</div></div></div>
 <section class="panel"><h2>Neue Aufgabe</h2><input id="taskName" placeholder="Zum Beispiel: 50 Aufschläge üben"><select id="taskIcon" class="select" style="margin-top:10px"><option>🎾</option><option>🇩🇪</option><option>📚</option><option>🎹</option><option>🇬🇧</option><option>🏊</option><option>🧹</option><option>😊</option></select><input id="taskStars" type="number" value="10" min="1" max="100" style="margin-top:10px"><button class="action" id="saveTask">Aufgabe hinzufügen</button></section>
 <section class="panel"><h2>Tagesverwaltung</h2><button class="action" id="dailyBonus">Tägliche Belohnung abholen</button><button class="action secondary" id="resetToday">Heutige Aufgaben zurücksetzen</button></section>
+<section class="panel"><h2>Fortschrittsbericht</h2><div id="report"></div></section>
+<section class="panel"><h2>Erfolge</h2><div class="achievement-grid" id="achievementGrid"></div></section>
 <section class="panel"><h2>Datensicherung</h2><button class="action secondary" id="exportData">Sicherung exportieren</button><label class="action secondary" style="display:block;text-align:center">Sicherung importieren<input id="importData" type="file" accept=".json" hidden></label><button class="action danger" id="clearData">Alle Daten löschen</button></section>
 </main>
 
 <nav class="nav">
 <button class="active" data-nav="home"><span>⌂</span>Heute</button>
+<button data-nav="german"><span>🇩🇪</span>Deutsch</button>
+<button data-nav="math"><span>➕</span>Mathe</button>
+<button data-nav="chinese"><span>📚</span>Chinesisch</button>
 <button data-nav="sports"><span>🎾</span>Sport</button>
-<button data-nav="partners"><span>✨</span>Partner</button>
-<button data-nav="achievements"><span>▦</span>Bericht</button>
+<button data-nav="partners"><span>⚡</span>Pokémon</button>
 <button data-nav="parent"><span>👨‍👩‍👦</span>Eltern</button>
 </nav>
 </div>
@@ -288,10 +296,10 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 
 <script>
 const WORDS=[
-[1,"der","Hund","Hunde","狗","🐶","Der Hund spielt im Garten."],[1,"die","Katze","Katzen","猫","🐱","Die Katze schläft auf dem Sofa."],[1,"das","Buch","Bücher","书","📘","Das Buch ist spannend."],[1,"die","Schule","Schulen","学校","🏫","Die Schule beginnt um acht Uhr."],
-[2,"die","Familie","Familien","家庭","👨‍👩‍👦","Die Familie isst zusammen."],[2,"der","Lehrer","Lehrer","老师","👨‍🏫","Der Lehrer erklärt die Aufgabe."],[2,"die","Aufgabe","Aufgaben","任务","📝","Die Aufgabe ist leicht."],[2,"das","Fenster","Fenster","窗户","🪟","Das Fenster ist offen."],
-[3,"der","Unterricht","Unterricht","课程","🎓","Der Unterricht ist interessant."],[3,"die","Geschichte","Geschichten","故事","📖","Die Geschichte ist spannend."],[3,"das","Ergebnis","Ergebnisse","结果","✅","Das Ergebnis stimmt."],[3,"der","Wettkampf","Wettkämpfe","比赛","🏆","Der Wettkampf beginnt."],
-[4,"die","Verantwortung","Verantwortungen","责任","🧭","Die Verantwortung ist groß."],[4,"der","Fortschritt","Fortschritte","进步","📈","Der Fortschritt ist sichtbar."],[4,"das","Verhalten","Verhalten","行为","🙂","Das Verhalten ist freundlich."],[4,"die","Zukunft","Zukünfte","未来","🔭","Die Zukunft beginnt heute."]
+[1,"der","Hund","Hunde","Hund","🐶","Der Hund spielt im Garten."],[1,"die","Katze","Katzen","Katze","🐱","Die Katze schläft auf dem Sofa."],[1,"das","Buch","Bücher","Buch","📘","Das Buch ist spannend."],[1,"die","Schule","Schulen","Schule","🏫","Die Schule beginnt um acht Uhr."],
+[2,"die","Familie","Familien","Familie","👨‍👩‍👦","Die Familie isst zusammen."],[2,"der","Lehrer","Lehrer","Lehrer","👨‍🏫","Der Lehrer erklärt die Aufgabe."],[2,"die","Aufgabe","Aufgaben","Aufgabe","📝","Die Aufgabe ist leicht."],[2,"das","Fenster","Fenster","Fenster","🪟","Das Fenster ist offen."],
+[3,"der","Unterricht","Unterricht","Unterricht","🎓","Der Unterricht ist interessant."],[3,"die","Geschichte","Geschichten","Geschichte","📖","Die Geschichte ist spannend."],[3,"das","Ergebnis","Ergebnisse","Ergebnis","✅","Das Ergebnis stimmt."],[3,"der","Wettkampf","Wettkämpfe","Wettkampf","🏆","Der Wettkampf beginnt."],
+[4,"die","Verantwortung","Verantwortungen","Verantwortung","🧭","Die Verantwortung ist groß."],[4,"der","Fortschritt","Fortschritte","Fortschritt","📈","Der Fortschritt ist sichtbar."],[4,"das","Verhalten","Verhalten","Verhalten","🙂","Das Verhalten ist freundlich."],[4,"die","Zukunft","Zukünfte","Zukunft","🔭","Die Zukunft beginnt heute."]
 ].map(x=>({g:x[0],a:x[1],w:x[2],p:x[3],m:x[4],e:x[5],x:x[6]}));
 const HANZI=[["规","guī","见","规则、规定、规矩"],["墙","qiáng","土","墙壁、围墙、城墙"],["印","yìn","卩","印章、脚印、印象"],["迟","chí","辶","迟到、推迟、迟早"],["晶","jīng","日","水晶、晶亮、亮晶晶"]];
 const POEMS=[["山行","杜牧","远上寒山石径斜，\n白云生处有人家。\n停车坐爱枫林晚，\n霜叶红于二月花。"],["静夜思","李白","床前明月光，\n疑是地上霜。\n举头望明月，\n低头思故乡。"]];
@@ -304,7 +312,7 @@ const DEFAULTS={stars:0,xp:0,streak:1,lastBonus:"",daily:{xp:0,stars:0},week:[0,
 {id:6,icon:"🇬🇧",name:"Englisch lesen",desc:"15 Minuten lesen",stars:10,done:false},
 {id:7,icon:"😊",name:"Alltagsziel",desc:"Helfen, höflich sein und ruhig bleiben",stars:10,done:false}],
 german:{grade:1,index:0,seen:0,wrong:[]},math:{correct:0,streak:0,floor:1},chinese:{index:0,poem:0,reading:[],writing:[]},
-sports:{tennis:{sessions:0,minutes:0},counts:{游泳:0,跳绳:0,俯卧撑:0,仰卧起坐:0},history:[]},
+sports:{tennis:{sessions:0,minutes:0},counts:{Schwimmen:0,Seilspringen:0,"Liegestütze":0,"Sit-ups":0},history:[]},
 partners:[{name:"Pikachu",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",desc:"Elektro-Pokémon · erhält XP durch tägliche Aufgaben",owned:true,level:1,xp:0},{name:"Bisasam",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",desc:"Pflanzen-Pokémon · wird durch Lernaufgaben freigeschaltet",owned:false,level:1,xp:0},{name:"Gengar",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png",desc:"Geist-Pokémon · wird durch Klavier oder Englisch freigeschaltet",owned:false,level:1,xp:0},{name:"Schiggy",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png",desc:"Wasser-Pokémon · wird durch Schwimmen freigeschaltet",owned:false,level:1,xp:0},{name:"Glumanda",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png",desc:"Feuer-Pokémon · wird durch Tennistraining freigeschaltet",owned:false,level:1,xp:0}],selectedPartner:0};
 let S=JSON.parse(localStorage.getItem("growthPlanetMinimal")||localStorage.getItem("growthPlanetV3")||localStorage.getItem("growthPlanetFinal")||"null")||structuredClone(DEFAULTS);
 function patch(){
@@ -330,36 +338,34 @@ let done=S.quests.filter(x=>x.done).length,total=S.quests.length,pct=Math.round(
 $("#stars").textContent=S.stars;$("#level").textContent=lv;$("#rank").textContent=pct===100?"Heute alles geschafft":pct>=60?"Heute sehr gut vorangekommen":"Jeden Tag ein Stück weiter";$("#miniPartner").src=p.img;$("#miniPartner").alt=p.name;$("#doneToday").textContent=done;$("#remainingToday").textContent=total-done;$("#streak").textContent=S.streak;$("#todayPercent").textContent=pct+"%";$("#todayBar").style.width=pct+"%";$("#todayXp").textContent=S.daily.xp;$("#todayStars").textContent=S.daily.stars;$("#weekDone").textContent=S.week.reduce((a,b)=>a+b,0);$("#ownedPartners").textContent=S.partners.filter(x=>x.owned).length;$("#questProgress").textContent=done+" / "+total;
 $("#questList").innerHTML=S.quests.map(q=>`<div class="task"><div class="task-icon">${q.icon}</div><div class="grow"><b>${q.name}</b><small>${q.desc} · +${q.stars}⭐</small></div><button class="task-btn ${q.done?'done':''}" data-q="${q.id}">${q.done?'Erledigt':'Erledigen'}</button></div>`).join("");
 $$("[data-q]").forEach(b=>b.onclick=()=>{let q=S.quests.find(x=>x.id==b.dataset.q);if(q.done)return toast("Heute bereits erledigt");q.done=true;addReward(q.stars,q.stars*2);
-let ap=S.partners[S.selectedPartner]||S.partners[0];ap.xp+=3;if(ap.xp>=20){ap.xp-=20;ap.level++;toast(ap.name+" 升级到 Lv."+ap.level)}
-if(["Deutsch lernen","Mathematik","Chinesisch","英语Lesen"].includes(q.name)&&S.quests.filter(x=>x.done&&["Deutsch lernen","Mathematik","Chinesisch","英语Lesen"].includes(x.name)).length>=3)S.partners[1].owned=true;
-if(q.name==="英语Lesen"||q.name==="弹钢琴")S.partners[2].owned=true;
+let ap=S.partners[S.selectedPartner]||S.partners[0];ap.xp+=3;if(ap.xp>=20){ap.xp-=20;ap.level++;toast(ap.name+"  ist auf Level "+ap.level)}
+if(["Deutsch lernen","Mathematik","Chinesisch","EnglischLesen"].includes(q.name)&&S.quests.filter(x=>x.done&&["Deutsch lernen","Mathematik","Chinesisch","EnglischLesen"].includes(x.name)).length>=3)S.partners[1].owned=true;
+if(q.name==="EnglischLesen"||q.name==="Klavier üben")S.partners[2].owned=true;
 S.week[6]=S.quests.filter(x=>x.done).length;save();render();toast("Als erledigt gespeichert")});
-const days=["Mo","Di","Mi","Do","Fr","Sa","So"];$("#weekTimeline").innerHTML=days.map((d,i)=>`<div class="day ${i===6?'active':''} ${S.week[i]>0?'done':''}"><div class="d">周${d}</div><div class="circle">${S.week[i]}</div></div>`).join("");
-$("#germanText").textContent=S.german.seen+" 张Lernkarten";$("#mathText").textContent=S.math.correct+" 道答对";$("#chineseText").textContent=(S.chinese.index+S.chinese.reading.length+S.chinese.writing.length)+" 项记录";$("#sportsText").textContent=S.sports.tennis.sessions+" 次训练";
-$("#germanBar").style.width=Math.min(100,S.german.seen*2)+"%";$("#mathBar").style.width=Math.min(100,S.math.correct*2)+"%";$("#chineseBar").style.width=Math.min(100,(S.chinese.index+S.chinese.reading.length*3)*5)+"%";$("#sportsBar").style.width=Math.min(100,(S.sports.tennis.sessions+S.sports.counts.游泳)*8)+"%";
+$("#germanText").textContent=S.german.seen+"  KartenLernkarten";$("#mathText").textContent=S.math.correct+"  richtig";$("#chineseText").textContent=(S.chinese.index+S.chinese.reading.length+S.chinese.writing.length)+"  Einträge";$("#sportsText").textContent=S.sports.tennis.sessions+"  Trainings";
 let hp=S.partners[S.selectedPartner]||S.partners[0];
 $("#homePartnerFace").src=hp.img;$("#homePartnerFace").alt=hp.name;$("#homePartnerName").textContent=hp.name;$("#homePartnerLevel").textContent="Lv."+hp.level;
 $("#homePartnerXp").style.width=(hp.xp%20)/20*100+"%";
-$("#homePartnerMood").textContent=pct===100?"Heute ist alles geschafft – dein Partner freut sich!":pct>=50?"Guter Fortschritt heute – weiter so.":"Lass uns heute gemeinsam die Aufgaben schaffen.";
+$("#homePartnerMood").textContent=pct===100?"Heute ist alles geschafft – dein Partner freut sich!":pct>=50?"Guter Fortschritt heute – weiter so.":"Lass uns heute gemeinsam die Aufgaben schaffen.";$("#partnerQuickText").textContent=S.partners.filter(x=>x.owned).length+" Partner";
 }
-let gm="cards";function german(){let A=$("#germanContent"),L=WORDS.filter(x=>x.g==S.german.grade),w=L[S.german.index%L.length];if(gm==="cards"){A.innerHTML=`<div class="flash"><button class="speak" id="speak">🔊</button><div class="flash-emoji">${w.e}</div><div class="flash-word">${w.w}</div><div class="flash-article">${w.a} ${w.w}</div><div>${w.m}</div><div class="flash-meta">复数：die ${w.p}</div><div class="flash-meta">${w.x}</div></div><div style="display:flex;gap:10px"><button class="action secondary" id="prevW">Zurück</button><button class="action" id="nextW">Weiter</button></div>`;$("#speak").onclick=()=>{let u=new SpeechSynthesisUtterance(`${w.a} ${w.w}. ${w.x}`);u.lang="de-DE";speechSynthesis.speak(u)};$("#prevW").onclick=()=>{S.german.index=(S.german.index-1+L.length)%L.length;save();german()};$("#nextW").onclick=()=>{S.german.index=(S.german.index+1)%L.length;S.german.seen++;addReward(0,2);save();render();german()}}
-else if(gm==="quiz"){A.innerHTML=`<div class="flash"><div class="flash-emoji">${w.e}</div><div class="flash-word">___ ${w.w}</div><div>${w.m}</div></div><div class="options">${["der","die","das"].map(o=>`<button class="option" data-art="${o}">${o} ${w.w}</button>`).join("")}</div>`;$$("[data-art]").forEach(b=>b.onclick=()=>{if(b.dataset.art===w.a){b.classList.add("correct");addReward(2,4);toast("正确")}else{b.classList.add("wrong");if(!S.german.wrong.includes(w.w))S.german.wrong.push(w.w);toast("Richtige Antwort: "+w.a)}S.german.index=(S.german.index+1)%L.length;save();setTimeout(()=>{render();german()},500)})}
-else if(gm==="spell"){A.innerHTML=`<div class="flash"><button class="speak" id="speak2">🔊</button><div class="flash-emoji">${w.e}</div><div>${w.m}</div></div><input id="spell" class="select" placeholder="Deutsches Wort eingeben"><button class="action" id="checkSpell">Prüfen</button>`;$("#speak2").onclick=()=>{let u=new SpeechSynthesisUtterance(w.w);u.lang="de-DE";speechSynthesis.speak(u)};$("#checkSpell").onclick=()=>{if($("#spell").value.trim().toLowerCase()===w.w.toLowerCase()){addReward(3,5);toast("Schreiben正确")}else{if(!S.german.wrong.includes(w.w))S.german.wrong.push(w.w);toast("Richtige Schreibweise: "+w.w)}S.german.index=(S.german.index+1)%L.length;save();render();german()}}
+let gm="cards";function german(){let A=$("#germanContent"),L=WORDS.filter(x=>x.g==S.german.grade),w=L[S.german.index%L.length];if(gm==="cards"){A.innerHTML=`<div class="flash"><button class="speak" id="speak">🔊</button><div class="flash-emoji">${w.e}</div><div class="flash-word">${w.w}</div><div class="flash-article">${w.a} ${w.w}</div><div>${w.m}</div><div class="flash-meta">Plural: die ${w.p}</div><div class="flash-meta">${w.x}</div></div><div style="display:flex;gap:10px"><button class="action secondary" id="prevW">Zurück</button><button class="action" id="nextW">Weiter</button></div>`;$("#speak").onclick=()=>{let u=new SpeechSynthesisUtterance(`${w.a} ${w.w}. ${w.x}`);u.lang="de-DE";speechSynthesis.speak(u)};$("#prevW").onclick=()=>{S.german.index=(S.german.index-1+L.length)%L.length;save();german()};$("#nextW").onclick=()=>{S.german.index=(S.german.index+1)%L.length;S.german.seen++;addReward(0,2);save();render();german()}}
+else if(gm==="quiz"){A.innerHTML=`<div class="flash"><div class="flash-emoji">${w.e}</div><div class="flash-word">___ ${w.w}</div><div>${w.m}</div></div><div class="options">${["der","die","das"].map(o=>`<button class="option" data-art="${o}">${o} ${w.w}</button>`).join("")}</div>`;$$("[data-art]").forEach(b=>b.onclick=()=>{if(b.dataset.art===w.a){b.classList.add("correct");addReward(2,4);toast("Richtig")}else{b.classList.add("wrong");if(!S.german.wrong.includes(w.w))S.german.wrong.push(w.w);toast("Richtige Antwort: "+w.a)}S.german.index=(S.german.index+1)%L.length;save();setTimeout(()=>{render();german()},500)})}
+else if(gm==="spell"){A.innerHTML=`<div class="flash"><button class="speak" id="speak2">🔊</button><div class="flash-emoji">${w.e}</div><div>${w.m}</div></div><input id="spell" class="select" placeholder="Deutsches Wort eingeben"><button class="action" id="checkSpell">Prüfen</button>`;$("#speak2").onclick=()=>{let u=new SpeechSynthesisUtterance(w.w);u.lang="de-DE";speechSynthesis.speak(u)};$("#checkSpell").onclick=()=>{if($("#spell").value.trim().toLowerCase()===w.w.toLowerCase()){addReward(3,5);toast("SchreibenRichtig")}else{if(!S.german.wrong.includes(w.w))S.german.wrong.push(w.w);toast("Richtige Schreibweise: "+w.w)}S.german.index=(S.german.index+1)%L.length;save();render();german()}}
 else{let list=WORDS.filter(x=>S.german.wrong.includes(x.w));A.innerHTML=list.length?list.map(x=>`<div class="history-item"><b>${x.a} ${x.w}</b><span>${x.m}</span></div>`).join(""):`<p class="hint">Keine Fehler gespeichert</p>`}}
 $("#grade").onchange=e=>{S.german.grade=+e.target.value;S.german.index=0;save();german()};$$("[data-gmode]").forEach(b=>b.onclick=()=>{gm=b.dataset.gmode;$$("[data-gmode]").forEach(x=>x.classList.toggle("active",x===b));german()});
-let MQ={};function createMath(){let m=$("#mathMode")?.value||"basic",a,b,c;if(m==="basic"){a=10+Math.floor(Math.random()*90);b=10+Math.floor(Math.random()*Math.min(70,a));MQ=Math.random()<.5?{q:`${a} + ${b} = ?`,a:a+b}:{q:`${a} − ${b} = ?`,a:a-b}}else if(m==="multi"){a=2+Math.floor(Math.random()*8);b=2+Math.floor(Math.random()*9);MQ={q:`${a} × ${b} = ?`,a:a*b}}else if(m==="mixed"){a=10+Math.floor(Math.random()*40);b=2+Math.floor(Math.random()*8);c=2+Math.floor(Math.random()*8);MQ={q:`${a} + ${b} × ${c} = ?`,a:a+b*c}}else{a=3+Math.floor(Math.random()*7);b=2+Math.floor(Math.random()*8);MQ={q:`每天练 ${a} 次发球，练 ${b} 天，共多少次？`,a:a*b}}$("#mathQuestion").textContent=MQ.q;$("#mathAnswer").value=""}
-$("#checkMath").onclick=()=>{if(+$("#mathAnswer").value===MQ.a){S.math.correct++;S.math.streak++;S.math.floor=Math.floor(S.math.correct/10)+1;addReward(2,4);toast("答对")}else{S.math.streak=0;toast("Richtige Antwort: "+MQ.a)}save();createMath();render()};$("#newMath").onclick=createMath;$("#mathMode").onchange=createMath;
+let MQ={};function createMath(){let m=$("#mathMode")?.value||"basic",a,b,c;if(m==="basic"){a=10+Math.floor(Math.random()*90);b=10+Math.floor(Math.random()*Math.min(70,a));MQ=Math.random()<.5?{q:`${a} + ${b} = ?`,a:a+b}:{q:`${a} − ${b} = ?`,a:a-b}}else if(m==="multi"){a=2+Math.floor(Math.random()*8);b=2+Math.floor(Math.random()*9);MQ={q:`${a} × ${b} = ?`,a:a*b}}else if(m==="mixed"){a=10+Math.floor(Math.random()*40);b=2+Math.floor(Math.random()*8);c=2+Math.floor(Math.random()*8);MQ={q:`${a} + ${b} × ${c} = ?`,a:a+b*c}}else{a=3+Math.floor(Math.random()*7);b=2+Math.floor(Math.random()*8);MQ={q:`Tino übt täglich ${a}  EinheitenAufschläge，für ${b} Tage，Wie viele insgesamt Einheiten？`,a:a*b}}$("#mathQuestion").textContent=MQ.q;$("#mathAnswer").value=""}
+$("#checkMath").onclick=()=>{if(+$("#mathAnswer").value===MQ.a){S.math.correct++;S.math.streak++;S.math.floor=Math.floor(S.math.correct/10)+1;addReward(2,4);toast("Richtig")}else{S.math.streak=0;toast("Richtige Antwort: "+MQ.a)}save();createMath();render()};$("#newMath").onclick=createMath;$("#mathMode").onchange=createMath;
 let cm="hanzi";function chinese(){let A=$("#chineseContent");if(cm==="hanzi"){let x=HANZI[S.chinese.index%HANZI.length];A.innerHTML=`<div style="text-align:center"><div class="hanzi">${x[0]}</div><div class="pinyin">${x[1]}</div><p><b>Radikal: </b>${x[2]}</p><p><b>Wörter: </b>${x[3]}</p></div><button class="action" id="nextH">Gelernt</button>`;$("#nextH").onclick=()=>{S.chinese.index=(S.chinese.index+1)%HANZI.length;addReward(1,3);save();render();chinese()}}else if(cm==="poem"){let p=POEMS[S.chinese.poem%POEMS.length];A.innerHTML=`<div style="text-align:center"><h2>${p[0]}</h2><div class="hint">${p[1]}</div><div class="poem">${p[2].replaceAll("\n","<br>")}</div></div><button class="action" id="nextP">Nächstes Gedicht</button>`;$("#nextP").onclick=()=>{S.chinese.poem=(S.chinese.poem+1)%POEMS.length;save();chinese()}}else if(cm==="reading"){A.innerHTML=`<input id="book" placeholder="Buchtitel"><input id="mins" type="number" value="20" style="margin-top:10px"><button class="action" id="saveRead">Leseeintrag speichern</button><div class="history" style="margin-top:12px">${S.chinese.reading.map(x=>`<div class="history-item"><b>${x.book}</b><span>${x.mins} Minuten</span></div>`).join("")}</div>`;$("#saveRead").onclick=()=>{let b=$("#book").value.trim();if(!b)return toast("Bitte einen Buchtitel eingeben");S.chinese.reading.unshift({book:b,mins:+$("#mins").value||20});addReward(5,10);save();render();chinese()}}else{A.innerHTML=`<textarea id="writing" rows="7" placeholder="Schreibe über den schönsten Moment des Tages"></textarea><button class="action" id="saveWriting">Text speichern</button>`;$("#saveWriting").onclick=()=>{let t=$("#writing").value.trim();if(t.length<10)return toast("Bitte mindestens 10 Zeichen schreiben");S.chinese.writing.unshift({text:t});addReward(8,15);save();render();chinese()}}}
 $$("[data-cmode]").forEach(b=>b.onclick=()=>{cm=b.dataset.cmode;$$("[data-cmode]").forEach(x=>x.classList.toggle("active",x===b));chinese()});
 const openModal=h=>{$("#modalBody").innerHTML=h;$("#modal").classList.add("show")};$("#closeModal").onclick=()=>$("#modal").classList.remove("show");$("#modal").onclick=e=>{if(e.target===$("#modal"))$("#modal").classList.remove("show")};
-function sports(){let t=S.sports.tennis;$("#tennisSessions").textContent=t.sessions;$("#tennisMinutes").textContent=t.minutes;$("#swimCount").textContent=S.sports.counts.游泳;$("#sportHistory").innerHTML=S.sports.history.slice(0,10).map(x=>`<div class="history-item"><b>${x.title}</b><span>${x.detail}</span></div>`).join("")||'<p class="hint">Noch keine Einträge</p>'}
-$("#addTennis").onclick=()=>{openModal(`<h3>Tennistraining eintragen</h3><input id="tm" type="number" value="30"><button class="action" id="saveTennis">保存</button>`);$("#saveTennis").onclick=()=>{let m=+$("#tm").value||0;S.sports.tennis.sessions++;S.sports.tennis.minutes+=m;S.sports.history.unshift({title:"Tennistraining",detail:m+" Minuten"});addReward(10,20);if(S.sports.tennis.sessions>=5)S.partners[4].owned=true;save();render();$("#modal").classList.remove("show")}}
-$$("[data-quick]").forEach(b=>b.onclick=()=>{let n=b.dataset.quick;openModal(`<h3>${({游泳:"Schwimmen",跳绳:"Seilspringen",俯卧撑:"Liegestütze",仰卧起坐:"Sit-ups"})[n]||n}</h3><input id="qty" type="number" value="1"><button class="action" id="saveQ">保存</button>`);$("#saveQ").onclick=()=>{let q=+$("#qty").value||1;S.sports.counts[n]=(S.sports.counts[n]||0)+q;S.sports.history.unshift({title:({游泳:"Schwimmen",跳绳:"Seilspringen",俯卧撑:"Liegestütze",仰卧起坐:"Sit-ups"})[n]||n,detail:q+(["俯卧撑","仰卧起坐"].includes(n)?" 个":" 次")});addReward(5,8);if(n==="游泳")S.partners[3].owned=true;save();render();$("#modal").classList.remove("show")}})
+function sports(){let t=S.sports.tennis;$("#tennisSessions").textContent=t.sessions;$("#tennisMinutes").textContent=t.minutes;$("#swimCount").textContent=S.sports.counts.Schwimmen;$("#sportHistory").innerHTML=S.sports.history.slice(0,10).map(x=>`<div class="history-item"><b>${x.title}</b><span>${x.detail}</span></div>`).join("")||'<p class="hint">Noch keine Einträge</p>'}
+$("#addTennis").onclick=()=>{openModal(`<h3>Tennistraining eintragen</h3><input id="tm" type="number" value="30"><button class="action" id="saveTennis">Speichern</button>`);$("#saveTennis").onclick=()=>{let m=+$("#tm").value||0;S.sports.tennis.sessions++;S.sports.tennis.minutes+=m;S.sports.history.unshift({title:"Tennistraining",detail:m+" Minuten"});addReward(10,20);if(S.sports.tennis.sessions>=5)S.partners[4].owned=true;save();render();$("#modal").classList.remove("show")}}
+$$("[data-quick]").forEach(b=>b.onclick=()=>{let n=b.dataset.quick;openModal(`<h3>${({Schwimmen:"Schwimmen",Seilspringen:"Seilspringen",Liegestütze:"Liegestütze",Sit-ups:"Sit-ups"})[n]||n}</h3><input id="qty" type="number" value="1"><button class="action" id="saveQ">Speichern</button>`);$("#saveQ").onclick=()=>{let q=+$("#qty").value||1;S.sports.counts[n]=(S.sports.counts[n]||0)+q;S.sports.history.unshift({title:n,detail:q+(["Liegestütze","Sit-ups"].includes(n)?" Wiederholungen":" Einheiten")});addReward(5,8);if(n==="Schwimmen")S.partners[3].owned=true;save();render();$("#modal").classList.remove("show")}})
 function partners(){let p=S.partners[S.selectedPartner];$("#partnerFace").src=p.img;$("#partnerFace").alt=p.name;$("#partnerName").textContent=p.name+" · Lv."+p.level;$("#partnerDesc").textContent=p.desc;$("#partnerXp").style.width=(p.xp%20)/20*100+"%";$("#partnerGrid").innerHTML=S.partners.map((x,i)=>`<button class="partner ${i===S.selectedPartner?'selected':''} ${x.owned?'':'locked'}" data-p="${i}"><div class="face"><img src="${x.img}" alt="${x.name}"></div><b>${x.name}</b></button>`).join("");$$("[data-p]").forEach(b=>b.onclick=()=>{let i=+b.dataset.p;if(!S.partners[i].owned)return toast("Noch nicht freigeschaltet");S.selectedPartner=i;save();render()})}
-$("#feedPartner").onclick=()=>{let p=S.partners[S.selectedPartner];if(S.stars<5)return toast("Nicht genug Sterne");S.stars-=5;p.xp+=5;if(p.xp>=20){p.xp-=20;p.level++;toast(p.name+" ist auf Level "+p.level+" gestiegen")}else toast("Partner获得 5 点经验");save();render()}
-$("#trainPartner").onclick=()=>{let p=S.partners[S.selectedPartner];if(S.stars<10)return toast("Nicht genug Sterne");S.stars-=10;p.xp+=10;if(p.xp>=20){p.xp-=20;p.level++;toast(p.name+" Erledigen训练并升级")}else toast("Partner训练Erledigen");save();render()}
-function report(){let t=S.sports.tennis,R=[["Deutsch",Math.min(100,S.german.seen*2)],["Mathematik",Math.min(100,S.math.correct*2)],["Chinesisch",Math.min(100,(S.chinese.index+S.chinese.reading.length*3)*5)],["Sport",Math.min(100,(t.sessions+S.sports.counts.游泳)*8)]];$("#report").innerHTML=R.map(x=>`<div class="report-item"><div style="display:flex;justify-content:space-between"><b>${x[0]}</b><span>${Math.round(x[1])}%</span></div><div class="bar"><i style="width:${x[1]}%"></i></div></div>`).join("");let A=[["🌱","首次Erledigen",S.xp>0],["🔥","连续 7 天",S.streak>=7],["🇩🇪","50 张Lernkarten",S.german.seen>=50],["➕","50 道Mathematik题",S.math.correct>=50],["🎾","10 次Tennistraining",t.sessions>=10],["🏊","5 次游泳",S.sports.counts.游泳>=5]];$("#achievementGrid").innerHTML=A.map(x=>`<div class="achievement ${x[2]?'':'locked'}"><div class="ico">${x[0]}</div><b>${x[1]}</b><div class="hint">${x[2]?'Erledigt':'未Erledigen'}</div></div>`).join("")}
-$("#saveTask").onclick=()=>{let n=$("#taskName").value.trim();if(!n)return toast("Bitte einen Aufgabennamen eingeben");S.quests.push({id:Date.now(),icon:$("#taskIcon").value,name:n,desc:"Eltern自定义任务",stars:+$("#taskStars").value||10,done:false});save();render()};$("#dailyBonus").onclick=()=>{let today=new Date().toISOString().slice(0,10);if(S.lastBonus===today)return toast("Heute bereits abgeholt");S.lastBonus=today;S.streak++;addReward(5,10);save();render()};$("#resetToday").onclick=()=>{S.quests.forEach(x=>x.done=false);S.daily={xp:0,stars:0};S.week=[...S.week.slice(1),0];save();render()};$("#exportData").onclick=()=>{let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));a.download="Wachstumsplanet备份.json";a.click()};$("#importData").onchange=e=>{let r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);patch();save();render()}catch{toast("Ungültige Datei")}};r.readAsText(e.target.files[0])};$("#clearData").onclick=()=>{if(confirm("Wirklich alle Daten löschen?")){S=structuredClone(DEFAULTS);save();render()}}
+$("#feedPartner").onclick=()=>{let p=S.partners[S.selectedPartner];if(S.stars<5)return toast("Nicht genug Sterne");S.stars-=5;p.xp+=5;if(p.xp>=20){p.xp-=20;p.level++;toast(p.name+" ist auf Level "+p.level+" gestiegen")}else toast("PartnerErhalten 5  XP");save();render()}
+$("#trainPartner").onclick=()=>{let p=S.partners[S.selectedPartner];if(S.stars<10)return toast("Nicht genug Sterne");S.stars-=10;p.xp+=10;if(p.xp>=20){p.xp-=20;p.level++;toast(p.name+" Erledigen hat trainiert und ist aufgestiegen")}else toast("Partner训练Erledigen");save();render()}
+function report(){let t=S.sports.tennis,R=[["Deutsch",Math.min(100,S.german.seen*2)],["Mathematik",Math.min(100,S.math.correct*2)],["Chinesisch",Math.min(100,(S.chinese.index+S.chinese.reading.length*3)*5)],["Sport",Math.min(100,(t.sessions+S.sports.counts.Schwimmen)*8)]];$("#report").innerHTML=R.map(x=>`<div class="report-item"><div style="display:flex;justify-content:space-between"><b>${x[0]}</b><span>${Math.round(x[1])}%</span></div><div class="bar"><i style="width:${x[1]}%"></i></div></div>`).join("");let A=[["🌱"," Gedichte EinheitenErledigen",S.xp>0],["🔥","Serie 7 Tage",S.streak>=7],["🇩🇪","50  KartenLernkarten",S.german.seen>=50],["➕","50  AufgabenMathematik Aufgaben",S.math.correct>=50],["🎾","10  EinheitenTennistraining",t.sessions>=10],["🏊","5  EinheitenSchwimmen",S.sports.counts.Schwimmen>=5]];$("#achievementGrid").innerHTML=A.map(x=>`<div class="achievement ${x[2]?'':'locked'}"><div class="ico">${x[0]}</div><b>${x[1]}</b><div class="hint">${x[2]?'Erledigt':'未Erledigen'}</div></div>`).join("")}
+$("#saveTask").onclick=()=>{let n=$("#taskName").value.trim();if(!n)return toast("Bitte einen Aufgabennamen eingeben");S.quests.push({id:Date.now(),icon:$("#taskIcon").value,name:n,desc:"ElternBenutzerdefinierte Aufgabe",stars:+$("#taskStars").value||10,done:false});save();render()};$("#dailyBonus").onclick=()=>{let today=new Date().toISOString().slice(0,10);if(S.lastBonus===today)return toast("Heute bereits abgeholt");S.lastBonus=today;S.streak++;addReward(5,10);save();render()};$("#resetToday").onclick=()=>{S.quests.forEach(x=>x.done=false);S.daily={xp:0,stars:0};S.week=[...S.week.slice(1),0];save();render()};$("#exportData").onclick=()=>{let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));a.download="WachstumsplanetSicherung.json";a.click()};$("#importData").onchange=e=>{let r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);patch();save();render()}catch{toast("Ungültige Datei")}};r.readAsText(e.target.files[0])};$("#clearData").onclick=()=>{if(confirm("Wirklich alle Daten löschen?")){S=structuredClone(DEFAULTS);save();render()}}
 function render(){renderHome();$("#grade").value=S.german.grade;german();$("#mCorrect").textContent=S.math.correct;$("#mStreak").textContent=S.math.streak;$("#mFloor").textContent=S.math.floor;chinese();sports();partners();report()}
 createMath();render();
 if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=minimal").then(r=>r.update())}

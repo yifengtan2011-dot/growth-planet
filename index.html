@@ -29,7 +29,7 @@ html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,
 body{background:#f4f5f7}
 button,input,select,textarea{font:inherit}
 button{border:0;cursor:pointer}
-.app{max-width:780px;margin:auto;min-height:100vh;background:#f4f5f7;padding-bottom:104px}
+.app{max-width:1440px;margin:auto;min-height:100vh;background:#f4f5f7;padding-bottom:104px}
 .screen{display:none}.screen.active{display:block}
 
 .header{padding:22px 20px 10px;display:flex;align-items:center;gap:12px}
@@ -172,13 +172,44 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 .summary-pill{min-width:115px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px}
 .summary-pill b{display:block;font-size:20px}
 .summary-pill small{color:var(--muted)}
+
+@media (min-width:760px){
+ body{background:#e9ecf2}
+ .app{padding:18px 24px 118px}
+ .header{padding:18px 6px 10px}.hero{margin:10px 0 18px}.section{padding:0;margin-top:22px}
+ .panel{margin:14px 0}.pagehead{padding:20px 0 8px}.grid-2{grid-template-columns:repeat(4,1fr)}
+ #home{display:none}#home.active{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:18px;align-items:start}
+ #home .header{grid-column:1/-1}#home .hero{grid-column:1;grid-row:2/4}
+ #home .section:nth-of-type(2){grid-column:2;grid-row:2}
+ #home .section:nth-of-type(3){grid-column:2;grid-row:3/5}
+ #home .section:nth-of-type(4){grid-column:1;grid-row:4}
+ #home .section:nth-of-type(5){grid-column:1/-1;grid-row:5}
+ .today-list{max-height:540px;overflow:auto}
+ .screen:not(#home).active{display:block}
+ .partner-grid{grid-template-columns:repeat(5,1fr)}
+ .achievement-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media (min-width:1024px) and (orientation:landscape){
+ .app{padding:24px 32px 32px 150px}
+ .nav{position:fixed;left:0;top:0;bottom:0;transform:none;width:132px;height:100vh;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;padding:24px 10px;border-top:0;border-right:1px solid var(--line)}
+ .nav button{min-width:0;flex:0 0 auto;width:100%;padding:13px 6px;margin-bottom:5px;border-radius:15px}.nav button.active{background:var(--soft)}
+ #home.active{grid-template-columns:minmax(0,1.1fr) minmax(360px,.9fr);gap:22px}
+ #german.active,#math.active,#chinese.active,#sports.active,#partners.active,#parent.active{display:grid;grid-template-columns:minmax(280px,.36fr) minmax(0,.64fr);gap:20px;align-items:start}
+ #german .pagehead,#math .pagehead,#chinese .pagehead,#sports .pagehead,#partners .pagehead,#parent .pagehead{grid-column:1/-1}
+ #german .panel:first-of-type,#chinese .panel:first-of-type,#math .panel:first-of-type,#sports .panel:first-of-type,#partners .panel:first-of-type{grid-column:1;position:sticky;top:20px}
+ #german #germanContent,#chinese #chineseContent,#math .panel:nth-of-type(2),#sports .panel:nth-of-type(n+2),#partners .panel:nth-of-type(2){grid-column:2}
+ #parent .panel:nth-of-type(odd){grid-column:1}#parent .panel:nth-of-type(even){grid-column:2}
+ .flash,.partner-card{min-height:420px}
+}
+@media (display-mode:standalone){body{overscroll-behavior-y:none}}
+
 </style>
 </head>
 <body>
 <div class="app">
 <main id="home" class="screen active">
   <div class="header">
-    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · KIDS</div></div>
+    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · RESPONSIVE</div></div>
     <div class="grow"></div>
     <div class="balance">⭐ <span id="stars">0</span></div>
   </div>
@@ -557,7 +588,7 @@ function render(){
 }
 createMath();
 render();
-if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=de-fixed").then(r=>r.update()).catch(()=>{})}
+if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=responsive").then(r=>r.update()).catch(()=>{})}
 </script>
 </body>
 </html>

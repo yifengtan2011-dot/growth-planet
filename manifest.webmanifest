@@ -1,10 +1,9 @@
 {
-  "name": "Wachstumsplanet – Tagesfortschritt",
+  "name": "Wachstumsplanet – Responsive",
   "short_name": "Wachstumsplanet",
-  "start_url": "./?v=de-fixed",
+  "start_url": "./?v=responsive",
   "display": "standalone",
   "background_color": "#f4f5f7",
   "theme_color": "#17213d",
-  "description": "Deutschsprachige Kinder-App für tägliche Aufgaben, Lernen, Sport und Pokémon-Partner.",
-  "icons": []
+  "description": "Responsive Kinder-App für iPhone und iPad."
 }

@@ -1,7 +1,5 @@
-# Wachstumsplanet – korrigierte deutsche Version
-
-- Navigationsfehler behoben
-- alle Module über die untere Navigation erreichbar
-- Startseite enthält nur Tagesfortschritt, KPI und Entwicklung
-- keine doppelten Modul-Kacheln mehr
-- Pokémon-Levelsystem und vorhandene Daten bleiben erhalten
+# Wachstumsplanet Responsive
+- iPhone Hoch- und Querformat
+- iPad Hoch- und Querformat
+- iPad Querformat mit Navigation links
+- bestehende Daten bleiben erhalten

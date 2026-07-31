@@ -275,16 +275,37 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 .review-meta{font-size:12px;color:var(--muted)}
 @media(min-width:760px){.time-actions{grid-template-columns:repeat(4,1fr)}}
 
+
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:12px}
+.calendar-head{text-align:center;font-size:11px;color:var(--muted);font-weight:800}
+.calendar-day{min-height:62px;border-radius:14px;background:var(--soft);padding:8px;text-align:center;border:1px solid transparent}
+.calendar-day.today{border-color:var(--gold);background:#fff9eb}
+.calendar-day.has-data{background:#eef4f1}
+.calendar-day b{display:block;font-size:14px}
+.calendar-day small{display:block;font-size:10px;color:var(--muted);margin-top:5px}
+.history-day{padding:14px;border-radius:18px;background:var(--soft);margin-top:10px}
+.history-day-header{display:flex;justify-content:space-between;align-items:center}
+.history-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.history-detail{padding:10px;border-radius:12px;background:#fff}
+.history-detail b{display:block;font-size:17px}
+.history-detail small{color:var(--muted)}
+.daily-banner{display:none;margin:0 18px 12px;padding:12px 15px;border-radius:16px;background:#fff9e8;border:1px solid #ead7a4;color:#72571f;font-weight:700}
+.daily-banner.show{display:block}
+.week-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:760px){.week-kpis{grid-template-columns:repeat(4,1fr)}.calendar-day{min-height:76px}}
+
 </style>
 </head>
 <body>
 <div class="app">
 <main id="home" class="screen active">
   <div class="header">
-    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V7</div></div>
+    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V8</div></div>
     <div class="grow"></div>
     <div class="balance">⭐ <span id="stars">0</span></div>
   </div>
+
+  <div class="daily-banner" id="dailyBanner"></div>
 
   <section class="hero">
     <div class="hero-top">
@@ -374,6 +395,22 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 
 
 
+
+<main id="history" class="screen">
+<div class="pagehead"><button class="back" data-home>‹</button><div><h2>Verlauf & Kalender</h2><div class="hint">Tägliche Fortschritte bleiben dauerhaft gespeichert</div></div></div>
+<section class="panel">
+  <div class="section-head"><h2 id="calendarTitle">Monatsübersicht</h2><span class="hint">Erledigte Aufgaben</span></div>
+  <div class="calendar-grid" id="calendarGrid"></div>
+</section>
+<section class="panel">
+  <h2>Letzte Tage</h2>
+  <div id="historyList"></div>
+</section>
+<section class="panel">
+  <h2>Diese Woche</h2>
+  <div class="week-kpis" id="weeklyKpis"></div>
+</section>
+</main>
 <main id="parent" class="screen">
 <div class="pagehead"><div><h2>Elternbereich</h2><div class="hint">Aufgaben, Belohnungen und Datensicherung</div></div></div>
 <section class="panel"><h2>Neue Aufgabe</h2>
@@ -413,7 +450,7 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 <button data-nav="chinese"><span>📚</span>Chinesisch</button>
 <button data-nav="sports"><span>🎾</span>Sport</button>
 <button data-nav="partners"><span>⚡</span>Pokémon</button>
-<button data-nav="parent"><span>👨‍👩‍👦</span>Eltern</button>
+<button data-nav="history"><span>📅</span>Verlauf</button><button data-nav="parent"><span>👨‍👩‍👦</span>Eltern</button>
 </nav>
 </div>
 
@@ -452,7 +489,7 @@ function generatedWordsFor(char){
   if(CHINESE_WORD_BANK[char])return CHINESE_WORD_BANK[char];
   return [];
 }
-const DEFAULTS={stars:0,xp:0,streak:1,lastBonus:"",daily:{xp:0,stars:0},week:[0,0,0,0,0,0,0],quests:[
+const DEFAULTS={schemaVersion:8,stars:0,xp:0,streak:1,lastBonus:"",lastOpenDate:"",history:{},todayDate:"",daily:{xp:0,stars:0,startedAt:"",activity:{germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0}},week:[0,0,0,0,0,0,0],quests:[
 {id:1,icon:"🇩🇪",name:"Deutsch lernen",desc:"8 Lernkarten bearbeiten",stars:10,done:false,unit:"check",target:1},
 {id:2,icon:"➕",name:"Mathematik",desc:"10 Aufgaben richtig lösen",stars:10,done:false,unit:"check",target:1},
 {id:3,icon:"📚",name:"Chinesisch",desc:"3 Schriftzeichen lernen",stars:10,done:false,unit:"check",target:1},
@@ -474,7 +511,15 @@ try{
 S=S||structuredClone(DEFAULTS);
 
 function patch(){
-  S.daily=S.daily||{xp:0,stars:0};
+  S.schemaVersion=8;
+  S.history=S.history||{};
+  S.lastOpenDate=S.lastOpenDate||"";
+  S.todayDate=S.todayDate||"";
+
+  S.daily=S.daily||{xp:0,stars:0,startedAt:"",activity:{}};
+  S.daily.activity=S.daily.activity||{};
+  const activityDefaults={germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0};
+  for(const [k,v] of Object.entries(activityDefaults))if(S.daily.activity[k]==null)S.daily.activity[k]=v;
   S.week=Array.isArray(S.week)&&S.week.length===7?S.week:[0,0,0,0,0,0,0];
   S.deletedDefaultTasks=S.deletedDefaultTasks||[];
   S.quests=S.quests||S.tasks||[];
@@ -522,6 +567,7 @@ function patch(){
   S.partners.forEach(p=>{p.level=p.level||1;p.xp=p.xp||0});
 }
 patch();
+const DAILY_ENGINE_RESULT=runDailyEngine();
 
 function localDateKey(d=new Date()){
   const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
@@ -540,6 +586,73 @@ function prepareDailyReview(){
   try{localStorage.setItem("growthPlanetMinimal",JSON.stringify(S))}catch(e){}
 }
 prepareDailyReview();
+
+
+
+function previousDateKey(key){
+  const [y,m,d]=key.split("-").map(Number);
+  const dt=new Date(y,m-1,d);dt.setDate(dt.getDate()-1);
+  return localDateKey(dt);
+}
+function blankDaily(){
+  return {xp:0,stars:0,startedAt:new Date().toISOString(),activity:{
+    germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,
+    readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0
+  }};
+}
+function dailySnapshot(dateKey){
+  const completed=S.quests.filter(q=>q.done).map(q=>({
+    name:q.name,icon:q.icon,stars:q.stars,value:q.value||0,unit:q.unit||"check"
+  }));
+  return {
+    date:dateKey,
+    completed,
+    completedCount:completed.length,
+    totalTasks:S.quests.length,
+    xp:S.daily.xp||0,
+    stars:S.daily.stars||0,
+    activity:{...(S.daily.activity||{})},
+    partner:{name:(S.partners[S.selectedPartner]||S.partners[0]).name,level:(S.partners[S.selectedPartner]||S.partners[0]).level}
+  };
+}
+function resetDailyState(){
+  S.quests.forEach(q=>{q.done=false;delete q.value;delete q.completedAt});
+  S.daily=blankDaily();
+  if(S.chinese){
+    S.chinese.dailyWrong=S.chinese.dailyWrong||[];
+    S.chinese.reviewQueue=[...new Set([...(S.chinese.reviewQueue||[]),...S.chinese.dailyWrong])];
+    S.chinese.dailyWrong=[];
+    S.chinese.dailyChars=[];
+    S.chinese.dailyIndex=0;
+  }
+}
+function runDailyEngine(){
+  const today=localDateKey();
+  if(!S.todayDate){
+    S.todayDate=today;
+    S.lastOpenDate=today;
+    S.daily=S.daily||blankDaily();
+    if(!S.daily.startedAt)S.daily.startedAt=new Date().toISOString();
+    return {newDay:false};
+  }
+  if(S.todayDate===today){S.lastOpenDate=today;return {newDay:false};}
+
+  const previous=S.todayDate;
+  S.history[previous]=dailySnapshot(previous);
+
+  const yesterday=previousDateKey(today);
+  const yesterdayRecord=S.history[yesterday];
+  if(previous===yesterday && yesterdayRecord && yesterdayRecord.completedCount>0){
+    S.streak=(S.streak||0)+1;
+  }else{
+    S.streak=1;
+  }
+
+  resetDailyState();
+  S.todayDate=today;
+  S.lastOpenDate=today;
+  return {newDay:true,previous};
+}
 
 const $=s=>document.querySelector(s);
 const $$=s=>document.querySelectorAll(s);
@@ -608,8 +721,9 @@ function renderHome(){
       if(q.activity){
         S.activities[q.activity]=S.activities[q.activity]||[];
         S.activities[q.activity].unshift({minutes:value,date:new Date().toLocaleDateString("de-DE")});
-        if(q.activity==="tennis"){
-          S.sports.tennis.sessions++;
+        if(q.activity==="piano")S.daily.activity.pianoMinutes+=value;
+        if(["germanReading","chineseReading","englishReading"].includes(q.activity))S.daily.activity.readingMinutes+=value;
+        if(q.activity==="tennis"){S.sports.tennis.sessions++;
           S.sports.tennis.minutes+=value;
           S.sports.history.unshift({title:"Tennistraining",detail:value+" Minuten"});
         }
@@ -663,7 +777,7 @@ function german(){
     A.innerHTML=`<div class="flash"><button class="speak" id="speak">🔊</button><div class="flash-emoji">${w.e}</div><div class="flash-word">${w.w}</div><div class="flash-article">${w.type==="noun"?w.a+" "+w.w:w.type==="verb"?"Verb":"Adjektiv"}</div><div>${w.m}</div>${w.type==="noun"?`<div class="flash-meta">Plural: ${w.p==="—"?"kein gebräuchlicher Plural":"die "+w.p}</div>`:""}<div class="flash-meta">${w.x}</div></div><div style="display:flex;gap:10px"><button class="action secondary" id="prevW">Zurück</button><button class="action" id="nextW">Weiter</button></div>`;
     $("#speak").onclick=()=>{const u=new SpeechSynthesisUtterance(`${w.type==="noun"?w.a+" ":""}${w.w}. ${w.x}`);u.lang="de-DE";speechSynthesis.speak(u)};
     $("#prevW").onclick=()=>{S.german.index=(S.german.index-1+L.length)%L.length;save();german()};
-    $("#nextW").onclick=()=>{S.german.index=(S.german.index+1)%L.length;S.german.seen++;addReward(0,2);save();render();german()};
+    $("#nextW").onclick=()=>{S.german.index=(S.german.index+1)%L.length;S.german.seen++;S.daily.activity.germanCards++;addReward(0,2);save();render();german()};
   }else if(gm==="quiz"){
     const nouns=L.filter(x=>x.type==="noun"),qw=nouns[S.german.index%nouns.length];
     A.innerHTML=`<div class="flash"><div class="flash-emoji">${qw.e}</div><div class="flash-word">___ ${qqw.w}</div><div>${qw.m}</div></div><div class="options">${["der","die","das"].map(o=>`<button class="option" data-art="${o}">${o} ${qqw.w}</button>`).join("")}</div>`;
@@ -698,7 +812,7 @@ function german(){
     <div class="history" style="margin-top:12px">${S.activities.germanReading.slice(0,10).map(x=>`<div class="history-item"><b>${x.book||"Deutsch lesen"}</b><span>${x.minutes} Min. · ${x.date}</span></div>`).join("")||'<p class="hint">Noch keine Einträge</p>'}</div>`;
     $("#saveGermanReading").onclick=()=>{
       const minutes=+$("#germanMinutes").value||0;if(minutes<1)return toast("Bitte Minuten eingeben");
-      S.activities.germanReading.unshift({book:$("#germanBook").value.trim(),minutes,date:new Date().toLocaleDateString("de-DE")});
+      S.activities.germanReading.unshift({book:$("#germanBook").value.trim(),minutes,date:new Date().toLocaleDateString("de-DE")});S.daily.activity.readingMinutes+=minutes;
       addReward(5,8);save();render();german();toast("Lesezeit gespeichert");
     };
   }else if(gm==="custom"){
@@ -773,7 +887,7 @@ function german(){
         fb.className="feedback show "+(ok?"ok":"bad");
         if(ok){
           fb.textContent="Richtig!";
-          item.correct=(item.correct||0)+1;addReward(1,3);
+          item.correct=(item.correct||0)+1;S.daily.activity.germanCorrect++;addReward(1,3);
           if(item.correct>=3&&item.correct>=(item.wrong||0)+2)S.german.customReview=S.german.customReview.filter(id=>id!==item.id);
         }else{
           fb.textContent="Richtige Antwort: "+answer;
@@ -807,7 +921,7 @@ function german(){
       if(!val)return toast("Bitte eine Antwort eingeben");
       btn.disabled=true;input.disabled=true;
       fb.className="feedback show "+(val===answer.toLowerCase()?"ok":"bad");
-      if(val===answer.toLowerCase()){fb.textContent="Richtig!";S.german.taskCorrect++;addReward(1,3);}
+      if(val===answer.toLowerCase()){fb.textContent="Richtig!";S.german.taskCorrect++;S.daily.activity.germanCorrect++;addReward(1,3);}
       else{fb.textContent="Richtige Antwort: "+answer;S.german.taskWrong.push({question,answer,date:new Date().toLocaleDateString("de-DE")});}
       save();render();
       setTimeout(()=>{S.german.taskIndex++;save();german()},900);
@@ -829,7 +943,11 @@ function createMath(){
   else{a=3+Math.floor(Math.random()*7);b=2+Math.floor(Math.random()*8);MQ={q:`Tino übt täglich ${a} Aufschläge. Wie viele sind es in ${b} Tagen?`,a:a*b};}
   $("#mathQuestion").textContent=MQ.q;$("#mathAnswer").value="";
 }
-$("#checkMath").onclick=()=>{if(+$("#mathAnswer").value===MQ.a){S.math.correct++;S.math.streak++;S.math.floor=Math.floor(S.math.correct/10)+1;addReward(2,4);toast("Richtig");}else{S.math.streak=0;toast("Richtige Antwort: "+MQ.a);}save();createMath();render();};
+$("#checkMath").onclick=()=>{if(+$("#mathAnswer").value===MQ.a){S.math.correct++;S.math.streak++;S.daily.activity.mathCorrect++;S.math.floor=Math.floor(S.math.correct/10)+1;addReward(2,4);toast("Richtig");}else{S.math.streak=0;toast("Richtige Antwort: "+MQ.a);}save();createMath();render();
+if(DAILY_ENGINE_RESULT.newDay){
+  const banner=$("#dailyBanner");
+  if(banner){banner.textContent="Guten Morgen! Ein neuer Tag hat begonnen. Die heutigen Aufgaben wurden neu erstellt.";banner.classList.add("show");}
+}};
 $("#newMath").onclick=createMath;$("#mathMode").onchange=createMath;
 
 let cm="hanzi";
@@ -838,7 +956,7 @@ function chinese(){
   if(cm==="hanzi"){
     const x=HANZI[S.chinese.index%HANZI.length];
     A.innerHTML=`<div style="text-align:center"><div class="hanzi">${x[0]}</div><div class="pinyin">${x[1]}</div><p><b>Radikal: </b>${x[2]}</p><p><b>Wörter: </b>${x[3]}</p></div><button class="action" id="nextH">Gelernt</button>`;
-    $("#nextH").onclick=()=>{S.chinese.index=(S.chinese.index+1)%HANZI.length;addReward(1,3);save();render();chinese()};
+    $("#nextH").onclick=()=>{S.chinese.index=(S.chinese.index+1)%HANZI.length;S.daily.activity.chineseChars++;addReward(1,3);save();render();chinese()};
   }else if(cm==="daily"){
     const today=localDateKey();
     const review=[...new Set(S.chinese.reviewQueue||[])];
@@ -888,7 +1006,7 @@ function chinese(){
         fb.className="feedback show "+(ok?"ok":"bad");
         if(ok){
           fb.textContent="Richtig!";
-          S.chinese.reviewQueue=S.chinese.reviewQueue.filter(x=>x!==current);
+          S.chinese.reviewQueue=S.chinese.reviewQueue.filter(x=>x!==current);S.daily.activity.chineseChars++;
           S.chinese.dailyWrong=S.chinese.dailyWrong.filter(x=>x!==current);
           addReward(1,3);
         }else{
@@ -911,7 +1029,7 @@ function chinese(){
     <input id="book" placeholder="Buchtitel"><input id="mins" type="number" value="15" min="1" style="margin-top:10px">
     <button class="action" id="saveRead">Lesezeit speichern</button>
     <div class="history" style="margin-top:12px">${S.chinese.reading.slice(0,10).map(x=>`<div class="history-item"><b>${x.book||"Chinesisch lesen"}</b><span>${x.mins} Min.</span></div>`).join("")||'<p class="hint">Noch keine Einträge</p>'}</div>`;
-    $("#saveRead").onclick=()=>{const b=$("#book").value.trim();const mins=+$("#mins").value||0;if(mins<1)return toast("Bitte Minuten eingeben");S.chinese.reading.unshift({book:b,mins,date:new Date().toLocaleDateString("de-DE")});S.activities.chineseReading.unshift({book:b,minutes:mins,date:new Date().toLocaleDateString("de-DE")});addReward(5,10);save();render();chinese();toast("Lesezeit gespeichert")};
+    $("#saveRead").onclick=()=>{const b=$("#book").value.trim();const mins=+$("#mins").value||0;if(mins<1)return toast("Bitte Minuten eingeben");S.chinese.reading.unshift({book:b,mins,date:new Date().toLocaleDateString("de-DE")});S.activities.chineseReading.unshift({book:b,minutes:mins,date:new Date().toLocaleDateString("de-DE")});S.daily.activity.readingMinutes+=mins;addReward(5,10);save();render();chinese();toast("Lesezeit gespeichert")};
   }else{
     A.innerHTML=`<textarea id="writing" rows="7" placeholder="Schreibe über den schönsten Moment des Tages"></textarea><button class="action" id="saveWriting">Text speichern</button>`;
     $("#saveWriting").onclick=()=>{const t=$("#writing").value.trim();if(t.length<10)return toast("Bitte mindestens 10 Zeichen schreiben");S.chinese.writing.unshift({text:t});addReward(8,15);save();render();chinese()};
@@ -932,12 +1050,12 @@ function sports(){
 }
 $("#addTennis").onclick=()=>{
   openModal(`<h3>Tennistraining eintragen</h3><input id="tm" type="number" value="30"><button class="action" id="saveTennis">Speichern</button>`);
-  $("#saveTennis").onclick=()=>{const m=+$("#tm").value||0;S.sports.tennis.sessions++;S.sports.tennis.minutes+=m;S.sports.history.unshift({title:"Tennistraining",detail:m+" Minuten"});addReward(10,20);if(S.sports.tennis.sessions>=5)S.partners[4].owned=true;save();render();$("#modal").classList.remove("show")};
+  $("#saveTennis").onclick=()=>{const m=+$("#tm").value||0;S.sports.tennis.sessions++;S.sports.tennis.minutes+=m;S.daily.activity.tennisMinutes+=m;S.sports.history.unshift({title:"Tennistraining",detail:m+" Minuten"});addReward(10,20);if(S.sports.tennis.sessions>=5)S.partners[4].owned=true;save();render();$("#modal").classList.remove("show")};
 };
 $$("[data-quick]").forEach(b=>b.onclick=()=>{
   const n=b.dataset.quick;
   openModal(`<h3>${n}</h3><input id="qty" type="number" value="1"><button class="action" id="saveQ">Speichern</button>`);
-  $("#saveQ").onclick=()=>{const q=+$("#qty").value||1;S.sports.counts[n]=(S.sports.counts[n]||0)+q;S.sports.history.unshift({title:n,detail:q+(["Liegestütze","Sit-ups"].includes(n)?" Wiederholungen":" Einheiten")});addReward(5,8);if(n==="Schwimmen")S.partners[3].owned=true;save();render();$("#modal").classList.remove("show")};
+  $("#saveQ").onclick=()=>{const q=+$("#qty").value||1;S.sports.counts[n]=(S.sports.counts[n]||0)+q;S.sports.history.unshift({title:n,detail:q+(["Liegestütze","Sit-ups"].includes(n)?" Wiederholungen":" Einheiten")});addReward(5,8);if(n==="Schwimmen"){S.partners[3].owned=true;S.daily.activity.swimEntries++;}save();render();$("#modal").classList.remove("show")};
 });
 
 function partners(){
@@ -978,9 +1096,63 @@ $$("[data-add-time]").forEach(btn=>btn.onclick=()=>{
     if(minutes<1)return toast("Bitte Minuten eingeben");
     S.activities[key]=S.activities[key]||[];
     S.activities[key].unshift({minutes,note:$("#genericNote").value.trim(),date:new Date().toLocaleDateString("de-DE")});
+    if(key==="piano")S.daily.activity.pianoMinutes+=minutes;
+    else S.daily.activity.readingMinutes+=minutes;
     addReward(5,8);save();render();$("#modal").classList.remove("show");toast("Zeit gespeichert");
   };
 });
+
+
+function monthKeys(date=new Date()){
+  const y=date.getFullYear(),m=date.getMonth();
+  const first=new Date(y,m,1),last=new Date(y,m+1,0);
+  const keys=[];
+  for(let d=1;d<=last.getDate();d++)keys.push(localDateKey(new Date(y,m,d)));
+  return {keys,offset:(first.getDay()+6)%7,title:first.toLocaleDateString("de-DE",{month:"long",year:"numeric"})};
+}
+function renderHistory(){
+  const grid=$("#calendarGrid"),list=$("#historyList"),kpis=$("#weeklyKpis");
+  if(!grid||!list||!kpis)return;
+  const month=monthKeys();
+  $("#calendarTitle").textContent=month.title;
+  let cells="";
+  ["Mo","Di","Mi","Do","Fr","Sa","So"].forEach(x=>cells+=`<div class="calendar-head">${x}</div>`);
+  for(let i=0;i<month.offset;i++)cells+='<div></div>';
+  month.keys.forEach(key=>{
+    const rec=S.history[key]||(key===S.todayDate?dailySnapshot(key):null);
+    const day=Number(key.slice(-2));
+    cells+=`<div class="calendar-day ${key===S.todayDate?"today":""} ${rec&&rec.completedCount?"has-data":""}">
+      <b>${day}</b><small>${rec?rec.completedCount+" Aufgaben":"–"}</small>
+    </div>`;
+  });
+  grid.innerHTML=cells;
+
+  const entries=Object.values(S.history).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,14);
+  const todayRec=dailySnapshot(S.todayDate);
+  const combined=[todayRec,...entries.filter(x=>x.date!==S.todayDate)];
+  list.innerHTML=combined.map(rec=>`<div class="history-day">
+    <div class="history-day-header"><b>${new Date(rec.date+"T12:00:00").toLocaleDateString("de-DE",{weekday:"short",day:"2-digit",month:"2-digit"})}</b><span>${rec.completedCount}/${rec.totalTasks} Aufgaben</span></div>
+    <div class="history-detail-grid">
+      <div class="history-detail"><b>${rec.activity.germanCards||0}</b><small>Deutsch-Karten</small></div>
+      <div class="history-detail"><b>${rec.activity.mathCorrect||0}</b><small>Mathe richtig</small></div>
+      <div class="history-detail"><b>${rec.activity.readingMinutes||0} Min.</b><small>Lesen</small></div>
+      <div class="history-detail"><b>${rec.activity.pianoMinutes||0} Min.</b><small>Klavier</small></div>
+      <div class="history-detail"><b>${rec.activity.tennisMinutes||0} Min.</b><small>Tennis</small></div>
+      <div class="history-detail"><b>${rec.stars||0}</b><small>Sterne</small></div>
+    </div>
+  </div>`).join("")||'<p class="hint">Noch keine Verlaufsdaten</p>';
+
+  const last7=combined.slice(0,7);
+  const sum=k=>last7.reduce((a,x)=>a+(x.activity?.[k]||0),0);
+  kpis.innerHTML=[
+    ["🇩🇪",sum("germanCards"),"Lernkarten"],
+    ["➕",sum("mathCorrect"),"Mathe richtig"],
+    ["📖",sum("readingMinutes")+" Min.","Lesen"],
+    ["🎹",sum("pianoMinutes")+" Min.","Klavier"],
+    ["🎾",sum("tennisMinutes")+" Min.","Tennis"],
+    ["✅",last7.reduce((a,x)=>a+(x.completedCount||0),0),"Aufgaben"]
+  ].map(x=>`<div class="stat"><b>${x[0]} ${x[1]}</b><small>${x[2]}</small></div>`).join("");
+}
 
 function report(){
   const t=S.sports.tennis;
@@ -1025,10 +1197,9 @@ $("#dailyBonus").onclick=()=>{
   S.lastBonus=today;addReward(5,10);save();render();toast("Tagesbelohnung erhalten");
 };
 $("#resetToday").onclick=()=>{
-  const today=localDateKey();
+  if(!confirm("Heutige Aufgaben wirklich zurücksetzen?"))return;
   S.quests.forEach(x=>{x.done=false;delete x.value;delete x.completedAt});
-  S.daily={xp:0,stars:0};
-  if(S.lastTaskReset!==today){S.week=[...S.week.slice(1),0];S.lastTaskReset=today;}
+  S.daily=blankDaily();
   save();render();toast("Heutige Aufgaben zurückgesetzt");
 };
 $("#exportData").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));a.download="Wachstumsplanet-Sicherung.json";a.click()};
@@ -1042,11 +1213,11 @@ function render(){
   $("#mCorrect").textContent=S.math.correct;
   $("#mStreak").textContent=S.math.streak;
   $("#mFloor").textContent=S.math.floor;
-  chinese();sports();partners();report();renderTaskManager();renderTimeOverview();
+  chinese();sports();partners();report();renderHistory();renderTaskManager();renderTimeOverview();
 }
 createMath();
 render();
-if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v7").then(r=>r.update()).catch(()=>{})}
+if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v8").then(r=>r.update()).catch(()=>{})}
 </script>
 </body>
 </html>

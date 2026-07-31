@@ -1,9 +1,15 @@
-# Wachstumsplanet V7
+# Wachstumsplanet V8
 
-Deutscher Wortschatz:
-- insgesamt 480 Wörter
-- 120 Wörter je Klassenstufe
-- je Klasse: 50 Nomen, 40 Verben, 30 Adjektive
-- Karteikarten und Schreibübungen verwenden alle Wortarten
-- Artikeltests verwenden nur Nomen
-- eigene Wörter und Wiederholungsmodus bleiben erhalten
+Neu:
+- automatischer Tageswechsel beim ersten Öffnen
+- gestrige Aufgaben werden im Verlauf gespeichert
+- heutige Aufgaben werden automatisch zurückgesetzt
+- tägliche XP, Sterne und Aktivitätswerte starten neu
+- Gesamtsterne, Pokémon, Level, Fehlerlisten und Lernfortschritt bleiben erhalten
+- Verlaufskalender
+- Tagesdetails und Wochenstatistik
+- deutsche Wortschatzdaten aus V7 bleiben erhalten
+- alte Daten aus V5–V7 werden automatisch übernommen
+
+Deployment:
+Alle fünf Dateien in das Stammverzeichnis des GitHub-Repositories hochladen und vorhandene Dateien ersetzen.

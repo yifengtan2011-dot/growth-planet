@@ -1,9 +1,10 @@
 {
-  "name": "Wachstumsplanet V7",
+  "name": "Wachstumsplanet V8",
   "short_name": "Wachstumsplanet",
-  "start_url": "./?v=v7",
+  "start_url": "./?v=v8",
   "display": "standalone",
   "background_color": "#f4f5f7",
   "theme_color": "#17213d",
-  "description": "480 deutsche Wörter für Klasse 1 bis 4 mit Nomen, Verben und Adjektiven."
+  "description": "Tägliches Lern- und Wachstumssystem mit automatischem Tageswechsel, Verlauf und Wochenstatistik.",
+  "icons": []
 }

@@ -294,13 +294,55 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 .week-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 @media(min-width:760px){.week-kpis{grid-template-columns:repeat(4,1fr)}.calendar-day{min-height:76px}}
 
+
+.stats-tabs{display:flex;gap:8px;margin:12px 0;overflow-x:auto}
+.stats-tab{padding:9px 13px;border-radius:12px;background:var(--soft);color:var(--muted);white-space:nowrap;font-weight:800}
+.stats-tab.active{background:var(--accent);color:#fff}
+.period-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.period-stat{padding:14px;border-radius:16px;background:var(--soft)}
+.period-stat b{display:block;font-size:23px}
+.period-stat small{color:var(--muted)}
+@media(min-width:760px){.period-stats{grid-template-columns:repeat(3,1fr)}}
+
+
+.log-list{display:grid;gap:9px;margin-top:14px}
+.log-item{display:flex;align-items:center;gap:10px;padding:12px;border-radius:15px;background:var(--soft)}
+.log-main{flex:1}
+.log-main b{display:block}
+.log-main small{color:var(--muted)}
+.log-actions{display:flex;gap:6px}
+.log-actions button{width:36px;height:36px;border-radius:10px;background:#fff}
+.log-actions .delete{color:var(--danger)}
+.date-note{font-size:11px;color:var(--muted);margin-top:5px}
+
+
+.learning-head{display:flex;justify-content:space-between;gap:12px;padding:14px;border-radius:18px;background:var(--soft)}
+.learning-head h3{margin:0;font-size:20px}.learning-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.question-card{padding:22px;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);margin-top:14px}
+.question-label{font-size:12px;color:var(--muted);font-weight:800;letter-spacing:.06em}
+.question-main{font-size:34px;font-weight:900;line-height:1.25;margin:14px 0}
+.choice-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:16px}
+.choice-btn{min-height:66px;padding:16px 18px;border-radius:18px;background:var(--soft);border:2px solid transparent;color:var(--ink);font-size:20px;font-weight:850;text-align:left}
+.choice-btn.correct{background:#e8f3ed;color:var(--success);border-color:#b9dac9}.choice-btn.wrong{background:#fff0f1;color:var(--danger);border-color:#edc2c8}
+.big-answer{width:100%;min-height:58px;padding:14px 16px;border-radius:16px;border:2px solid var(--line);font-size:20px;background:#fff}
+.big-submit{min-height:58px;padding:14px 22px;border-radius:16px;background:var(--accent);color:#fff;font-size:18px;font-weight:900}
+.big-secondary{min-height:54px;padding:13px 18px;border-radius:16px;background:var(--soft);font-weight:850}
+.learning-actions,.memory-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.learning-actions>*,.memory-row>*{flex:1}
+.module-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.char-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:12px}
+.char-btn{aspect-ratio:1;border-radius:14px;background:var(--soft);font-size:25px;font-weight:900;border:2px solid transparent}
+.char-btn.mastered{background:#e8f3ed;color:var(--success)}.char-btn.review{background:#fff4d9;color:#8e6b16}.char-btn.active{border-color:var(--accent);background:#fff}
+.reading-card{padding:20px;border-radius:20px;background:linear-gradient(145deg,#fff,#f7f8fb);border:1px solid var(--line)}
+.reading-title{font-size:22px;font-weight:900;margin-bottom:8px}.reading-text{font-size:22px;line-height:1.9;letter-spacing:.03em}
+.reading-words{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.reading-word{padding:7px 10px;border-radius:11px;background:var(--soft);font-weight:800}
+@media(min-width:760px){.choice-grid{grid-template-columns:repeat(2,1fr)}.choice-btn{min-height:76px;font-size:22px}.char-grid{grid-template-columns:repeat(10,1fr)}}
 </style>
 </head>
 <body>
 <div class="app">
 <main id="home" class="screen active">
   <div class="header">
-    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V8</div></div>
+    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V9</div></div>
     <div class="grow"></div>
     <div class="balance">⭐ <span id="stars">0</span></div>
   </div>
@@ -371,12 +413,12 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 <main id="math" class="screen">
 <div class="pagehead"><button class="back" data-home>‹</button><div><h2>Mathematik</h2><div class="hint">Richtige Antworten und Serien im Blick</div></div></div>
 <section class="panel"><div class="stats"><div class="stat"><b id="mCorrect">0</b><small>Insgesamt richtig</small></div><div class="stat"><b id="mStreak">0</b><small>Serie</small></div><div class="stat"><b id="mFloor">1</b><small>Stufe</small></div></div><select id="mathMode" class="select" style="margin-top:12px"><option value="basic">Grundlage: bis 100</option><option value="multi">Mal und Geteilt</option><option value="mixed">Gemischte Aufgaben</option><option value="story">Sachaufgaben</option></select></section>
-<section class="panel"><div class="mathbox" id="mathQuestion"></div><input id="mathAnswer" class="select" type="number" inputmode="numeric" placeholder="Antwort eingeben"><button class="action" id="checkMath">Antwort prüfen</button><button class="action secondary" id="newMath">Neue Aufgabe</button></section>
+<section class="panel"><div class="mathbox" id="mathQuestion"></div><input id="mathAnswer" class="select" type="number" inputmode="numeric" placeholder="Antwort eingeben"><button class="big-submit" id="checkMath">Antwort prüfen</button><button class="big-secondary" id="newMath">Neue Aufgabe</button></section>
 </main>
 
 <main id="chinese" class="screen">
 <div class="pagehead"><button class="back" data-home>‹</button><div><h2>Chinesisch</h2><div class="hint">Schriftzeichen, Gedichte, Lesen und Schreiben</div></div></div>
-<section class="panel"><div class="tabs"><button class="tab active" data-cmode="hanzi">Schriftzeichen</button><button class="tab" data-cmode="daily">Tageszeichen</button><button class="tab" data-cmode="poem">Gedichte</button><button class="tab" data-cmode="reading">Lesen</button><button class="tab" data-cmode="writing">Schreiben</button></div></section>
+<section class="panel"><div class="tabs"><button class="tab active" data-cmode="common">常用字</button><button class="tab" data-cmode="practice">认字练习</button><button class="tab" data-cmode="stories">趣味阅读</button><button class="tab" data-cmode="daily">每日生字</button><button class="tab" data-cmode="reading">阅读记录</button><button class="tab" data-cmode="writing">写作</button></div></section>
 <section class="panel" id="chineseContent"></section>
 </main>
 
@@ -407,12 +449,17 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
   <div id="historyList"></div>
 </section>
 <section class="panel">
-  <h2>Diese Woche</h2>
-  <div class="week-kpis" id="weeklyKpis"></div>
+  <h2>Statistik</h2>
+  <div class="stats-tabs">
+    <button class="stats-tab active" data-period="week">Diese Woche</button>
+    <button class="stats-tab" data-period="month">Dieser Monat</button>
+    <button class="stats-tab" data-period="total">Gesamt</button>
+  </div>
+  <div class="period-stats" id="periodStats"></div>
 </section>
 </main>
 <main id="parent" class="screen">
-<div class="pagehead"><div><h2>Elternbereich</h2><div class="hint">Aufgaben, Belohnungen und Datensicherung</div></div></div>
+<div class="pagehead"><div><h2>Elternbereich</h2><div class="hint">Aufgaben, Belohnungen und Datensicherung · Daten bleiben bei Updates erhalten</div></div></div>
 <section class="panel"><h2>Neue Aufgabe</h2>
 <div class="form-grid">
 <label class="form-label" for="taskName">Aufgabe</label>
@@ -436,11 +483,13 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 <button class="action secondary" data-add-time="chineseReading" type="button">📕 Chinesisch</button>
 <button class="action secondary" data-add-time="englishReading" type="button">🇬🇧 Englisch</button>
 </div>
+<div class="log-list" id="timeLogList"></div>
 </section>
 <section class="panel"><h2>Tagesverwaltung</h2><button class="action" id="dailyBonus">Tägliche Belohnung abholen</button><button class="action secondary" id="resetToday">Heutige Aufgaben zurücksetzen</button></section>
 <section class="panel"><h2>Fortschrittsbericht</h2><div id="report"></div></section>
 <section class="panel"><h2>Erfolge</h2><div class="achievement-grid" id="achievementGrid"></div></section>
-<section class="panel"><h2>Datensicherung</h2><button class="action secondary" id="exportData">Sicherung exportieren</button><label class="action secondary" style="display:block;text-align:center">Sicherung importieren<input id="importData" type="file" accept=".json" hidden></label><button class="action danger" id="clearData">Alle Daten löschen</button></section>
+<section class="panel"><h2>Datensicherung</h2>
+<p class="hint">Updates ersetzen nur die Programmdateien. Die Daten bleiben im Browser gespeichert. Zusätzlich wird vor jeder Migration automatisch eine Sicherung angelegt.</p><button class="action secondary" id="exportData">Sicherung exportieren</button><label class="action secondary" style="display:block;text-align:center">Sicherung importieren<input id="importData" type="file" accept=".json" hidden></label><button class="action secondary" id="restoreAutoBackup">Letzte automatische Sicherung wiederherstellen</button><button class="action danger" id="clearData">Alle Daten löschen</button></section>
 </main>
 
 <nav class="nav">
@@ -489,7 +538,15 @@ function generatedWordsFor(char){
   if(CHINESE_WORD_BANK[char])return CHINESE_WORD_BANK[char];
   return [];
 }
-const DEFAULTS={schemaVersion:8,stars:0,xp:0,streak:1,lastBonus:"",lastOpenDate:"",history:{},todayDate:"",daily:{xp:0,stars:0,startedAt:"",activity:{germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0}},week:[0,0,0,0,0,0,0],quests:[
+const COMMON_CHINESE_CHARS=["一","二","三","四","五","六","七","八","九","十","百","千","万","上","下","左","右","前","后","中","里","外","大","小","多","少","长","短","高","低","早","晚","日","月","年","天","时","分","秒","人","口","手","足","头","眼","耳","鼻","牙","心","身","父","母","爸","妈","爷","奶","哥","姐","弟","妹","家","国","学","校","老","师","同","朋","友","书","本","笔","纸","字","画","桌","椅","门","窗","房","屋","床","灯","衣","裤","鞋","帽","饭","菜","米","面","肉","蛋","水","果","苹","香","蕉","梨","桃","瓜","豆","茶","杯","碗","筷","刀","叉","山","火","土","木","石","田","禾","竹","花","草","树","叶","林","森","河","湖","海","江","泉","雨","雪","风","云","雷","电","冰","霜","太","阳","星","空","春","夏","秋","冬","红","黄","蓝","绿","白","黑","灰","紫","粉","橙","金","银","圆","方","直","弯","新","旧","好","坏","美","丑","真","假","错","对","正","反","开","关","来","去","走","跑","跳","飞","游","坐","站","躺","睡","醒","吃","喝","看","听","说","读","写","问","答","想","做","玩","笑","哭","爱","喜","欢","要","会","能","有","是","的","了","在","和","也","都","很","不","没","这","那","哪","谁","什","么","怎","为","因","所","以","如","虽","然","但","已","经","可","应","该","需","知","道","觉","得","快","慢","轻","重","冷","热","甜","酸","苦","辣","臭","干","湿","净","脏","软","硬","亮","暗","满","远","近","宽","窄","深","浅","厚","薄","胖","瘦","强","弱","忙","闲","今","昨","明","午","期","周","末","生","节","间","点","钟","半","刻","东","南","西","北","向","地","图","路","街","桥","车","船","机","汽","自","行","场","公","园","商","店","医","院","邮","局","动","物","猫","狗","鸟","鱼","马","牛","羊","鸡","鸭","鹅","兔","虎","狮","象","猴","熊","鹿","狼","狐","蛇","虫","蝶","蜂","蚂","蚁","青","蛙","乌","龟","颜","色","形","状","声","音","味","名","事","情","世","界","活","工","作","习","运","戏","比","赛","乐","钢","琴","网","球","泳","篮","兴","难","过","气","害","怕","紧","张","勇","敢","认","努","力","仔","细","安","静","礼","貌","诚","实","帮","助","享","合","坚","持","完","成","进","步","规","则","定","矩","全","危","险","健","康","病","药","品","休","息","锻","炼","体","语","文","数","德","英","拼","词","句","子","章","故","古","诗","阅","练","业","考","试","绩","题","案","加","减","乘","除","位","度","量","积","钱","角","请","谢","起","系","你","再","见","迎","祝","福","城","市","农","村","庄","庭","厨","客","厅","卧","室","厕","台","楼","梯","脑","视","络","照","片","影","闻","职","民","司","警","察","消","防","员","护","士","环","境","光","植","种","根","茎","旅","李","酒","化","历","史","神","话","社","未","现","选","择","较","发","观","验","结","原","法","聪","趣","漂","特","别","简","单","困","容","易","清","楚","始","束","继","续","停","止","准","备","检","查","修","改","保","约","整","理","打","扫","记","住","忘","告","诉","介","绍","回","解","释","讨","论","决","计","划","希","望","相","信","功","失","败","目","标","责","任","惯","常","用","识","忆","复","掌","握","误","确","朗","默","造","组","段","落","内","项","每","夜","候","份","季","温","晴","阴","刮","闪","彩","虹","露","珠","池","塘","溪","瀑","布","沙","滩","岛","屿","野","稼","蔬","粮","食","包","饼","糖","巧","克","淇","淋","汁","餐","勺","盘","瓶","盒","袋","服","裙","袜","套","围","巾","伞","铅","橡","皮","尺","剪","胶","板"];
+const CHINESE_READINGS=[{"title":"会发光的石头","text":"小河边有一块亮晶晶的石头。白天，它安静地躺在草丛里；晚上，月光照在它身上，像一颗小星星。小明把它放在书桌上，提醒自己每天进步一点点。","words":["亮晶晶","草丛","月光","提醒","进步"]},{"title":"爱打网球的小猫","text":"小猫米米最喜欢打网球。开始时，球总是乱跑。米米没有生气，而是一遍又一遍地练习。一个月后，它终于能连续打五十下。","words":["网球","生气","练习","终于","连续"]},{"title":"书包里的秘密","text":"小雨发现书包里多了一本没有名字的书。书上写着：认真读完一页，就会得到一个小惊喜。她读完后，一只纸蝴蝶从书页里飞了出来。","words":["发现","认真","惊喜","蝴蝶","书页"]},{"title":"会说话的雨滴","text":"一颗雨滴落在窗台上，对小树说：别怕，我来给你送水。越来越多的雨滴一起唱歌。雨停以后，天空出现了一道彩虹。","words":["雨滴","窗台","唱歌","彩虹","天空"]},{"title":"森林运动会","text":"森林里要举行运动会。兔子参加跑步，青蛙参加跳远，小熊参加举重。小乌龟虽然没有得第一名，却坚持跑到了终点。","words":["举行","参加","虽然","坚持","终点"]},{"title":"一颗勇敢的种子","text":"一颗小种子住在黑黑的泥土里。它努力向上钻，石头挡住了路，它就绕过去。终于有一天，它冒出了绿色的小芽。","words":["种子","泥土","努力","终于","小芽"]},{"title":"会整理房间的机器人","text":"机器人整整最喜欢把玩具放回盒子，把书排得整整齐齐。可是有一天，它把袜子放进冰箱。小乐笑着教它正确分类。","words":["机器人","整整齐齐","冰箱","分类","正确"]},{"title":"月亮的信","text":"小安在窗边发现一封银色的信。信上写着：虽然我有时圆，有时弯，但我一直都在。小安也给月亮写了一封回信。","words":["银色","虽然","一直","回信","月亮"]},{"title":"最慢的自行车","text":"小城里有一辆最慢的自行车。小女孩骑着它，发现路边的花、树上的鸟和天空的云都看得特别清楚。","words":["自行车","路边","发现","特别","清楚"]},{"title":"小鱼的地图","text":"小鱼点点想去大海旅行。它画了一张地图，先经过水草林，再穿过石头桥，最后顺着大河向前游。","words":["旅行","地图","经过","穿过","顺着"]},{"title":"钢琴里的小精灵","text":"每当小可认真弹钢琴时，琴键下面就会跑出一只小精灵。小可练得越认真，小精灵跳得越开心。","words":["钢琴","琴键","精灵","认真","开心"]},{"title":"会变色的叶子","text":"春天，叶子是嫩绿色的；夏天，它变成深绿色；秋天，它穿上金黄和火红的衣服；冬天，它轻轻落到泥土上。","words":["嫩绿","深绿","金黄","火红","泥土"]},{"title":"礼貌的小门","text":"学校里有一扇特别的小门。只有说“请”的人，它才会打开；通过以后说“谢谢”，它会发出清脆的铃声。","words":["特别","通过","谢谢","清脆","礼貌"]},{"title":"三分钟的奇迹","text":"三分钟可以读一页书，可以写五个生字，可以整理书桌，也可以做二十个仰卧起坐。只要马上开始，三分钟也能完成很多事情。","words":["奇迹","生字","整理","马上","完成"]},{"title":"不会生气的铅笔","text":"小文写错字时，总会生气。铅笔轻轻滚回来，说：写错了没关系，擦掉再写一次就好。错误也是重新练习的机会。","words":["铅笔","生气","擦掉","错误","机会"]},{"title":"小熊学游泳","text":"小熊第一次下水时很紧张。教练让它先学会呼吸，再慢慢伸直身体。小熊每天练一点，终于能游到泳池的另一边。","words":["紧张","教练","呼吸","伸直","泳池"]},{"title":"风筝和风","text":"风筝觉得自己飞得高，全是自己的本领。风停下来后，风筝马上落到地上。它终于明白，成功也离不开别人的帮助。","words":["风筝","本领","成功","离不开","帮助"]},{"title":"星星商店","text":"夜空里有一家星星商店。勇敢的人可以买红星，认真学习的人可以买金星，帮助别人的人会收到蓝星。","words":["夜空","商店","勇敢","认真","帮助"]},{"title":"迟到的太阳","text":"太阳好像睡过头了。云朵慢慢散开，它终于露出笑脸，不好意思地说：对不起，我来晚了。","words":["云朵","散开","终于","笑脸","对不起"]},{"title":"小鸟的第一封信","text":"小鸟第一次写信，不知道该写什么。妈妈说：写你看见的、听见的和想到的。小鸟很快写满了一页。","words":["第一次","写信","看见","听见","想到"]}];
+function charWords(char){
+ if(S?.chinese?.customWords?.[char]?.length)return S.chinese.customWords[char];
+ if(typeof CHINESE_WORD_BANK!=="undefined"&&CHINESE_WORD_BANK[char])return CHINESE_WORD_BANK[char];
+ const m={"一":["一天","一起","一样"],"人":["人民","大人","别人"],"学":["学习","学校","学生"],"生":["生活","生日","生字"],"天":["今天","天空","天气"],"日":["日子","生日","日记"],"月":["月亮","月光","月份"],"家":["家庭","回家","大家"],"书":["书本","看书","书包"],"水":["河水","水果","喝水"],"火":["火车","大火","火红"],"风":["大风","风声","风筝"],"花":["花朵","开花","花园"],"草":["小草","草地","草丛"],"树":["大树","树叶","树林"],"好":["好人","美好","好看"],"大":["大家","大小","大海"],"小":["小心","小孩","大小"],"明":["明天","明白","明亮"],"快":["快乐","飞快","快慢"],"读":["读书","阅读","朗读"],"写":["写字","书写","写作"],"说":["说话","说明","小说"],"看":["看书","看见","好看"]};
+ return m[char]||[];
+}
+const DEFAULTS={schemaVersion:8,stars:0,xp:0,streak:1,lastBonus:"",lastOpenDate:"",history:{},todayDate:"",daily:{xp:0,stars:0,startedAt:"",activity:{germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0}},week:[0,0,0,0,0,0,0],quests:[
 {id:1,icon:"🇩🇪",name:"Deutsch lernen",desc:"8 Lernkarten bearbeiten",stars:10,done:false,unit:"check",target:1},
 {id:2,icon:"➕",name:"Mathematik",desc:"10 Aufgaben richtig lösen",stars:10,done:false,unit:"check",target:1},
 {id:3,icon:"📚",name:"Chinesisch",desc:"3 Schriftzeichen lernen",stars:10,done:false,unit:"check",target:1},
@@ -499,26 +556,68 @@ const DEFAULTS={schemaVersion:8,stars:0,xp:0,streak:1,lastBonus:"",lastOpenDate:
 {id:7,icon:"📖",name:"Deutsch lesen",desc:"15 Minuten lesen",stars:10,done:false,unit:"minutes",target:15,activity:"germanReading"},
 {id:8,icon:"📕",name:"Chinesisch lesen",desc:"15 Minuten lesen",stars:10,done:false,unit:"minutes",target:15,activity:"chineseReading"},
 {id:9,icon:"😊",name:"Alltagsziel",desc:"Helfen, höflich sein und ruhig bleiben",stars:10,done:false,unit:"check",target:1}],
-german:{grade:1,index:0,seen:0,wrong:[],taskIndex:0,taskCorrect:0,taskWrong:[],customWords:[],customReview:[],customIndex:0},math:{correct:0,streak:0,floor:1},chinese:{index:0,poem:0,reading:[],writing:[],dailyChars:[],dailyDate:"",dailyWrong:[],reviewQueue:[],dailyIndex:0,customWords:{}},
+german:{grade:1,index:0,seen:0,wrong:[],taskIndex:0,taskCorrect:0,taskWrong:[],customWords:[],customReview:[],customIndex:0},math:{correct:0,streak:0,floor:1},chinese:{index:0,poem:0,reading:[],writing:[],dailyChars:[],dailyDate:"",dailyWrong:[],reviewQueue:[],dailyIndex:0,customWords:{},commonIndex:0,commonMastered:[],commonWrong:[],readingIndex:0,readingDone:[]},
 activities:{piano:[],germanReading:[],chineseReading:[],englishReading:[]},
 sports:{tennis:{sessions:0,minutes:0},counts:{Schwimmen:0,Seilspringen:0,"Liegestütze":0,"Sit-ups":0},history:[]},
 partners:[{name:"Pikachu",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",desc:"Elektro-Pokémon · erhält XP durch tägliche Aufgaben",owned:true,level:1,xp:0},{name:"Bisasam",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",desc:"Pflanzen-Pokémon · wird durch Lernaufgaben freigeschaltet",owned:false,level:1,xp:0},{name:"Gengar",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png",desc:"Geist-Pokémon · wird durch Klavier oder Englisch freigeschaltet",owned:false,level:1,xp:0},{name:"Schiggy",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png",desc:"Wasser-Pokémon · wird durch Schwimmen freigeschaltet",owned:false,level:1,xp:0},{name:"Glumanda",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png",desc:"Feuer-Pokémon · wird durch Tennistraining freigeschaltet",owned:false,level:1,xp:0}],selectedPartner:0};
 
-let S;
-try{
-  S=JSON.parse(localStorage.getItem("growthPlanetMinimal")||localStorage.getItem("growthPlanetV3")||localStorage.getItem("growthPlanetFinal")||"null");
-}catch(e){S=null}
+
+const STORAGE_KEY="growthPlanet";
+const LEGACY_KEYS=["growthPlanetV8","growthPlanetV7","growthPlanetV6","growthPlanetMinimal","growthPlanetV3","growthPlanetFinal","growthPlanetV21","growthPlanetV2"];
+
+function safeParse(raw){
+  try{return raw?JSON.parse(raw):null}catch(e){return null}
+}
+function loadNewestData(){
+  const candidates=[];
+  const primary=safeParse(localStorage.getItem(STORAGE_KEY));
+  if(primary)candidates.push({key:STORAGE_KEY,data:primary,score:1000000+(primary.schemaVersion||0)});
+  for(const key of LEGACY_KEYS){
+    const data=safeParse(localStorage.getItem(key));
+    if(data){
+      const activityScore=(data.history?Object.keys(data.history).length:0)*1000+(data.xp||0)+(data.stars||0);
+      candidates.push({key,data,score:(data.schemaVersion||0)*100000+activityScore});
+    }
+  }
+  candidates.sort((a,b)=>b.score-a.score);
+  return candidates[0]?.data||null;
+}
+function createSafetyBackup(data,label="upgrade"){
+  if(!data)return;
+  try{
+    const backups=safeParse(localStorage.getItem("growthPlanetBackups"))||[];
+    backups.unshift({createdAt:new Date().toISOString(),label,data});
+    localStorage.setItem("growthPlanetBackups",JSON.stringify(backups.slice(0,5)));
+  }catch(e){}
+}
+
+let S=loadNewestData();
+if(S)createSafetyBackup(structuredClone(S),"before-v83-migration");
 S=S||structuredClone(DEFAULTS);
 
+
+function parseLegacyDateKey(value,fallback=localDateKey()){
+  if(!value)return fallback;
+  if(/^\d{4}-\d{2}-\d{2}$/.test(value))return value;
+  const de=String(value).match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+  if(de)return `${de[3]}-${String(de[2]).padStart(2,"0")}-${String(de[1]).padStart(2,"0")}`;
+  const parsed=new Date(value);
+  return Number.isNaN(parsed.getTime())?fallback:localDateKey(parsed);
+}
+
 function patch(){
-  S.schemaVersion=8;
+  S.schemaVersion=83;
+  S.updatedAt=S.updatedAt||new Date().toISOString();
   S.history=S.history||{};
+  S.timeBaselines=S.timeBaselines||{};
   S.lastOpenDate=S.lastOpenDate||"";
   S.todayDate=S.todayDate||"";
 
   S.daily=S.daily||{xp:0,stars:0,startedAt:"",activity:{}};
+  S.daily.xp=+S.daily.xp||0;
+  S.daily.stars=+S.daily.stars||0;
   S.daily.activity=S.daily.activity||{};
-  const activityDefaults={germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0};
+  const activityDefaults={germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0};
   for(const [k,v] of Object.entries(activityDefaults))if(S.daily.activity[k]==null)S.daily.activity[k]=v;
   S.week=Array.isArray(S.week)&&S.week.length===7?S.week:[0,0,0,0,0,0,0];
   S.deletedDefaultTasks=S.deletedDefaultTasks||[];
@@ -555,8 +654,19 @@ function patch(){
   S.chinese.dailyIndex=S.chinese.dailyIndex||0;
   S.chinese.dailyDate=S.chinese.dailyDate||"";
   S.chinese.customWords=S.chinese.customWords||{};
+  S.chinese.commonIndex=S.chinese.commonIndex||0;S.chinese.commonMastered=S.chinese.commonMastered||[];S.chinese.commonWrong=S.chinese.commonWrong||[];
+  S.chinese.readingIndex=S.chinese.readingIndex||0;S.chinese.readingDone=S.chinese.readingDone||[];
   S.activities=S.activities||{piano:[],germanReading:[],chineseReading:[],englishReading:[]};
-  for(const k of ["piano","germanReading","chineseReading","englishReading"])S.activities[k]=S.activities[k]||[];
+  for(const k of ["piano","germanReading","chineseReading","englishReading"]){
+    S.activities[k]=S.activities[k]||[];
+    S.activities[k].forEach((x,i)=>{
+      x.id=x.id||(`${k}-${Date.now()}-${i}`);
+      if(!x.dateKey)x.dateKey=parseLegacyDateKey(x.date,S.todayDate||localDateKey());
+      else x.dateKey=parseLegacyDateKey(x.dateKey,S.todayDate||localDateKey());
+      x.date=new Date(x.dateKey+"T12:00:00").toLocaleDateString("de-DE");
+      x.minutes=+x.minutes||0;
+    });
+  }
   S.quests.forEach(q=>{q.unit=q.unit||"check";q.target=q.target||1});
   S.sports=S.sports||structuredClone(DEFAULTS.sports);
   S.sports.tennis=S.sports.tennis||{sessions:0,minutes:0};
@@ -568,6 +678,8 @@ function patch(){
 }
 patch();
 const DAILY_ENGINE_RESULT=runDailyEngine();
+rebuildTimeMetrics();
+save();
 
 function localDateKey(d=new Date()){
   const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
@@ -597,7 +709,7 @@ function previousDateKey(key){
 function blankDaily(){
   return {xp:0,stars:0,startedAt:new Date().toISOString(),activity:{
     germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,
-    readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0
+    readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0
   }};
 }
 function dailySnapshot(dateKey){
@@ -633,7 +745,8 @@ function runDailyEngine(){
     S.lastOpenDate=today;
     S.daily=S.daily||blankDaily();
     if(!S.daily.startedAt)S.daily.startedAt=new Date().toISOString();
-    return {newDay:false};
+    // First upgrade: preserve all currently completed tasks and today's entries.
+    return {newDay:false,migratedToday:true};
   }
   if(S.todayDate===today){S.lastOpenDate=today;return {newDay:false};}
 
@@ -650,13 +763,26 @@ function runDailyEngine(){
 
   resetDailyState();
   S.todayDate=today;
+  S.timeBaselines[today]={pianoMinutes:0,readingMinutes:0};
   S.lastOpenDate=today;
   return {newDay:true,previous};
 }
 
 const $=s=>document.querySelector(s);
 const $$=s=>document.querySelectorAll(s);
-const save=()=>{try{localStorage.setItem("growthPlanetMinimal",JSON.stringify(S));return true}catch(e){toast("Daten konnten nicht gespeichert werden");return false}};
+const save=()=>{
+  try{
+    S.schemaVersion=83;
+    S.updatedAt=new Date().toISOString();
+    const raw=JSON.stringify(S);
+    localStorage.setItem(STORAGE_KEY,raw);
+    localStorage.setItem("growthPlanetMinimal",raw);
+    return true;
+  }catch(e){
+    toast("Daten konnten nicht gespeichert werden");
+    return false;
+  }
+};
 const toast=t=>{
   const x=$("#toast");
   if(!x)return;
@@ -780,7 +906,7 @@ function german(){
     $("#nextW").onclick=()=>{S.german.index=(S.german.index+1)%L.length;S.german.seen++;S.daily.activity.germanCards++;addReward(0,2);save();render();german()};
   }else if(gm==="quiz"){
     const nouns=L.filter(x=>x.type==="noun"),qw=nouns[S.german.index%nouns.length];
-    A.innerHTML=`<div class="flash"><div class="flash-emoji">${qw.e}</div><div class="flash-word">___ ${qqw.w}</div><div>${qw.m}</div></div><div class="options">${["der","die","das"].map(o=>`<button class="option" data-art="${o}">${o} ${qqw.w}</button>`).join("")}</div>`;
+    A.innerHTML=`<div class="flash"><div class="flash-emoji">${qw.e}</div><div class="flash-word">___ ${qqw.w}</div><div>${qw.m}</div></div><div class="options">${["der","die","das"].map(o=>`<button class="choice-btn" data-art="${o}">${o} ${qqw.w}</button>`).join("")}</div>`;
     $$("[data-art]").forEach(b=>b.onclick=()=>{
       if([...$$("[data-art]")].some(x=>x.disabled))return;
       $$("[data-art]").forEach(x=>x.disabled=true);
@@ -789,7 +915,7 @@ function german(){
       S.german.index=(S.german.index+1)%L.length;save();setTimeout(()=>{render();german()},500);
     });
   }else if(gm==="spell"){
-    A.innerHTML=`<div class="flash"><button class="speak" id="speak2">🔊</button><div class="flash-emoji">${w.e}</div><div>${w.m}</div></div><input id="spell" class="select" placeholder="Deutsches Wort eingeben"><button class="action" id="checkSpell">Prüfen</button>`;
+    A.innerHTML=`<div class="flash"><button class="speak" id="speak2">🔊</button><div class="flash-emoji">${w.e}</div><div>${w.m}</div></div><input id="spell" class="big-answer" placeholder="Deutsches Wort eingeben"><button class="big-submit" id="checkSpell">Prüfen</button>`;
     $("#speak2").onclick=()=>{const u=new SpeechSynthesisUtterance(w.w);u.lang="de-DE";speechSynthesis.speak(u)};
     $("#checkSpell").onclick=()=>{
       if($("#checkSpell").disabled)return;
@@ -812,8 +938,8 @@ function german(){
     <div class="history" style="margin-top:12px">${S.activities.germanReading.slice(0,10).map(x=>`<div class="history-item"><b>${x.book||"Deutsch lesen"}</b><span>${x.minutes} Min. · ${x.date}</span></div>`).join("")||'<p class="hint">Noch keine Einträge</p>'}</div>`;
     $("#saveGermanReading").onclick=()=>{
       const minutes=+$("#germanMinutes").value||0;if(minutes<1)return toast("Bitte Minuten eingeben");
-      S.activities.germanReading.unshift({book:$("#germanBook").value.trim(),minutes,date:new Date().toLocaleDateString("de-DE")});S.daily.activity.readingMinutes+=minutes;
-      addReward(5,8);save();render();german();toast("Lesezeit gespeichert");
+      S.activities.germanReading.unshift({id:`germanReading-${Date.now()}`,book:$("#germanBook").value.trim(),note:$("#germanBook").value.trim(),minutes,dateKey:localDateKey(),date:new Date().toLocaleDateString("de-DE")});
+      addReward(5,8);rebuildTimeMetrics();save();render();german();toast("Lesezeit gespeichert");
     };
   }else if(gm==="custom"){
     A.innerHTML=`<h2>Eigene Wörter</h2>
@@ -910,9 +1036,9 @@ function german(){
     else{title="Lücke ausfüllen";question=s.q;answer=s.a;hint="Grundform: "+s.hint;}
     A.innerHTML=`<div class="stats"><div class="stat"><b>${S.german.taskCorrect}</b><small>Richtig</small></div><div class="stat"><b>${S.german.taskWrong.length}</b><small>Fehler</small></div><div class="stat"><b>${S.german.taskIndex+1}</b><small>Aufgabe</small></div></div>
     <div class="exercise-box"><div class="exercise-title">${title}</div><div style="font-size:28px;font-weight:900">${question}</div><div class="hint" style="margin-top:7px">${hint}</div>
-    <div class="answer-row"><input id="germanTaskAnswer" autocomplete="off" placeholder="Antwort eingeben"><button class="action" id="checkGermanTask" style="width:auto;margin:0">Prüfen</button></div>
+    <div class="answer-row"><input id="germanTaskAnswer" autocomplete="off" placeholder="Antwort eingeben"><button class="big-submit" id="checkGermanTask" style="width:auto;margin:0">Prüfen</button></div>
     <div id="germanTaskFeedback" class="feedback"></div></div>
-    <button class="action secondary" id="nextGermanTask">Nächste Aufgabe</button>
+    <button class="big-secondary" id="nextGermanTask">Nächste Aufgabe</button>
     ${S.german.taskWrong.length?`<div class="history" style="margin-top:14px"><h3>Zu wiederholen</h3>${S.german.taskWrong.slice(-8).reverse().map(x=>`<div class="history-item"><b>${x.question}</b><span>${x.answer}</span></div>`).join("")}</div>`:""}`;
     const check=()=>{
       const btn=$("#checkGermanTask"),input=$("#germanTaskAnswer");
@@ -950,89 +1076,76 @@ if(DAILY_ENGINE_RESULT.newDay){
 }};
 $("#newMath").onclick=createMath;$("#mathMode").onchange=createMath;
 
-let cm="hanzi";
+let cm="common";
 function chinese(){
   const A=$("#chineseContent");
-  if(cm==="hanzi"){
-    const x=HANZI[S.chinese.index%HANZI.length];
-    A.innerHTML=`<div style="text-align:center"><div class="hanzi">${x[0]}</div><div class="pinyin">${x[1]}</div><p><b>Radikal: </b>${x[2]}</p><p><b>Wörter: </b>${x[3]}</p></div><button class="action" id="nextH">Gelernt</button>`;
-    $("#nextH").onclick=()=>{S.chinese.index=(S.chinese.index+1)%HANZI.length;S.daily.activity.chineseChars++;addReward(1,3);save();render();chinese()};
+  if(cm==="common"){
+    const current=COMMON_CHINESE_CHARS[S.chinese.commonIndex%COMMON_CHINESE_CHARS.length],words=charWords(current);
+    A.innerHTML=`<div class="learning-head"><div><h3>常用汉字库</h3><p>${COMMON_CHINESE_CHARS.length} 个常用字，可逐个认识、组词和记忆</p></div><span class="review-badge">${S.chinese.commonMastered.length} 已掌握</span></div>
+    <div class="module-summary"><div class="stat"><b>${COMMON_CHINESE_CHARS.length}</b><small>常用字</small></div><div class="stat"><b>${S.chinese.commonMastered.length}</b><small>已掌握</small></div><div class="stat"><b>${S.chinese.commonWrong.length}</b><small>待复习</small></div></div>
+    <div class="question-card"><div class="question-label">当前汉字</div><div class="hanzi">${current}</div><div class="word-grid">${words.length?words.map(w=>`<div class="word-card"><b>${w}</b><small>词组</small></div>`).join(""):'<div class="hint">可在“每日生字”中补充词组。</div>'}</div>
+    <div class="memory-row"><button class="big-secondary" id="markReviewChar">还不熟</button><button class="big-submit" id="masterChar">我记住了</button></div>
+    <div class="learning-actions"><button class="big-secondary" id="prevCommon">上一个</button><button class="big-secondary" id="nextCommon">下一个</button></div></div>
+    <div class="char-grid">${COMMON_CHINESE_CHARS.slice(0,200).map((c,i)=>`<button class="char-btn ${S.chinese.commonMastered.includes(c)?'mastered':''} ${S.chinese.commonWrong.includes(c)?'review':''} ${i===S.chinese.commonIndex?'active':''}" data-common-index="${i}">${c}</button>`).join("")}</div>`;
+    $("#masterChar").onclick=()=>{if(!S.chinese.commonMastered.includes(current))S.chinese.commonMastered.push(current);S.chinese.commonWrong=S.chinese.commonWrong.filter(x=>x!==current);S.chinese.commonIndex=(S.chinese.commonIndex+1)%COMMON_CHINESE_CHARS.length;S.daily.activity.chineseChars++;addReward(1,3);save();render();chinese()};
+    $("#markReviewChar").onclick=()=>{if(!S.chinese.commonWrong.includes(current))S.chinese.commonWrong.push(current);S.chinese.commonIndex=(S.chinese.commonIndex+1)%COMMON_CHINESE_CHARS.length;save();chinese()};
+    $("#prevCommon").onclick=()=>{S.chinese.commonIndex=(S.chinese.commonIndex-1+COMMON_CHINESE_CHARS.length)%COMMON_CHINESE_CHARS.length;save();chinese()};
+    $("#nextCommon").onclick=()=>{S.chinese.commonIndex=(S.chinese.commonIndex+1)%COMMON_CHINESE_CHARS.length;save();chinese()};
+    $$("[data-common-index]").forEach(b=>b.onclick=()=>{S.chinese.commonIndex=+b.dataset.commonIndex;save();chinese()});
+  }else if(cm==="practice"){
+    const pool=S.chinese.commonWrong.length?S.chinese.commonWrong:COMMON_CHINESE_CHARS;
+    const char=pool[S.chinese.commonIndex%pool.length],words=charWords(char),correct=words[0]||char+"字";
+    const distractors=[...COMMON_CHINESE_CHARS].filter(c=>c!==char).slice((S.chinese.commonIndex*3)%500,(S.chinese.commonIndex*3)%500+3).map(c=>charWords(c)[0]||c+"字");
+    const options=[correct,...distractors].sort(()=>Math.random()-.5);
+    A.innerHTML=`<div class="learning-head"><div><h3>认字与组词</h3><p>选择包含“${char}”的正确词语</p></div><span class="review-badge">${S.chinese.commonWrong.length?"错字复习":"随机练习"}</span></div>
+    <div class="module-summary"><div class="stat"><b>${S.chinese.commonMastered.length}</b><small>已掌握</small></div><div class="stat"><b>${S.chinese.commonWrong.length}</b><small>错字</small></div><div class="stat"><b>${S.daily.activity.chineseChars||0}</b><small>今日练习</small></div></div>
+    <div class="question-card"><div class="question-label">请选择正确词语</div><div class="question-main">${char}</div><div class="choice-grid">${options.map(o=>`<button class="choice-btn" data-char-choice="${o}">${o}</button>`).join("")}</div><div id="charFeedback" class="feedback"></div></div>`;
+    $$("[data-char-choice]").forEach(b=>b.onclick=()=>{
+      if([...$$("[data-char-choice]")].some(x=>x.disabled))return;
+      $$("[data-char-choice]").forEach(x=>x.disabled=true);
+      const ok=b.dataset.charChoice===correct,fb=$("#charFeedback");b.classList.add(ok?"correct":"wrong");fb.className="feedback show "+(ok?"ok":"bad");
+      if(ok){fb.textContent="答对了！";S.chinese.commonWrong=S.chinese.commonWrong.filter(x=>x!==char);if(!S.chinese.commonMastered.includes(char))S.chinese.commonMastered.push(char);addReward(1,3);}
+      else{fb.textContent="正确答案："+correct;if(!S.chinese.commonWrong.includes(char))S.chinese.commonWrong.push(char);}
+      S.daily.activity.chineseChars++;save();render();setTimeout(()=>{S.chinese.commonIndex++;save();chinese()},900);
+    });
+  }else if(cm==="stories"){
+    const r=CHINESE_READINGS[S.chinese.readingIndex%CHINESE_READINGS.length];
+    A.innerHTML=`<div class="learning-head"><div><h3>趣味短文</h3><p>短小、有趣，适合三年级阅读和识字</p></div><span class="review-badge">${S.chinese.readingDone.length}/${CHINESE_READINGS.length}</span></div>
+    <div class="module-summary"><div class="stat"><b>${CHINESE_READINGS.length}</b><small>短文</small></div><div class="stat"><b>${S.chinese.readingDone.length}</b><small>已读</small></div><div class="stat"><b>${r.words.length}</b><small>重点词</small></div></div>
+    <div class="question-card reading-card"><div class="reading-title">${r.title}</div><div class="reading-text">${r.text}</div><div class="reading-words">${r.words.map(w=>`<span class="reading-word">${w}</span>`).join("")}</div>
+    <div class="learning-actions"><button class="big-secondary" id="speakReading">🔊 朗读</button><button class="big-submit" id="finishReading">读完了</button></div>
+    <div class="learning-actions"><button class="big-secondary" id="prevReadingStory">上一篇</button><button class="big-secondary" id="nextReadingStory">下一篇</button></div></div>`;
+    $("#speakReading").onclick=()=>{const u=new SpeechSynthesisUtterance(r.text);u.lang="zh-CN";speechSynthesis.speak(u)};
+    $("#finishReading").onclick=()=>{if(!S.chinese.readingDone.includes(S.chinese.readingIndex))S.chinese.readingDone.push(S.chinese.readingIndex);S.daily.activity.readingMinutes+=5;addReward(3,6);save();render();toast("阅读完成")};
+    $("#prevReadingStory").onclick=()=>{S.chinese.readingIndex=(S.chinese.readingIndex-1+CHINESE_READINGS.length)%CHINESE_READINGS.length;save();chinese()};
+    $("#nextReadingStory").onclick=()=>{S.chinese.readingIndex=(S.chinese.readingIndex+1)%CHINESE_READINGS.length;save();chinese()};
   }else if(cm==="daily"){
-    const today=localDateKey();
-    const review=[...new Set(S.chinese.reviewQueue||[])];
-    const pool=[...review,...S.chinese.dailyChars.filter(x=>!review.includes(x))];
-    const current=pool[S.chinese.dailyIndex%Math.max(pool.length,1)];
-    A.innerHTML=`<h2>Tageszeichen</h2>
-    <p class="hint">Die Eltern können chinesische Schriftzeichen für heute eingeben. Fehler erscheinen am nächsten Tag zuerst.</p>
-    <div class="answer-row"><input id="dailyCharInput" maxlength="20" placeholder="Zum Beispiel: 规 墙 印"><button class="action" id="addDailyChars" style="width:auto;margin:0">Hinzufügen</button></div>
-    <input id="dailyWordInput" style="margin-top:9px" placeholder="Optional: 规:规则,规定; 墙:墙壁,围墙">
-    <p class="hint" style="margin-top:7px">Bekannte Zeichen erhalten automatisch Wortgruppen. Eigene Wortgruppen können ergänzt oder korrigiert werden.</p>
-    <div style="margin-top:10px">${S.chinese.dailyChars.map(c=>`<span class="hanzi-chip">${c}<button data-remove-char="${c}">×</button></span>`).join("")||'<span class="hint">Noch keine Tageszeichen</span>'}</div>
-    ${pool.length?`<div class="exercise-box">
-      <div class="exercise-title">${review.includes(current)?'Wiederholung vom Vortag':'Heutiges Zeichen'} ${review.includes(current)?'<span class="review-badge">Wiederholen</span>':''}</div>
-      <div class="hanzi">${current}</div>
-      <div class="word-grid">${generatedWordsFor(current).map(w=>`<div class="word-card"><b>${w}</b><small>Wortgruppe</small></div>`).join("")||'<p class="hint">Bitte Wortgruppen ergänzen.</p>'}</div>
-      <div class="exercise-title" style="margin-top:15px">Schreibe eine passende Wortgruppe</div>
-      <div class="answer-row"><input id="chineseWordAnswer" placeholder="Wortgruppe eingeben"><button class="action" id="checkChineseWord" style="width:auto;margin:0">Prüfen</button></div>
-      <div id="chineseFeedback" class="feedback"></div>
-      <div class="answer-row"><button class="action secondary" id="markChineseWrong" style="margin:0">Noch unsicher</button><button class="action" id="nextChineseDaily" style="margin:0">Nächstes Zeichen</button></div>
-    </div>`:""}`;
+    const today=localDateKey(),review=[...new Set(S.chinese.reviewQueue||[])],pool=[...review,...S.chinese.dailyChars.filter(x=>!review.includes(x))],current=pool[S.chinese.dailyIndex%Math.max(pool.length,1)];
+    A.innerHTML=`<div class="learning-head"><div><h3>每日生字</h3><p>家长输入当天生字和词组，做错的字第二天优先出现</p></div></div>
+    <div class="answer-row"><input id="dailyCharInput" class="big-answer" maxlength="20" placeholder="例如：规 墙 印"><button class="big-submit" id="addDailyChars">添加</button></div>
+    <input id="dailyWordInput" class="big-answer" style="margin-top:10px" placeholder="可选：规:规则,规定; 墙:墙壁,围墙">
+    <div style="margin-top:10px">${S.chinese.dailyChars.map(c=>`<span class="hanzi-chip">${c}<button data-remove-char="${c}">×</button></span>`).join("")||'<span class="hint">今天还没有输入生字</span>'}</div>
+    ${pool.length?`<div class="question-card"><div class="question-label">${review.includes(current)?'昨日错字复习':'今日生字'}</div><div class="hanzi">${current}</div><div class="word-grid">${charWords(current).map(w=>`<div class="word-card"><b>${w}</b><small>词组</small></div>`).join("")}</div><div class="answer-row"><input id="chineseWordAnswer" class="big-answer" placeholder="输入一个正确词组"><button class="big-submit" id="checkChineseWord">检查</button></div><div id="chineseFeedback" class="feedback"></div></div>`:""}`;
     $("#addDailyChars").onclick=()=>{
       const customText=$("#dailyWordInput").value.trim();
-      customText.split(/[;；]/).map(x=>x.trim()).filter(Boolean).forEach(part=>{
-        const pieces=part.split(/[:：]/),char=pieces[0],wordsText=pieces.slice(1).join(":");
-        if(char&&wordsText){
-          const c=[...char.trim()][0];
-          const words=wordsText.split(/[,，、]/).map(x=>x.trim()).filter(w=>w&&w.includes(c));
-          if(c&&words.length)S.chinese.customWords[c]=[...new Set(words)].slice(0,6);
-        }
-      });
-      const chars=[...$("#dailyCharInput").value.replace(/[\s,，、]/g,"")].filter(c=>/[\u4e00-\u9fff]/.test(c));
-      if(!chars.length)return toast("Bitte chinesische Schriftzeichen eingeben");
-      const unsupported=chars.filter(c=>!generatedWordsFor(c).length);
-      if(unsupported.length)return toast("Bitte Wortgruppen ergänzen: "+unsupported.join("、"));
-      S.chinese.dailyChars=[...new Set([...S.chinese.dailyChars,...chars])];
-      S.chinese.dailyDate=today;S.chinese.dailyIndex=0;save();render();chinese();
+      customText.split(/[;；]/).map(x=>x.trim()).filter(Boolean).forEach(part=>{const pieces=part.split(/[:：]/),char=pieces[0],wordsText=pieces.slice(1).join(":");if(char&&wordsText){const c=[...char.trim()][0];const words=wordsText.split(/[,，、]/).map(x=>x.trim()).filter(w=>w&&w.includes(c));if(c&&words.length)S.chinese.customWords[c]=[...new Set(words)].slice(0,6);}});
+      const inputChars=[...$("#dailyCharInput").value.replace(/[\s,，、]/g,"")].filter(c=>/[\u4e00-\u9fff]/.test(c));if(!inputChars.length)return toast("请输入生字");
+      S.chinese.dailyChars=[...new Set([...S.chinese.dailyChars,...inputChars])];S.chinese.dailyDate=today;S.chinese.dailyIndex=0;save();render();chinese();
     };
-    $$("[data-remove-char]").forEach(b=>b.onclick=()=>{S.chinese.dailyChars=S.chinese.dailyChars.filter(c=>c!==b.dataset.removeChar);S.chinese.dailyIndex=0;save();chinese()});
+    $$("[data-remove-char]").forEach(b=>b.onclick=()=>{S.chinese.dailyChars=S.chinese.dailyChars.filter(c=>c!==b.dataset.removeChar);save();chinese()});
     if(pool.length){
-      const words=generatedWordsFor(current);
-      $("#checkChineseWord").onclick=()=>{
-        const btn=$("#checkChineseWord");
-        if(btn.disabled)return;
-        const val=$("#chineseWordAnswer").value.trim(),ok=words.includes(val),fb=$("#chineseFeedback");
-        if(!val)return toast("Bitte eine Wortgruppe eingeben");
-        btn.disabled=true;$("#chineseWordAnswer").disabled=true;
-        fb.className="feedback show "+(ok?"ok":"bad");
-        if(ok){
-          fb.textContent="Richtig!";
-          S.chinese.reviewQueue=S.chinese.reviewQueue.filter(x=>x!==current);S.daily.activity.chineseChars++;
-          S.chinese.dailyWrong=S.chinese.dailyWrong.filter(x=>x!==current);
-          addReward(1,3);
-        }else{
-          fb.textContent="Mögliche Wörter: "+words.join("、");
-          if(!S.chinese.dailyWrong.includes(current))S.chinese.dailyWrong.push(current);
-        }
-        save();render();
-        setTimeout(()=>{S.chinese.dailyIndex++;save();chinese()},900);
-      };
-      $("#markChineseWrong").onclick=()=>{if(!S.chinese.dailyWrong.includes(current))S.chinese.dailyWrong.push(current);S.chinese.dailyIndex++;save();chinese();toast("Für morgen vorgemerkt")};
-      $("#nextChineseDaily").onclick=()=>{S.chinese.dailyIndex++;save();chinese()};
+      const words=charWords(current);
+      $("#checkChineseWord").onclick=()=>{const val=$("#chineseWordAnswer").value.trim(),ok=words.includes(val),fb=$("#chineseFeedback");if(!val)return toast("请输入词组");fb.className="feedback show "+(ok?"ok":"bad");if(ok){fb.textContent="正确！";S.chinese.reviewQueue=S.chinese.reviewQueue.filter(x=>x!==current);S.chinese.dailyWrong=S.chinese.dailyWrong.filter(x=>x!==current);addReward(1,3);}else{fb.textContent="可以写："+words.join("、");if(!S.chinese.dailyWrong.includes(current))S.chinese.dailyWrong.push(current);}save();render();setTimeout(()=>{S.chinese.dailyIndex++;save();chinese()},900);};
     }
-  }else if(cm==="poem"){
-    const p=POEMS[S.chinese.poem%POEMS.length];
-    A.innerHTML=`<div style="text-align:center"><h2>${p[0]}</h2><div class="hint">${p[1]}</div><div class="poem">${p[2].replaceAll("\n","<br>")}</div></div><button class="action" id="nextP">Nächstes Gedicht</button>`;
-    $("#nextP").onclick=()=>{S.chinese.poem=(S.chinese.poem+1)%POEMS.length;save();chinese()};
   }else if(cm==="reading"){
     const total=S.chinese.reading.reduce((a,x)=>a+(+x.mins||0),0);
-    A.innerHTML=`<div class="activity-total"><div><small>Chinesisch gelesen</small><b>${total} Min.</b></div><div style="font-size:36px">📕</div></div>
-    <input id="book" placeholder="Buchtitel"><input id="mins" type="number" value="15" min="1" style="margin-top:10px">
-    <button class="action" id="saveRead">Lesezeit speichern</button>
-    <div class="history" style="margin-top:12px">${S.chinese.reading.slice(0,10).map(x=>`<div class="history-item"><b>${x.book||"Chinesisch lesen"}</b><span>${x.mins} Min.</span></div>`).join("")||'<p class="hint">Noch keine Einträge</p>'}</div>`;
-    $("#saveRead").onclick=()=>{const b=$("#book").value.trim();const mins=+$("#mins").value||0;if(mins<1)return toast("Bitte Minuten eingeben");S.chinese.reading.unshift({book:b,mins,date:new Date().toLocaleDateString("de-DE")});S.activities.chineseReading.unshift({book:b,minutes:mins,date:new Date().toLocaleDateString("de-DE")});S.daily.activity.readingMinutes+=mins;addReward(5,10);save();render();chinese();toast("Lesezeit gespeichert")};
+    A.innerHTML=`<div class="learning-head"><div><h3>阅读时间记录</h3><p>记录中文看书的书名和分钟数</p></div><span class="review-badge">${total} 分钟</span></div>
+    <div class="answer-row"><input id="book" class="big-answer" placeholder="书名"><input id="mins" class="big-answer" type="number" value="15" min="1"><button class="big-submit" id="saveRead">保存</button></div>
+    <div class="history" style="margin-top:12px">${S.chinese.reading.slice(0,10).map(x=>`<div class="history-item"><b>${x.book||"中文阅读"}</b><span>${x.mins} 分钟</span></div>`).join("")||'<p class="hint">还没有记录</p>'}</div>`;
+    $("#saveRead").onclick=()=>{const b=$("#book").value.trim(),mins=+$("#mins").value||0;if(mins<1)return toast("请输入分钟数");S.chinese.reading.unshift({book:b,mins,date:new Date().toLocaleDateString("de-DE")});S.activities.chineseReading.unshift({id:`chineseReading-${Date.now()}`,book:b,note:b,minutes:mins,dateKey:localDateKey(),date:new Date().toLocaleDateString("de-DE")});addReward(5,10);rebuildTimeMetrics();save();render();chinese();toast("阅读时间已保存")};
   }else{
-    A.innerHTML=`<textarea id="writing" rows="7" placeholder="Schreibe über den schönsten Moment des Tages"></textarea><button class="action" id="saveWriting">Text speichern</button>`;
-    $("#saveWriting").onclick=()=>{const t=$("#writing").value.trim();if(t.length<10)return toast("Bitte mindestens 10 Zeichen schreiben");S.chinese.writing.unshift({text:t});addReward(8,15);save();render();chinese()};
+    A.innerHTML=`<div class="learning-head"><div><h3>中文写作</h3><p>写下今天最开心、最有趣或最想记录的一件事</p></div></div><textarea id="writing" rows="8" class="big-answer" placeholder="至少写 10 个字"></textarea><button class="big-submit" style="width:100%;margin-top:12px" id="saveWriting">保存</button>`;
+    $("#saveWriting").onclick=()=>{const t=$("#writing").value.trim();if(t.length<10)return toast("至少写 10 个字");S.chinese.writing.unshift({text:t,date:localDateKey()});addReward(8,15);save();render();chinese();toast("写作已保存")};
   }
 }
 $$("[data-cmode]").forEach(b=>b.onclick=()=>{cm=b.dataset.cmode;$$("[data-cmode]").forEach(x=>x.classList.toggle("active",x===b));chinese()});
@@ -1055,7 +1168,12 @@ $("#addTennis").onclick=()=>{
 $$("[data-quick]").forEach(b=>b.onclick=()=>{
   const n=b.dataset.quick;
   openModal(`<h3>${n}</h3><input id="qty" type="number" value="1"><button class="action" id="saveQ">Speichern</button>`);
-  $("#saveQ").onclick=()=>{const q=+$("#qty").value||1;S.sports.counts[n]=(S.sports.counts[n]||0)+q;S.sports.history.unshift({title:n,detail:q+(["Liegestütze","Sit-ups"].includes(n)?" Wiederholungen":" Einheiten")});addReward(5,8);if(n==="Schwimmen"){S.partners[3].owned=true;S.daily.activity.swimEntries++;}save();render();$("#modal").classList.remove("show")};
+  $("#saveQ").onclick=()=>{const q=+$("#qty").value||1;S.sports.counts[n]=(S.sports.counts[n]||0)+q;
+      S.sports.history.unshift({title:n,detail:q+(["Liegestütze","Sit-ups"].includes(n)?" Wiederholungen":" Einheiten")});
+      if(n==="Liegestütze")S.daily.activity.pushups+=q;
+      if(n==="Sit-ups")S.daily.activity.situps+=q;
+      addReward(5,8);
+      if(n==="Schwimmen"){S.partners[3].owned=true;S.daily.activity.swimEntries++;}save();render();$("#modal").classList.remove("show")};
 });
 
 function partners(){
@@ -1079,8 +1197,134 @@ function renderTimeOverview(){
     ["📕","Chinesisch lesen",sum("chineseReading")],
     ["🇬🇧","Englisch lesen",sum("englishReading")]
   ].map(x=>`<div class="history-item"><b>${x[0]} ${x[1]}</b><span>${x[2]} Min.</span></div>`).join("");
+
+  const log=$("#timeLogList");if(!log)return;
+  const rows=allTimeLogs().slice(0,40);
+  log.innerHTML=rows.length?`<h3>Letzte Zeiteinträge</h3>`+rows.map(x=>{
+    const label=TIME_LABELS[x.key];
+    return `<div class="log-item">
+      <div style="font-size:24px">${label[0]}</div>
+      <div class="log-main"><b>${label[1]} · ${x.minutes} Min.</b><small>${x.note||"Ohne Notiz"}</small><div class="date-note">${new Date(x.dateKey+"T12:00:00").toLocaleDateString("de-DE",{weekday:"short",day:"2-digit",month:"2-digit",year:"numeric"})}</div></div>
+      <div class="log-actions"><button data-edit-time="${x.key}" data-time-id="${x.id}" title="Bearbeiten">✎</button><button class="delete" data-delete-time="${x.key}" data-time-id="${x.id}" title="Löschen">×</button></div>
+    </div>`;
+  }).join(""):'<p class="hint">Noch keine Zeiteinträge</p>';
+
+  $$("[data-edit-time]").forEach(b=>b.onclick=()=>{
+    const key=b.dataset.editTime,item=S.activities[key].find(x=>String(x.id)===String(b.dataset.timeId));
+    if(item)openTimeEditor(key,item);
+  });
+  $$("[data-delete-time]").forEach(b=>b.onclick=()=>{
+    const key=b.dataset.deleteTime,item=S.activities[key].find(x=>String(x.id)===String(b.dataset.timeId));
+    if(!item||!confirm("Diesen Zeiteintrag wirklich löschen?"))return;
+    S.activities[key]=S.activities[key].filter(x=>String(x.id)!==String(item.id));
+    rebuildTimeMetrics();save();render();toast("Eintrag gelöscht");
+  });
 }
 
+
+
+
+
+function timeLogTotals(){
+  const totals={};
+  for(const [key,items] of Object.entries(S.activities||{})){
+    if(!["piano","germanReading","chineseReading","englishReading"].includes(key))continue;
+    const metric=key==="piano"?"pianoMinutes":"readingMinutes";
+    for(const item of items||[]){
+      const dateKey=parseLegacyDateKey(item.dateKey||item.date,S.todayDate||localDateKey());
+      item.dateKey=dateKey;
+      totals[dateKey]=totals[dateKey]||{pianoMinutes:0,readingMinutes:0};
+      totals[dateKey][metric]+=+item.minutes||0;
+    }
+  }
+  return totals;
+}
+function initializeTimeBaselines(){
+  if(S.timeBaselinesInitialized)return;
+  const logTotals=timeLogTotals();
+  const dates=new Set([S.todayDate,...Object.keys(S.history||{}),...Object.keys(logTotals)]);
+  for(const dateKey of dates){
+    if(!dateKey)continue;
+    const activity=dateKey===S.todayDate?(S.daily.activity||{}):(S.history[dateKey]?.activity||{});
+    const logs=logTotals[dateKey]||{pianoMinutes:0,readingMinutes:0};
+    S.timeBaselines[dateKey]={
+      pianoMinutes:Math.max(0,(+activity.pianoMinutes||0)-logs.pianoMinutes),
+      readingMinutes:Math.max(0,(+activity.readingMinutes||0)-logs.readingMinutes)
+    };
+  }
+  S.timeBaselinesInitialized=true;
+}
+
+function rebuildTimeMetrics(){
+  initializeTimeBaselines();
+  const totals=timeLogTotals();
+  const dates=new Set([S.todayDate,...Object.keys(S.history||{}),...Object.keys(S.timeBaselines||{}),...Object.keys(totals)]);
+  for(const dateKey of dates){
+    if(!dateKey)continue;
+    const baseline=S.timeBaselines[dateKey]||{pianoMinutes:0,readingMinutes:0};
+    const logs=totals[dateKey]||{pianoMinutes:0,readingMinutes:0};
+    const activity=dateKey===S.todayDate?S.daily.activity:ensureHistoryRecord(dateKey).activity;
+    activity.pianoMinutes=baseline.pianoMinutes+logs.pianoMinutes;
+    activity.readingMinutes=baseline.readingMinutes+logs.readingMinutes;
+  }
+}
+
+function ensureHistoryRecord(dateKey){
+  if(dateKey===S.todayDate)return null;
+  if(!S.history[dateKey]){
+    S.history[dateKey]={
+      date:dateKey,completed:[],completedCount:0,totalTasks:S.quests.length,xp:0,stars:0,
+      activity:{germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0},
+      partner:{name:(S.partners[S.selectedPartner]||S.partners[0]).name,level:(S.partners[S.selectedPartner]||S.partners[0]).level}
+    };
+  }
+  return S.history[dateKey];
+}
+function adjustActivityMetric(key,dateKey,delta){
+  const metric=key==="piano"?"pianoMinutes":"readingMinutes";
+  if(dateKey===S.todayDate){
+    S.daily.activity[metric]=Math.max(0,(S.daily.activity[metric]||0)+delta);
+  }else{
+    const rec=ensureHistoryRecord(dateKey);
+    rec.activity[metric]=Math.max(0,(rec.activity[metric]||0)+delta);
+  }
+}
+function allTimeLogs(){
+  const rows=[];
+  for(const key of Object.keys(TIME_LABELS)){
+    for(const item of (S.activities[key]||[]))rows.push({...item,key});
+  }
+  return rows.sort((a,b)=>(b.dateKey||"").localeCompare(a.dateKey||"")||String(b.id).localeCompare(String(a.id)));
+}
+function openTimeEditor(key,item=null){
+  const label=TIME_LABELS[key],editing=!!item;
+  const initialDate=item?.dateKey||localDateKey();
+  openModal(`<h3>${label[0]} ${label[1]}</h3>
+    <label class="form-label" for="genericDate">Datum</label>
+    <input id="genericDate" type="date" value="${initialDate}" max="${localDateKey()}">
+    <label class="form-label" for="genericMinutes" style="margin-top:9px">Minuten</label>
+    <input id="genericMinutes" type="number" min="1" value="${item?.minutes||20}">
+    <label class="form-label" for="genericNote" style="margin-top:9px">Notiz oder Buchtitel</label>
+    <input id="genericNote" value="${(item?.note||item?.book||"").replaceAll('"','&quot;')}" placeholder="Optional">
+    <button class="action" id="saveGenericTime">${editing?"Änderungen speichern":"Eintrag speichern"}</button>`);
+  $("#saveGenericTime").onclick=()=>{
+    const minutes=+$("#genericMinutes").value||0,dateKey=$("#genericDate").value,note=$("#genericNote").value.trim();
+    if(minutes<1)return toast("Bitte Minuten eingeben");
+    if(!dateKey)return toast("Bitte ein Datum auswählen");
+    if(dateKey>localDateKey())return toast("Ein zukünftiges Datum ist nicht möglich");
+    if(editing){
+      item.minutes=minutes;item.note=note;item.dateKey=dateKey;
+      item.date=new Date(dateKey+"T12:00:00").toLocaleDateString("de-DE");
+      toast("Eintrag geändert");
+    }else{
+      const entry={id:`${key}-${Date.now()}`,minutes,note,dateKey,date:new Date(dateKey+"T12:00:00").toLocaleDateString("de-DE")};
+      S.activities[key].unshift(entry);
+      if(dateKey===localDateKey())addReward(5,8);
+      toast(dateKey===localDateKey()?"Zeit gespeichert":"Vergangener Eintrag gespeichert");
+    }
+    rebuildTimeMetrics();save();render();$("#modal").classList.remove("show");
+  };
+}
 
 const TIME_LABELS={
   piano:["🎹","Klavier"],
@@ -1088,19 +1332,7 @@ const TIME_LABELS={
   chineseReading:["📕","Chinesisch lesen"],
   englishReading:["🇬🇧","Englisch lesen"]
 };
-$$("[data-add-time]").forEach(btn=>btn.onclick=()=>{
-  const key=btn.dataset.addTime,label=TIME_LABELS[key];
-  openModal(`<h3>${label[0]} ${label[1]}</h3><input id="genericMinutes" type="number" min="1" value="20"><input id="genericNote" style="margin-top:10px" placeholder="Notiz oder Buchtitel (optional)"><button class="action" id="saveGenericTime">Speichern</button>`);
-  $("#saveGenericTime").onclick=()=>{
-    const minutes=+$("#genericMinutes").value||0;
-    if(minutes<1)return toast("Bitte Minuten eingeben");
-    S.activities[key]=S.activities[key]||[];
-    S.activities[key].unshift({minutes,note:$("#genericNote").value.trim(),date:new Date().toLocaleDateString("de-DE")});
-    if(key==="piano")S.daily.activity.pianoMinutes+=minutes;
-    else S.daily.activity.readingMinutes+=minutes;
-    addReward(5,8);save();render();$("#modal").classList.remove("show");toast("Zeit gespeichert");
-  };
-});
+$$("[data-add-time]").forEach(btn=>btn.onclick=()=>openTimeEditor(btn.dataset.addTime));
 
 
 function monthKeys(date=new Date()){
@@ -1110,9 +1342,52 @@ function monthKeys(date=new Date()){
   for(let d=1;d<=last.getDate();d++)keys.push(localDateKey(new Date(y,m,d)));
   return {keys,offset:(first.getDay()+6)%7,title:first.toLocaleDateString("de-DE",{month:"long",year:"numeric"})};
 }
+
+function allHistoryRecords(){
+  const records=Object.values(S.history||{});
+  const today=dailySnapshot(S.todayDate);
+  return [today,...records.filter(x=>x.date!==today.date)].filter(Boolean);
+}
+function recordsForPeriod(period){
+  const all=allHistoryRecords();
+  if(period==="total")return all;
+  const now=new Date(),today=localDateKey(now);
+  if(period==="month"){
+    const prefix=today.slice(0,7);
+    return all.filter(x=>x.date?.startsWith(prefix));
+  }
+  const monday=new Date(now);
+  const day=(monday.getDay()+6)%7;
+  monday.setDate(monday.getDate()-day);
+  monday.setHours(0,0,0,0);
+  return all.filter(x=>new Date(x.date+"T12:00:00")>=monday);
+}
+function renderPeriodStats(period="week"){
+  const box=$("#periodStats");if(!box)return;
+  const records=recordsForPeriod(period);
+  const sum=k=>records.reduce((a,x)=>a+(x.activity?.[k]||0),0);
+  const legacyPushups=period==="total"?(S.sports.counts["Liegestütze"]||0):0;
+  const legacySitups=period==="total"?(S.sports.counts["Sit-ups"]||0):0;
+  const completed=records.reduce((a,x)=>a+(x.completedCount||0),0);
+  const values=[
+    ["💪",Math.max(sum("pushups"),legacyPushups),"Liegestütze"],
+    ["🧘",Math.max(sum("situps"),legacySitups),"Sit-ups"],
+    ["🎾",sum("tennisMinutes")+" Min.","Tennis"],
+    ["📖",sum("readingMinutes")+" Min.","Lesen"],
+    ["🎹",sum("pianoMinutes")+" Min.","Klavier"],
+    ["🏊",sum("swimEntries"),"Schwimmen"],
+    ["🇩🇪",sum("germanCards"),"Lernkarten"],
+    ["➕",sum("mathCorrect"),"Mathe richtig"],
+    ["✅",completed,"Aufgaben"]
+  ];
+  box.innerHTML=values.map(x=>`<div class="period-stat"><b>${x[0]} ${x[1]}</b><small>${x[2]}</small></div>`).join("");
+  $$("[data-period]").forEach(b=>b.classList.toggle("active",b.dataset.period===period));
+}
+$$("[data-period]").forEach(b=>b.onclick=()=>renderPeriodStats(b.dataset.period));
+
 function renderHistory(){
-  const grid=$("#calendarGrid"),list=$("#historyList"),kpis=$("#weeklyKpis");
-  if(!grid||!list||!kpis)return;
+  const grid=$("#calendarGrid"),list=$("#historyList");
+  if(!grid||!list)return;
   const month=monthKeys();
   $("#calendarTitle").textContent=month.title;
   let cells="";
@@ -1138,20 +1413,13 @@ function renderHistory(){
       <div class="history-detail"><b>${rec.activity.readingMinutes||0} Min.</b><small>Lesen</small></div>
       <div class="history-detail"><b>${rec.activity.pianoMinutes||0} Min.</b><small>Klavier</small></div>
       <div class="history-detail"><b>${rec.activity.tennisMinutes||0} Min.</b><small>Tennis</small></div>
+      <div class="history-detail"><b>${rec.activity.pushups||0}</b><small>Liegestütze</small></div>
+      <div class="history-detail"><b>${rec.activity.situps||0}</b><small>Sit-ups</small></div>
       <div class="history-detail"><b>${rec.stars||0}</b><small>Sterne</small></div>
     </div>
   </div>`).join("")||'<p class="hint">Noch keine Verlaufsdaten</p>';
 
-  const last7=combined.slice(0,7);
-  const sum=k=>last7.reduce((a,x)=>a+(x.activity?.[k]||0),0);
-  kpis.innerHTML=[
-    ["🇩🇪",sum("germanCards"),"Lernkarten"],
-    ["➕",sum("mathCorrect"),"Mathe richtig"],
-    ["📖",sum("readingMinutes")+" Min.","Lesen"],
-    ["🎹",sum("pianoMinutes")+" Min.","Klavier"],
-    ["🎾",sum("tennisMinutes")+" Min.","Tennis"],
-    ["✅",last7.reduce((a,x)=>a+(x.completedCount||0),0),"Aufgaben"]
-  ].map(x=>`<div class="stat"><b>${x[0]} ${x[1]}</b><small>${x[2]}</small></div>`).join("");
+  renderPeriodStats("week");
 }
 
 function report(){
@@ -1203,8 +1471,20 @@ $("#resetToday").onclick=()=>{
   save();render();toast("Heutige Aufgaben zurückgesetzt");
 };
 $("#exportData").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));a.download="Wachstumsplanet-Sicherung.json";a.click()};
-$("#importData").onchange=e=>{const r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);patch();save();render();toast("Sicherung importiert");}catch{toast("Ungültige Datei")}};r.readAsText(e.target.files[0])};
-$("#clearData").onclick=()=>{if(confirm("Wirklich alle Daten löschen?")){S=structuredClone(DEFAULTS);save();render()}};
+$("#importData").onchange=e=>{const r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);S.timeBaselinesInitialized=false;patch();runDailyEngine();initializeTimeBaselines();rebuildTimeMetrics();save();render();toast("Sicherung importiert");}catch{toast("Ungültige Datei")}};r.readAsText(e.target.files[0])};
+
+$("#restoreAutoBackup").onclick=()=>{
+  const backups=safeParse(localStorage.getItem("growthPlanetBackups"))||[];
+  if(!backups.length)return toast("Keine automatische Sicherung vorhanden");
+  if(!confirm("Die letzte automatische Sicherung wiederherstellen?"))return;
+  S=structuredClone(backups[0].data);S.timeBaselinesInitialized=false;patch();runDailyEngine();initializeTimeBaselines();rebuildTimeMetrics();save();render();toast("Sicherung wiederhergestellt");
+};
+
+$("#clearData").onclick=()=>{
+  if(!confirm("Wirklich alle Daten löschen?"))return;
+  for(const key of [STORAGE_KEY,...LEGACY_KEYS,"growthPlanetBackups"])localStorage.removeItem(key);
+  S=structuredClone(DEFAULTS);patch();runDailyEngine();S.timeBaselinesInitialized=false;initializeTimeBaselines();rebuildTimeMetrics();save();render();toast("Alle Daten wurden gelöscht");
+};
 
 function render(){
   renderHome();
@@ -1217,7 +1497,7 @@ function render(){
 }
 createMath();
 render();
-if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v8").then(r=>r.update()).catch(()=>{})}
+if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v9").then(r=>r.update()).catch(()=>{})}
 </script>
 </body>
 </html>

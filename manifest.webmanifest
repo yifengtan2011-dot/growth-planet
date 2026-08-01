@@ -1,10 +1,9 @@
 {
-  "name": "Wachstumsplanet V8",
+  "name": "Wachstumsplanet V9",
   "short_name": "Wachstumsplanet",
-  "start_url": "./?v=v8",
+  "start_url": "./?v=v9",
   "display": "standalone",
   "background_color": "#f4f5f7",
   "theme_color": "#17213d",
-  "description": "Tägliches Lern- und Wachstumssystem mit automatischem Tageswechsel, Verlauf und Wochenstatistik.",
-  "icons": []
+  "description": "Klare Lernstruktur, große Antwortflächen, 650 chinesische Schriftzeichen und kurze Lesetexte."
 }

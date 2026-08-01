@@ -1,7 +1,14 @@
-# Wachstumsplanet V9
-- klarere Modulstruktur und größere Antwortflächen
-- 650 häufige chinesische Schriftzeichen
-- Zeichen lernen, markieren, testen und erneut wiederholen
-- 20 kurze kindgerechte Lesetexte mit Vorlesefunktion
-- bisherige Eingaben, Verlauf, Pokémon, Aufgaben, Zeitlogs und Sicherungen bleiben erhalten
-- JavaScript, Navigation und IDs geprüft
+# Wachstumsplanet V9.1 Fixed
+
+Behoben:
+- schwerer Initialisierungsfehler, durch den alle Module nicht anklickbar waren
+- Speichern wurde vor der Definition der Speicherfunktion aufgerufen
+- Hinweis für einen neuen Tag war versehentlich im Mathe-Handler
+- zusätzliche delegierte Navigation als Absicherung
+
+Beibehalten:
+- sämtliche bisherigen Browserdaten
+- stabiler Speicherschlüssel growthPlanet
+- automatische Sicherungen und alte Datenmigration
+- 650 chinesische Schriftzeichen
+- kurze Lesetexte und große Antwortflächen

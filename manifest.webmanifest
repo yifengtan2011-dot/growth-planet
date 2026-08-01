@@ -1,9 +1,9 @@
 {
-  "name": "Wachstumsplanet V9",
+  "name": "Wachstumsplanet V9.1 Fixed",
   "short_name": "Wachstumsplanet",
-  "start_url": "./?v=v9",
+  "start_url": "./?v=v91",
   "display": "standalone",
   "background_color": "#f4f5f7",
   "theme_color": "#17213d",
-  "description": "Klare Lernstruktur, große Antwortflächen, 650 chinesische Schriftzeichen und kurze Lesetexte."
+  "description": "Behobene Navigation mit 650 chinesischen Zeichen und klarer Lernstruktur."
 }

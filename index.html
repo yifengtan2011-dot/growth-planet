@@ -342,7 +342,7 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 <div class="app">
 <main id="home" class="screen active">
   <div class="header">
-    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V9</div></div>
+    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V9.1 FIXED</div></div>
     <div class="grow"></div>
     <div class="balance">⭐ <span id="stars">0</span></div>
   </div>
@@ -679,7 +679,11 @@ function patch(){
 patch();
 const DAILY_ENGINE_RESULT=runDailyEngine();
 rebuildTimeMetrics();
-save();
+try{
+  const initialRaw=JSON.stringify(S);
+  localStorage.setItem("growthPlanet",initialRaw);
+  localStorage.setItem("growthPlanetMinimal",initialRaw);
+}catch(e){}
 
 function localDateKey(d=new Date()){
   const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");
@@ -799,6 +803,12 @@ function show(id){
 $$("[data-nav]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.nav)));
 $$("[data-home]").forEach(b=>b.addEventListener("click",()=>show("home")));
 $$("[data-open]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.open)));
+document.addEventListener("click",e=>{
+  const nav=e.target.closest("[data-nav]"),open=e.target.closest("[data-open]"),home=e.target.closest("[data-home]");
+  if(nav)show(nav.dataset.nav);
+  else if(open)show(open.dataset.open);
+  else if(home)show("home");
+});
 
 function addReward(stars,xp){
   S.stars+=stars;
@@ -1069,11 +1079,7 @@ function createMath(){
   else{a=3+Math.floor(Math.random()*7);b=2+Math.floor(Math.random()*8);MQ={q:`Tino übt täglich ${a} Aufschläge. Wie viele sind es in ${b} Tagen?`,a:a*b};}
   $("#mathQuestion").textContent=MQ.q;$("#mathAnswer").value="";
 }
-$("#checkMath").onclick=()=>{if(+$("#mathAnswer").value===MQ.a){S.math.correct++;S.math.streak++;S.daily.activity.mathCorrect++;S.math.floor=Math.floor(S.math.correct/10)+1;addReward(2,4);toast("Richtig");}else{S.math.streak=0;toast("Richtige Antwort: "+MQ.a);}save();createMath();render();
-if(DAILY_ENGINE_RESULT.newDay){
-  const banner=$("#dailyBanner");
-  if(banner){banner.textContent="Guten Morgen! Ein neuer Tag hat begonnen. Die heutigen Aufgaben wurden neu erstellt.";banner.classList.add("show");}
-}};
+$("#checkMath").onclick=()=>{if(+$("#mathAnswer").value===MQ.a){S.math.correct++;S.math.streak++;S.daily.activity.mathCorrect++;S.math.floor=Math.floor(S.math.correct/10)+1;addReward(2,4);toast("Richtig");}else{S.math.streak=0;toast("Richtige Antwort: "+MQ.a);}save();createMath();render();};
 $("#newMath").onclick=createMath;$("#mathMode").onchange=createMath;
 
 let cm="common";
@@ -1497,7 +1503,14 @@ function render(){
 }
 createMath();
 render();
-if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v9").then(r=>r.update()).catch(()=>{})}
+if(DAILY_ENGINE_RESULT.newDay){
+  const banner=$("#dailyBanner");
+  if(banner){
+    banner.textContent="Guten Morgen! Ein neuer Tag hat begonnen. Die heutigen Aufgaben wurden neu erstellt.";
+    banner.classList.add("show");
+  }
+}
+if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v91").then(r=>r.update()).catch(()=>{})}
 </script>
 </body>
 </html>

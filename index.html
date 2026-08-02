@@ -343,13 +343,31 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 .backfill-actions{display:flex;gap:6px}.backfill-actions button{width:36px;height:36px;border-radius:10px;background:#fff}
 .recovery-note{padding:13px 15px;border-radius:15px;background:#eaf3ff;color:#294e78;border:1px solid #c9ddf3;margin-bottom:12px}
 @media(min-width:760px){.backfill-grid.three{grid-template-columns:1fr 1fr 1fr}}
+
+.de-mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.de-mode-btn{min-height:68px;padding:12px;border-radius:18px;background:var(--soft);font-weight:900;font-size:16px;border:2px solid transparent}
+.de-mode-btn.active{background:var(--accent);color:#fff}
+.de-card{padding:22px;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
+.de-word{font-size:38px;font-weight:950;margin:10px 0}.de-meaning{font-size:18px;color:var(--muted)}
+.de-meta{margin-top:12px;padding:12px;border-radius:14px;background:var(--soft);font-size:14px}
+.de-choice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.de-choice{min-height:78px;border-radius:18px;background:var(--soft);font-size:24px;font-weight:950;border:2px solid transparent}
+.de-choice.correct{background:#e8f3ed;color:var(--success);border-color:#acd2bd}.de-choice.wrong{background:#fff0f1;color:var(--danger);border-color:#e4b9c0}
+.de-input-row{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:16px}
+.de-input{min-height:60px;border:2px solid var(--line);border-radius:16px;padding:14px 16px;font-size:21px}
+.de-submit{min-height:60px;border-radius:16px;padding:0 24px;background:var(--accent);color:#fff;font-size:18px;font-weight:900}
+.de-feedback{margin-top:12px;padding:12px 14px;border-radius:14px;font-weight:800;display:none}
+.de-feedback.show{display:block}.de-feedback.ok{background:#e8f3ed;color:var(--success)}.de-feedback.bad{background:#fff0f1;color:var(--danger)}
+.de-nav-row{display:flex;gap:10px;margin-top:14px}.de-nav-row button{flex:1;min-height:52px;border-radius:15px;background:var(--soft);font-weight:850}
+.de-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+@media(max-width:520px){.de-mode-grid{grid-template-columns:1fr}.de-choice-grid{grid-template-columns:1fr}.de-input-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="app">
 <main id="home" class="screen active">
   <div class="header">
-    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V9.2 RECOVERY</div></div>
+    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V9.3 DEUTSCH</div></div>
     <div class="grow"></div>
     <div class="balance">⭐ <span id="stars">0</span></div>
   </div>
@@ -413,7 +431,7 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 
 <main id="german" class="screen">
 <div class="pagehead"><button class="back" data-home>‹</button><div><h2>Deutsch lernen</h2><div class="hint">Lernkarten nach Klassenstufe und Fehlerliste</div></div></div>
-<section class="panel"><select id="grade" class="select"><option value="1">1. Klasse</option><option value="2">2. Klasse</option><option value="3">3. Klasse</option><option value="4">4. Klasse</option></select><div class="tabs" style="margin-top:12px"><button class="tab active" data-gmode="cards">Lernkarten</button><button class="tab" data-gmode="quiz">Artikel</button><button class="tab" data-gmode="spell">Schreiben</button><button class="tab" data-gmode="wrong">Fehler</button><button class="tab" data-gmode="reading">Lesen</button><button class="tab" data-gmode="tasks">Aufgaben</button><button class="tab" data-gmode="custom">Eigene Wörter</button><button class="tab" data-gmode="review">Wiederholen</button></div></section>
+<section class="panel"><select id="grade" class="select"><option value="1">1. Klasse</option><option value="2">2. Klasse</option><option value="3">3. Klasse</option><option value="4">4. Klasse</option></select><div class="de-mode-grid"><button class="de-mode-btn active" data-demode="learn">📘 Lernen</button><button class="de-mode-btn" data-demode="practice">✍️ Üben</button><button class="de-mode-btn" data-demode="review">🔁 Wiederholen</button></div></section>
 <section class="panel" id="germanContent"></section>
 </main>
 
@@ -965,173 +983,45 @@ function renderHome(){
   $("#homeSportPct").textContent=Math.round(sp)+"%"; $("#homeSportBar").style.width=sp+"%";
 }
 
-let gm="cards";
-function gradeWords(){
-  const list=WORDS.filter(x=>x.g===Number(S.german.grade));
-  return list.length?list:WORDS.filter(x=>x.g===1);
-}
+let deMode="learn";
+let dePracticeType="article";
+function germanWordPool(){const list=gradeWords();return list.length?list:WORDS}
+function germanNouns(){return germanWordPool().filter(x=>x.type==="noun")}
+function currentGermanWord(){const pool=germanWordPool();return pool[S.german.index%pool.length]}
+function advanceGerman(){const pool=germanWordPool();S.german.index=(S.german.index+1)%pool.length;save()}
 function german(){
-  const A=$("#germanContent"),L=gradeWords(),w=L[S.german.index%L.length];
-  if(gm==="cards"){
-    A.innerHTML=`<div class="flash"><button class="speak" id="speak">🔊</button><div class="flash-emoji">${w.e}</div><div class="flash-word">${w.w}</div><div class="flash-article">${w.type==="noun"?w.a+" "+w.w:w.type==="verb"?"Verb":"Adjektiv"}</div><div>${w.m}</div>${w.type==="noun"?`<div class="flash-meta">Plural: ${w.p==="—"?"kein gebräuchlicher Plural":"die "+w.p}</div>`:""}<div class="flash-meta">${w.x}</div></div><div style="display:flex;gap:10px"><button class="action secondary" id="prevW">Zurück</button><button class="action" id="nextW">Weiter</button></div>`;
-    $("#speak").onclick=()=>{const u=new SpeechSynthesisUtterance(`${w.type==="noun"?w.a+" ":""}${w.w}. ${w.x}`);u.lang="de-DE";speechSynthesis.speak(u)};
-    $("#prevW").onclick=()=>{S.german.index=(S.german.index-1+L.length)%L.length;save();german()};
-    $("#nextW").onclick=()=>{S.german.index=(S.german.index+1)%L.length;S.german.seen++;S.daily.activity.germanCards++;addReward(0,2);save();render();german()};
-  }else if(gm==="quiz"){
-    const nouns=L.filter(x=>x.type==="noun"),qw=nouns[S.german.index%nouns.length];
-    A.innerHTML=`<div class="flash"><div class="flash-emoji">${qw.e}</div><div class="flash-word">___ ${qqw.w}</div><div>${qw.m}</div></div><div class="options">${["der","die","das"].map(o=>`<button class="choice-btn" data-art="${o}">${o} ${qqw.w}</button>`).join("")}</div>`;
-    $$("[data-art]").forEach(b=>b.onclick=()=>{
-      if([...$$("[data-art]")].some(x=>x.disabled))return;
-      $$("[data-art]").forEach(x=>x.disabled=true);
-      if(b.dataset.art===qw.a){b.classList.add("correct");addReward(2,4);toast("Richtig");}
-      else{b.classList.add("wrong");if(!S.german.wrong.includes(qw.w))S.german.wrong.push(qw.w);toast("Richtige Antwort: "+qw.a);}
-      S.german.index=(S.german.index+1)%L.length;save();setTimeout(()=>{render();german()},500);
-    });
-  }else if(gm==="spell"){
-    A.innerHTML=`<div class="flash"><button class="speak" id="speak2">🔊</button><div class="flash-emoji">${w.e}</div><div>${w.m}</div></div><input id="spell" class="big-answer" placeholder="Deutsches Wort eingeben"><button class="big-submit" id="checkSpell">Prüfen</button>`;
-    $("#speak2").onclick=()=>{const u=new SpeechSynthesisUtterance(w.w);u.lang="de-DE";speechSynthesis.speak(u)};
-    $("#checkSpell").onclick=()=>{
-      if($("#checkSpell").disabled)return;
-      const value=$("#spell").value.trim();
-      if(!value)return toast("Bitte ein Wort eingeben");
-      $("#checkSpell").disabled=true;$("#spell").disabled=true;
-      if(value.toLowerCase()===w.w.toLowerCase()){addReward(3,5);toast("Richtig geschrieben");}
-      else{if(!S.german.wrong.includes(w.w))S.german.wrong.push(w.w);toast("Richtige Schreibweise: "+w.w);}
-      S.german.index=(S.german.index+1)%L.length;save();render();german();
-    };
-  }else if(gm==="wrong"){
-    const list=WORDS.filter(x=>S.german.wrong.includes(x.w));
-    A.innerHTML=list.length?list.map(x=>`<div class="history-item"><b>${x.type==="noun"?x.a+" ":""}${x.w}</b><span>${x.type==="verb"?"Verb · ":x.type==="adj"?"Adjektiv · ":""}${x.m}</span></div>`).join(""):`<p class="hint">Keine Fehler gespeichert</p>`;
-  }else if(gm==="reading"){
-    const total=S.activities.germanReading.reduce((a,x)=>a+(+x.minutes||0),0);
-    A.innerHTML=`<div class="activity-total"><div><small>Deutsch gelesen</small><b>${total} Min.</b></div><div style="font-size:36px">📖</div></div>
-    <input id="germanBook" placeholder="Buchtitel (optional)">
-    <input id="germanMinutes" type="number" value="15" min="1" style="margin-top:10px">
-    <button class="action" id="saveGermanReading">Lesezeit speichern</button>
-    <div class="history" style="margin-top:12px">${S.activities.germanReading.slice(0,10).map(x=>`<div class="history-item"><b>${x.book||"Deutsch lesen"}</b><span>${x.minutes} Min. · ${x.date}</span></div>`).join("")||'<p class="hint">Noch keine Einträge</p>'}</div>`;
-    $("#saveGermanReading").onclick=()=>{
-      const minutes=+$("#germanMinutes").value||0;if(minutes<1)return toast("Bitte Minuten eingeben");
-      S.activities.germanReading.unshift({id:`germanReading-${Date.now()}`,book:$("#germanBook").value.trim(),note:$("#germanBook").value.trim(),minutes,dateKey:localDateKey(),date:new Date().toLocaleDateString("de-DE")});
-      addReward(5,8);rebuildTimeMetrics();save();render();german();toast("Lesezeit gespeichert");
-    };
-  }else if(gm==="custom"){
-    A.innerHTML=`<h2>Eigene Wörter</h2>
-    <p class="hint">Neue Wörter eingeben. Diese Wörter können anschließend wiederholt und getestet werden.</p>
-    <div class="vocab-form">
-      <div class="form-grid two">
-        <input id="customArticle" placeholder="der / die / das">
-        <input id="customWord" placeholder="Wort">
-      </div>
-      <div class="form-grid two">
-        <input id="customMeaning" placeholder="Chinesische Bedeutung">
-        <input id="customPlural" placeholder="Plural">
-      </div>
-      <input id="customSentence" placeholder="Beispielsatz">
-      <button class="action" id="saveCustomWord">Wort speichern</button>
-    </div>
-    <div class="vocab-list">${S.german.customWords.map((x,i)=>`<div class="vocab-item">
-      <div class="vocab-main"><b>${x.article} ${x.word}</b><small>${x.meaning||""}${x.plural?" · Plural: "+x.plural:""}</small></div>
-      <div class="vocab-actions"><button class="secondary" data-review-custom="${i}">↻</button><button class="danger" data-delete-custom="${i}">×</button></div>
-    </div>`).join("")||'<p class="hint">Noch keine eigenen Wörter</p>'}</div>`;
-    $("#saveCustomWord").onclick=()=>{
-      const article=$("#customArticle").value.trim().toLowerCase();
-      const word=$("#customWord").value.trim();
-      if(!["der","die","das"].includes(article))return toast("Bitte der, die oder das eingeben");
-      if(!word)return toast("Bitte ein Wort eingeben");
-      const item={id:Date.now(),article,word,meaning:$("#customMeaning").value.trim(),plural:$("#customPlural").value.trim(),sentence:$("#customSentence").value.trim(),correct:0,wrong:0};
-      S.german.customWords.push(item);
-      if(!S.german.customReview.includes(item.id))S.german.customReview.push(item.id);
-      save();render();german();toast("Wort gespeichert");
-    };
-    $$("[data-delete-custom]").forEach(b=>b.onclick=()=>{
-      const i=+b.dataset.deleteCustom,item=S.german.customWords[i];
-      if(!confirm("Dieses Wort löschen?"))return;
-      S.german.customReview=S.german.customReview.filter(id=>id!==item.id);
-      S.german.customWords.splice(i,1);save();german();
-    });
-    $$("[data-review-custom]").forEach(b=>b.onclick=()=>{
-      const item=S.german.customWords[+b.dataset.reviewCustom];
-      if(item&&!S.german.customReview.includes(item.id))S.german.customReview.push(item.id);
-      save();gm="review";$$("[data-gmode]").forEach(x=>x.classList.toggle("active",x.dataset.gmode==="review"));german();
-    });
-  }else if(gm==="review"){
-    const pool=S.german.customReview.map(id=>S.german.customWords.find(x=>x.id===id)).filter(Boolean);
-    if(!pool.length){
-      A.innerHTML=`<h2>Wiederholen</h2><p class="hint">Keine Wörter in der Wiederholung. Füge unter „Eigene Wörter“ neue Wörter hinzu.</p>`;
-    }else{
-      const item=pool[S.german.customIndex%pool.length];
-      const type=S.german.customIndex%4;
-      let title="",prompt="",answer="";
-      if(type===0){title="Artikel";prompt=`___ ${item.word}`;answer=item.article;}
-      else if(type===1){title="Schreiben";prompt=item.meaning||("Schreibe: "+item.word);answer=item.word;}
-      else if(type===2){title="Plural";prompt=`Plural von ${item.article} ${item.word}`;answer=item.plural||item.word;}
-      else{
-        title="Lückensatz";
-        if(item.sentence&&item.sentence.toLowerCase().includes(item.word.toLowerCase())){
-          prompt=item.sentence.replace(new RegExp(item.word,"i"),"___");answer=item.word;
-        }else{prompt=`Schreibe das Wort: ${item.meaning||item.word}`;answer=item.word;}
-      }
-      A.innerHTML=`<div class="stats"><div class="stat"><b>${item.correct||0}</b><small>Richtig</small></div><div class="stat"><b>${item.wrong||0}</b><small>Fehler</small></div><div class="stat"><b>${pool.length}</b><small>Zu üben</small></div></div>
-      <div class="review-card"><div class="review-meta">${title}</div><div class="review-prompt">${prompt}</div>
-      <div class="answer-row"><input id="customReviewAnswer" autocomplete="off" placeholder="Antwort eingeben"><button class="action" id="checkCustomReview" style="width:auto;margin:0">Prüfen</button></div>
-      <div id="customReviewFeedback" class="feedback"></div></div>
-      <button class="action secondary" id="nextCustomReview">Überspringen</button>`;
-      const check=()=>{
-        const btn=$("#checkCustomReview"),input=$("#customReviewAnswer");
-        if(btn.disabled)return;
-        const val=input.value.trim().toLowerCase();
-        if(!val)return toast("Bitte eine Antwort eingeben");
-        btn.disabled=true;input.disabled=true;
-        const ok=val===String(answer).trim().toLowerCase(),fb=$("#customReviewFeedback");
-        fb.className="feedback show "+(ok?"ok":"bad");
-        if(ok){
-          fb.textContent="Richtig!";
-          item.correct=(item.correct||0)+1;S.daily.activity.germanCorrect++;addReward(1,3);
-          if(item.correct>=3&&item.correct>=(item.wrong||0)+2)S.german.customReview=S.german.customReview.filter(id=>id!==item.id);
-        }else{
-          fb.textContent="Richtige Antwort: "+answer;
-          item.wrong=(item.wrong||0)+1;
-          if(!S.german.customReview.includes(item.id))S.german.customReview.push(item.id);
-        }
-        save();render();
-        setTimeout(()=>{S.german.customIndex++;save();german()},900);
-      };
-      $("#checkCustomReview").onclick=check;
-      $("#customReviewAnswer").onkeydown=e=>{if(e.key==="Enter")check()};
-      $("#nextCustomReview").onclick=()=>{S.german.customIndex++;save();german()};
-    }
-  }else{
-    const type=S.german.taskIndex%3;
-    const L=gradeWords(),w=L[S.german.taskIndex%L.length],nounList=L.filter(x=>x.type==="noun"),nw=nounList[S.german.taskIndex%nounList.length],s=GERMAN_SENTENCES[S.german.taskIndex%GERMAN_SENTENCES.length];
-    let title="",question="",answer="",hint="";
-    if(type===0){title="Artikel einsetzen";question=`___ ${nw.w}`;answer=nw.a;hint="der / die / das";}
-    else if(type===1){title="Wort schreiben";question=`${w.m} ${w.e}`;answer=w.w;hint="Schreibe das deutsche Wort";}
-    else{title="Lücke ausfüllen";question=s.q;answer=s.a;hint="Grundform: "+s.hint;}
-    A.innerHTML=`<div class="stats"><div class="stat"><b>${S.german.taskCorrect}</b><small>Richtig</small></div><div class="stat"><b>${S.german.taskWrong.length}</b><small>Fehler</small></div><div class="stat"><b>${S.german.taskIndex+1}</b><small>Aufgabe</small></div></div>
-    <div class="exercise-box"><div class="exercise-title">${title}</div><div style="font-size:28px;font-weight:900">${question}</div><div class="hint" style="margin-top:7px">${hint}</div>
-    <div class="answer-row"><input id="germanTaskAnswer" autocomplete="off" placeholder="Antwort eingeben"><button class="big-submit" id="checkGermanTask" style="width:auto;margin:0">Prüfen</button></div>
-    <div id="germanTaskFeedback" class="feedback"></div></div>
-    <button class="big-secondary" id="nextGermanTask">Nächste Aufgabe</button>
-    ${S.german.taskWrong.length?`<div class="history" style="margin-top:14px"><h3>Zu wiederholen</h3>${S.german.taskWrong.slice(-8).reverse().map(x=>`<div class="history-item"><b>${x.question}</b><span>${x.answer}</span></div>`).join("")}</div>`:""}`;
-    const check=()=>{
-      const btn=$("#checkGermanTask"),input=$("#germanTaskAnswer");
-      if(btn.disabled)return;
-      const val=input.value.trim().toLowerCase(),fb=$("#germanTaskFeedback");
-      if(!val)return toast("Bitte eine Antwort eingeben");
-      btn.disabled=true;input.disabled=true;
-      fb.className="feedback show "+(val===answer.toLowerCase()?"ok":"bad");
-      if(val===answer.toLowerCase()){fb.textContent="Richtig!";S.german.taskCorrect++;S.daily.activity.germanCorrect++;addReward(1,3);}
-      else{fb.textContent="Richtige Antwort: "+answer;S.german.taskWrong.push({question,answer,date:new Date().toLocaleDateString("de-DE")});}
-      save();render();
-      setTimeout(()=>{S.german.taskIndex++;save();german()},900);
-    };
-    $("#checkGermanTask").onclick=check;
-    $("#germanTaskAnswer").onkeydown=e=>{if(e.key==="Enter")check()};
-    $("#nextGermanTask").onclick=()=>{S.german.taskIndex++;save();german()};
+  const A=$("#germanContent"),w=currentGermanWord();
+  if(deMode==="learn"){
+    A.innerHTML=`<div class="de-card"><div class="question-label">Lernkarte</div><div class="de-word">${w.type==="noun"?w.a+" ":""}${w.w}</div><div class="de-meaning">${w.m}</div>${w.type==="noun"?`<div class="de-meta"><b>Plural:</b> ${w.p==="—"?"kein gebräuchlicher Plural":"die "+w.p}</div>`:`<div class="de-meta"><b>Wortart:</b> ${w.type==="verb"?"Verb":"Adjektiv"}</div>`}<div class="de-meta"><b>Beispiel:</b> ${w.x}</div><div class="de-nav-row"><button id="deSpeak">🔊 Anhören</button><button id="dePrev">Zurück</button><button id="deNext">Weiter</button></div></div>`;
+    $("#deSpeak").onclick=()=>{const u=new SpeechSynthesisUtterance(`${w.type==="noun"?w.a+" ":""}${w.w}. ${w.x}`);u.lang="de-DE";speechSynthesis.speak(u)};
+    $("#dePrev").onclick=()=>{const p=germanWordPool();S.german.index=(S.german.index-1+p.length)%p.length;save();german()};
+    $("#deNext").onclick=()=>{S.german.seen++;S.daily.activity.germanCards++;addReward(0,2);advanceGerman();render();german()};
+    return;
   }
+  if(deMode==="practice"){
+    if(dePracticeType==="article"){
+      const nouns=germanNouns(),q=nouns[S.german.index%nouns.length];
+      A.innerHTML=`<div class="de-mode-grid"><button class="de-mode-btn active" data-depractice="article">Artikel</button><button class="de-mode-btn" data-depractice="spell">Schreiben</button><button class="de-mode-btn" data-depractice="sentence">Satz</button></div><div class="de-stats"><div class="stat"><b>${S.german.taskCorrect||0}</b><small>Richtig</small></div><div class="stat"><b>${S.german.taskWrong?.length||0}</b><small>Fehler</small></div><div class="stat"><b>${nouns.length}</b><small>Nomen</small></div></div><div class="de-card"><div class="question-label">Welcher Artikel ist richtig?</div><div class="de-word">___ ${q.w}</div><div class="de-meaning">${q.m}</div><div class="de-choice-grid">${["der","die","das"].map(a=>`<button class="de-choice" data-de-article="${a}">${a}</button>`).join("")}</div><div id="deFeedback" class="de-feedback"></div></div>`;
+      $$("[data-de-article]").forEach(btn=>btn.onclick=()=>{if([...$$("[data-de-article]")].some(x=>x.disabled))return;$$("[data-de-article]").forEach(x=>x.disabled=true);const ok=btn.dataset.deArticle===q.a,fb=$("#deFeedback");btn.classList.add(ok?"correct":"wrong");fb.className="de-feedback show "+(ok?"ok":"bad");if(ok){fb.textContent=`Richtig: ${q.a} ${q.w}`;S.german.taskCorrect++;S.daily.activity.germanCorrect++;addReward(1,3);S.german.wrong=S.german.wrong.filter(x=>x!==q.w)}else{fb.textContent=`Richtig ist: ${q.a} ${q.w}`;if(!S.german.wrong.includes(q.w))S.german.wrong.push(q.w);S.german.taskWrong.push({question:q.w,answer:q.a,date:new Date().toLocaleDateString("de-DE")})}save();render();setTimeout(()=>{advanceGerman();german()},900)});
+    }else if(dePracticeType==="spell"){
+      A.innerHTML=`<div class="de-mode-grid"><button class="de-mode-btn" data-depractice="article">Artikel</button><button class="de-mode-btn active" data-depractice="spell">Schreiben</button><button class="de-mode-btn" data-depractice="sentence">Satz</button></div><div class="de-card"><div class="question-label">Schreibe das deutsche Wort</div><div class="de-word">${w.m}</div><div class="de-input-row"><input id="deAnswer" class="de-input" placeholder="Wort eingeben"><button id="deCheck" class="de-submit">Prüfen</button></div><div id="deFeedback" class="de-feedback"></div></div>`;
+      const check=()=>{const i=$("#deAnswer"),b=$("#deCheck"),v=i.value.trim();if(!v)return toast("Bitte ein Wort eingeben");if(b.disabled)return;b.disabled=true;i.disabled=true;const ok=v.toLowerCase()===w.w.toLowerCase(),fb=$("#deFeedback");fb.className="de-feedback show "+(ok?"ok":"bad");if(ok){fb.textContent="Richtig!";S.german.taskCorrect++;S.daily.activity.germanCorrect++;addReward(1,3);S.german.wrong=S.german.wrong.filter(x=>x!==w.w)}else{fb.textContent=`Richtige Antwort: ${w.w}`;if(!S.german.wrong.includes(w.w))S.german.wrong.push(w.w);S.german.taskWrong.push({question:w.m,answer:w.w,date:new Date().toLocaleDateString("de-DE")})}save();render();setTimeout(()=>{advanceGerman();german()},900)};$("#deCheck").onclick=check;$("#deAnswer").onkeydown=e=>{if(e.key==="Enter")check()};
+    }else{
+      const s=GERMAN_SENTENCES[S.german.taskIndex%GERMAN_SENTENCES.length];
+      A.innerHTML=`<div class="de-mode-grid"><button class="de-mode-btn" data-depractice="article">Artikel</button><button class="de-mode-btn" data-depractice="spell">Schreiben</button><button class="de-mode-btn active" data-depractice="sentence">Satz</button></div><div class="de-card"><div class="question-label">Setze das richtige Wort ein</div><div class="de-word" style="font-size:28px">${s.q}</div><div class="de-meta">Grundform: ${s.hint}</div><div class="de-input-row"><input id="deAnswer" class="de-input" placeholder="Antwort eingeben"><button id="deCheck" class="de-submit">Prüfen</button></div><div id="deFeedback" class="de-feedback"></div></div>`;
+      const check=()=>{const i=$("#deAnswer"),b=$("#deCheck"),v=i.value.trim();if(!v)return toast("Bitte eine Antwort eingeben");if(b.disabled)return;b.disabled=true;i.disabled=true;const ok=v.toLowerCase()===s.a.toLowerCase(),fb=$("#deFeedback");fb.className="de-feedback show "+(ok?"ok":"bad");if(ok){fb.textContent="Richtig!";S.german.taskCorrect++;S.daily.activity.germanCorrect++;addReward(1,3)}else{fb.textContent=`Richtige Antwort: ${s.a}`;S.german.taskWrong.push({question:s.q,answer:s.a,date:new Date().toLocaleDateString("de-DE")})}S.german.taskIndex++;save();render();setTimeout(()=>german(),900)};$("#deCheck").onclick=check;$("#deAnswer").onkeydown=e=>{if(e.key==="Enter")check()};
+    }
+    $$("[data-depractice]").forEach(b=>b.onclick=()=>{dePracticeType=b.dataset.depractice;german()});
+    return;
+  }
+  const wrong=WORDS.filter(x=>S.german.wrong.includes(x.w)),custom=S.german.customReview.map(id=>S.german.customWords.find(x=>x.id===id)).filter(Boolean);
+  if(!wrong.length&&!custom.length){A.innerHTML=`<div class="de-card"><div class="question-label">Wiederholen</div><div class="de-word" style="font-size:26px">Keine offenen Fehler 🎉</div><div class="de-meaning">Falsche Wörter und eigene Wörter erscheinen hier automatisch.</div></div>`;return}
+  const source=wrong.length?wrong[S.german.index%wrong.length]:custom[S.german.customIndex%custom.length],isCustom=!source.type,answer=isCustom?source.word:source.w,prompt=isCustom?(source.meaning||source.word):source.m;
+  A.innerHTML=`<div class="de-stats"><div class="stat"><b>${wrong.length}</b><small>Fehlerwörter</small></div><div class="stat"><b>${custom.length}</b><small>Eigene Wörter</small></div><div class="stat"><b>${S.german.taskCorrect||0}</b><small>Richtig</small></div></div><div class="de-card"><div class="question-label">Wiederholung</div><div class="de-word">${prompt}</div><div class="de-input-row"><input id="deReviewAnswer" class="de-input" placeholder="Antwort eingeben"><button id="deReviewCheck" class="de-submit">Prüfen</button></div><div id="deFeedback" class="de-feedback"></div></div>`;
+  const check=()=>{const i=$("#deReviewAnswer"),b=$("#deReviewCheck"),v=i.value.trim();if(!v)return toast("Bitte eine Antwort eingeben");if(b.disabled)return;b.disabled=true;i.disabled=true;const ok=v.toLowerCase()===answer.toLowerCase(),fb=$("#deFeedback");fb.className="de-feedback show "+(ok?"ok":"bad");if(ok){fb.textContent="Richtig!";S.german.taskCorrect++;S.daily.activity.germanCorrect++;addReward(1,3);if(isCustom){source.correct=(source.correct||0)+1;if(source.correct>=3)S.german.customReview=S.german.customReview.filter(id=>id!==source.id)}else S.german.wrong=S.german.wrong.filter(x=>x!==source.w)}else{fb.textContent=`Richtige Antwort: ${answer}`;if(isCustom)source.wrong=(source.wrong||0)+1;else if(!S.german.wrong.includes(source.w))S.german.wrong.push(source.w)}save();render();setTimeout(()=>{if(isCustom)S.german.customIndex++;else advanceGerman();save();german()},900)};$("#deReviewCheck").onclick=check;$("#deReviewAnswer").onkeydown=e=>{if(e.key==="Enter")check()};
 }
+$$("[data-demode]").forEach(b=>b.onclick=()=>{deMode=b.dataset.demode;$$("[data-demode]").forEach(x=>x.classList.toggle("active",x===b));german()});
 $("#grade").onchange=e=>{S.german.grade=+e.target.value;S.german.index=0;save();german()};
-$$("[data-gmode]").forEach(b=>b.onclick=()=>{gm=b.dataset.gmode;$$("[data-gmode]").forEach(x=>x.classList.toggle("active",x===b));german()});
 
 let MQ={};
 function createMath(){
@@ -1585,7 +1475,7 @@ if(DAILY_ENGINE_RESULT.newDay){
     banner.classList.add("show");
   }
 }
-if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v92").then(r=>r.update()).catch(()=>{})}
+if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v93").then(r=>r.update()).catch(()=>{})}
 </script>
 </body>
 </html>

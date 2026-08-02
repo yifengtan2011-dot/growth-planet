@@ -336,13 +336,20 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 .reading-title{font-size:22px;font-weight:900;margin-bottom:8px}.reading-text{font-size:22px;line-height:1.9;letter-spacing:.03em}
 .reading-words{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.reading-word{padding:7px 10px;border-radius:11px;background:var(--soft);font-weight:800}
 @media(min-width:760px){.choice-grid{grid-template-columns:repeat(2,1fr)}.choice-btn{min-height:76px;font-size:22px}.char-grid{grid-template-columns:repeat(10,1fr)}}
+
+.backfill-grid{display:grid;gap:10px}.backfill-grid.two{grid-template-columns:1fr 1fr}
+.backfill-list{display:grid;gap:9px;margin-top:14px}.backfill-item{display:flex;align-items:center;gap:10px;padding:12px;border-radius:15px;background:var(--soft)}
+.backfill-main{flex:1}.backfill-main b{display:block}.backfill-main small{color:var(--muted)}
+.backfill-actions{display:flex;gap:6px}.backfill-actions button{width:36px;height:36px;border-radius:10px;background:#fff}
+.recovery-note{padding:13px 15px;border-radius:15px;background:#eaf3ff;color:#294e78;border:1px solid #c9ddf3;margin-bottom:12px}
+@media(min-width:760px){.backfill-grid.three{grid-template-columns:1fr 1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="app">
 <main id="home" class="screen active">
   <div class="header">
-    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V9.1 FIXED</div></div>
+    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V9.2 RECOVERY</div></div>
     <div class="grow"></div>
     <div class="balance">⭐ <span id="stars">0</span></div>
   </div>
@@ -488,8 +495,22 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 <section class="panel"><h2>Tagesverwaltung</h2><button class="action" id="dailyBonus">Tägliche Belohnung abholen</button><button class="action secondary" id="resetToday">Heutige Aufgaben zurücksetzen</button></section>
 <section class="panel"><h2>Fortschrittsbericht</h2><div id="report"></div></section>
 <section class="panel"><h2>Erfolge</h2><div class="achievement-grid" id="achievementGrid"></div></section>
-<section class="panel"><h2>Datensicherung</h2>
-<p class="hint">Updates ersetzen nur die Programmdateien. Die Daten bleiben im Browser gespeichert. Zusätzlich wird vor jeder Migration automatisch eine Sicherung angelegt.</p><button class="action secondary" id="exportData">Sicherung exportieren</button><label class="action secondary" style="display:block;text-align:center">Sicherung importieren<input id="importData" type="file" accept=".json" hidden></label><button class="action secondary" id="restoreAutoBackup">Letzte automatische Sicherung wiederherstellen</button><button class="action danger" id="clearData">Alle Daten löschen</button></section>
+<section class="panel"><h2>Vergangene Tage nachtragen</h2>
+<div class="recovery-note">Vorhandene Daten aus älteren Versionen und automatischen Sicherungen werden zusammengeführt.</div>
+<p class="hint">Vergessene Werte für frühere Tage können ergänzt, geändert oder gelöscht werden.</p>
+<div class="backfill-grid three">
+<div><label class="form-label">Datum</label><input id="backfillDate" type="date"></div>
+<div><label class="form-label">Kategorie</label><select id="backfillType" class="select">
+<option value="pushups">Liegestütze</option><option value="situps">Sit-ups</option><option value="tennisMinutes">Tennis (Minuten)</option><option value="swimEntries">Schwimmen</option>
+<option value="germanCards">Deutsch-Lernkarten</option><option value="germanCorrect">Deutsch richtig</option><option value="mathCorrect">Mathe richtig</option><option value="chineseChars">Chinesische Zeichen</option>
+<option value="readingMinutes">Lesen (Minuten)</option><option value="pianoMinutes">Klavier (Minuten)</option><option value="completedTasks">Erledigte Aufgaben</option>
+</select></div>
+<div><label class="form-label">Wert</label><input id="backfillValue" type="number" min="1" value="1"></div>
+</div>
+<input id="backfillNote" style="margin-top:10px" placeholder="Notiz (optional)">
+<button class="action" id="saveBackfill" type="button">Eintrag nachtragen</button><div class="backfill-list" id="backfillList"></div>
+</section><section class="panel"><h2>Datensicherung</h2>
+<p class="hint">Updates ersetzen nur die Programmdateien. Die Daten bleiben im Browser gespeichert. Zusätzlich wird vor jeder Migration automatisch eine Sicherung angelegt.</p><button class="action secondary" id="exportData">Sicherung exportieren</button><label class="action secondary" style="display:block;text-align:center">Sicherung importieren<input id="importData" type="file" accept=".json" hidden></label><button class="action secondary" id="recoverAllSources">Alle gefundenen alten Daten erneut zusammenführen</button><button class="action secondary" id="restoreAutoBackup">Letzte automatische Sicherung wiederherstellen</button><button class="action danger" id="clearData">Alle Daten löschen</button></section>
 </main>
 
 <nav class="nav">
@@ -563,36 +584,75 @@ partners:[{name:"Pikachu",img:"https://raw.githubusercontent.com/PokeAPI/sprites
 
 
 const STORAGE_KEY="growthPlanet";
-const LEGACY_KEYS=["growthPlanetV8","growthPlanetV7","growthPlanetV6","growthPlanetMinimal","growthPlanetV3","growthPlanetFinal","growthPlanetV21","growthPlanetV2"];
-
-function safeParse(raw){
-  try{return raw?JSON.parse(raw):null}catch(e){return null}
+const LEGACY_KEYS=["growthPlanetV9","growthPlanetV8","growthPlanetV7","growthPlanetV6","growthPlanetMinimal","growthPlanetV3","growthPlanetFinal","growthPlanetV21","growthPlanetV2"];
+function safeParse(raw){try{return raw?JSON.parse(raw):null}catch(e){return null}}
+function dataRichness(d){
+  if(!d)return 0;
+  const historyCount=Object.keys(d.history||{}).length;
+  const activityCount=Object.values(d.activities||{}).reduce((a,x)=>a+(Array.isArray(x)?x.length:0),0);
+  const manual=(d.backfillLogs||[]).length;
+  const completed=(d.quests||[]).filter(x=>x.done).length;
+  return historyCount*100000+activityCount*1000+manual*500+completed*100+(d.xp||0)+(d.stars||0);
 }
-function loadNewestData(){
+function candidateTimestamp(d){
+  const t=Date.parse(d?.updatedAt||d?.lastOpenDate||d?.todayDate||"");
+  return Number.isFinite(t)?t:0;
+}
+function uniqueEntries(items){
+  const seen=new Set();
+  return items.filter(x=>{
+    const key=String(x.id||`${x.dateKey||x.date||""}|${x.minutes||x.value||0}|${x.note||x.book||x.title||x.name||""}`);
+    if(seen.has(key))return false;seen.add(key);return true;
+  });
+}
+function mergeHistoryRecord(a,b){
+  if(!a)return structuredClone(b);if(!b)return structuredClone(a);
+  const out=structuredClone((a.completedCount||0)+(Object.keys(a.activity||{}).length)>=(b.completedCount||0)+(Object.keys(b.activity||{}).length)?a:b);
+  out.activity=out.activity||{};
+  for(const k of ["germanCards","germanCorrect","mathCorrect","chineseChars","readingMinutes","pianoMinutes","tennisMinutes","swimEntries","pushups","situps"])out.activity[k]=Math.max(a.activity?.[k]||0,b.activity?.[k]||0);
+  out.completedCount=Math.max(a.completedCount||0,b.completedCount||0);out.totalTasks=Math.max(a.totalTasks||0,b.totalTasks||0);
+  out.xp=Math.max(a.xp||0,b.xp||0);out.stars=Math.max(a.stars||0,b.stars||0);
+  out.completed=uniqueEntries([...(a.completed||[]),...(b.completed||[])].map((x,i)=>({...x,id:x.id||`${x.name}-${i}`}))).map(({id,...x})=>x);
+  return out;
+}
+function collectStoredCandidates(){
   const candidates=[];
-  const primary=safeParse(localStorage.getItem(STORAGE_KEY));
-  if(primary)candidates.push({key:STORAGE_KEY,data:primary,score:1000000+(primary.schemaVersion||0)});
-  for(const key of LEGACY_KEYS){
-    const data=safeParse(localStorage.getItem(key));
-    if(data){
-      const activityScore=(data.history?Object.keys(data.history).length:0)*1000+(data.xp||0)+(data.stars||0);
-      candidates.push({key,data,score:(data.schemaVersion||0)*100000+activityScore});
-    }
+  for(const key of [STORAGE_KEY,...LEGACY_KEYS]){const data=safeParse(localStorage.getItem(key));if(data)candidates.push({key,data})}
+  const backups=safeParse(localStorage.getItem("growthPlanetBackups"))||[];
+  backups.forEach((b,i)=>{if(b?.data)candidates.push({key:`backup-${i}`,data:b.data})});
+  return candidates;
+}
+function mergeDataSources(candidates){
+  if(!candidates.length)return null;
+  const latest=[...candidates].sort((a,b)=>candidateTimestamp(b.data)-candidateTimestamp(a.data))[0].data;
+  const richest=[...candidates].sort((a,b)=>dataRichness(b.data)-dataRichness(a.data))[0].data;
+  const out=structuredClone(latest||richest);out.history=out.history||{};out.activities=out.activities||{};out.backfillLogs=out.backfillLogs||[];
+  for(const {data} of candidates){
+    for(const [date,rec] of Object.entries(data.history||{}))out.history[date]=mergeHistoryRecord(out.history[date],rec);
+    for(const key of ["piano","germanReading","chineseReading","englishReading"])out.activities[key]=uniqueEntries([...(out.activities[key]||[]),...(data.activities?.[key]||[])]);
+    out.backfillLogs=uniqueEntries([...(out.backfillLogs||[]),...(data.backfillLogs||[])]);
+    out.xp=Math.max(out.xp||0,data.xp||0);out.stars=Math.max(out.stars||0,data.stars||0);out.streak=Math.max(out.streak||0,data.streak||0);
+    out.german=out.german||{};out.german.seen=Math.max(out.german.seen||0,data.german?.seen||0);out.german.taskCorrect=Math.max(out.german.taskCorrect||0,data.german?.taskCorrect||0);
+    out.german.customWords=uniqueEntries([...(out.german.customWords||[]),...(data.german?.customWords||[])]);out.german.customReview=[...new Set([...(out.german.customReview||[]),...(data.german?.customReview||[])])];
+    out.math=out.math||{};out.math.correct=Math.max(out.math.correct||0,data.math?.correct||0);
+    out.chinese=out.chinese||{};
+    for(const key of ["reading","writing"])out.chinese[key]=uniqueEntries([...(out.chinese[key]||[]),...(data.chinese?.[key]||[])]);
+    for(const key of ["commonMastered","commonWrong","dailyWrong","reviewQueue","readingDone"])out.chinese[key]=[...new Set([...(out.chinese[key]||[]),...(data.chinese?.[key]||[])])];
+    out.chinese.customWords={...(data.chinese?.customWords||{}),...(out.chinese.customWords||{})};
+    out.sports=out.sports||{counts:{},tennis:{sessions:0,minutes:0},history:[]};out.sports.counts=out.sports.counts||{};
+    for(const [k,v] of Object.entries(data.sports?.counts||{}))out.sports.counts[k]=Math.max(out.sports.counts[k]||0,v||0);
+    out.sports.tennis=out.sports.tennis||{sessions:0,minutes:0};out.sports.tennis.sessions=Math.max(out.sports.tennis.sessions||0,data.sports?.tennis?.sessions||0);out.sports.tennis.minutes=Math.max(out.sports.tennis.minutes||0,data.sports?.tennis?.minutes||0);
+    out.sports.history=uniqueEntries([...(out.sports.history||[]),...(data.sports?.history||[])]);
+    if(Array.isArray(data.partners)){out.partners=out.partners||[];for(const p of data.partners){const ex=out.partners.find(x=>x.name===p.name);if(!ex)out.partners.push(structuredClone(p));else{ex.owned=ex.owned||p.owned;ex.level=Math.max(ex.level||1,p.level||1);ex.xp=Math.max(ex.xp||0,p.xp||0)}}}
   }
-  candidates.sort((a,b)=>b.score-a.score);
-  return candidates[0]?.data||null;
+  return out;
 }
 function createSafetyBackup(data,label="upgrade"){
-  if(!data)return;
-  try{
-    const backups=safeParse(localStorage.getItem("growthPlanetBackups"))||[];
-    backups.unshift({createdAt:new Date().toISOString(),label,data});
-    localStorage.setItem("growthPlanetBackups",JSON.stringify(backups.slice(0,5)));
-  }catch(e){}
+  if(!data)return;try{const backups=safeParse(localStorage.getItem("growthPlanetBackups"))||[];backups.unshift({createdAt:new Date().toISOString(),label,data});localStorage.setItem("growthPlanetBackups",JSON.stringify(backups.slice(0,8)))}catch(e){}
 }
-
-let S=loadNewestData();
-if(S)createSafetyBackup(structuredClone(S),"before-v83-migration");
+const STORED_CANDIDATES=collectStoredCandidates();
+let S=mergeDataSources(STORED_CANDIDATES);
+if(S)createSafetyBackup(structuredClone(S),"before-v92-recovery");
 S=S||structuredClone(DEFAULTS);
 
 
@@ -609,6 +669,9 @@ function patch(){
   S.schemaVersion=83;
   S.updatedAt=S.updatedAt||new Date().toISOString();
   S.history=S.history||{};
+  S.backfillLogs=S.backfillLogs||[];
+  const historyActivityDefaults={germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0};
+  for(const [date,rec] of Object.entries(S.history)){rec.date=rec.date||date;rec.activity=rec.activity||{};for(const [k,v] of Object.entries(historyActivityDefaults))if(rec.activity[k]==null)rec.activity[k]=v;rec.completed=rec.completed||[];rec.completedCount=rec.completedCount??rec.completed.length;rec.totalTasks=rec.totalTasks||S.quests?.length||0;}
   S.timeBaselines=S.timeBaselines||{};
   S.lastOpenDate=S.lastOpenDate||"";
   S.todayDate=S.todayDate||"";
@@ -723,7 +786,7 @@ function dailySnapshot(dateKey){
   return {
     date:dateKey,
     completed,
-    completedCount:completed.length,
+    completedCount:completed.length+(S.daily.activity.manualCompletedTasks||0),
     totalTasks:S.quests.length,
     xp:S.daily.xp||0,
     stars:S.daily.stars||0,
@@ -1391,6 +1454,15 @@ function renderPeriodStats(period="week"){
 }
 $$("[data-period]").forEach(b=>b.onclick=()=>renderPeriodStats(b.dataset.period));
 
+const BACKFILL_LABELS={pushups:["💪","Liegestütze"],situps:["🧘","Sit-ups"],tennisMinutes:["🎾","Tennis"],swimEntries:["🏊","Schwimmen"],germanCards:["🇩🇪","Deutsch-Lernkarten"],germanCorrect:["✅","Deutsch richtig"],mathCorrect:["➕","Mathe richtig"],chineseChars:["📚","Chinesische Zeichen"],readingMinutes:["📖","Lesen"],pianoMinutes:["🎹","Klavier"],completedTasks:["☑️","Erledigte Aufgaben"]};
+function targetForDate(dateKey){if(dateKey===S.todayDate)return {activity:S.daily.activity,today:true};const rec=ensureHistoryRecord(dateKey);return {activity:rec.activity,record:rec,today:false}}
+function applyBackfillDelta(log,delta){const t=targetForDate(log.dateKey);if(log.type==="completedTasks"){if(t.today)t.activity.manualCompletedTasks=Math.max(0,(t.activity.manualCompletedTasks||0)+delta*log.value);else t.record.completedCount=Math.max(0,(t.record.completedCount||0)+delta*log.value)}else t.activity[log.type]=Math.max(0,(t.activity[log.type]||0)+delta*log.value)}
+function openBackfillEditor(item=null){$("#backfillDate").value=item?.dateKey||previousDateKey(localDateKey());$("#backfillDate").max=localDateKey();$("#backfillType").value=item?.type||"pushups";$("#backfillValue").value=item?.value||1;$("#backfillNote").value=item?.note||"";$("#saveBackfill").textContent=item?"Änderungen speichern":"Eintrag nachtragen";$("#saveBackfill").dataset.editId=item?.id||""}
+function renderBackfillList(){const box=$("#backfillList");if(!box)return;const rows=[...(S.backfillLogs||[])].sort((a,b)=>b.dateKey.localeCompare(a.dateKey)).slice(0,40);box.innerHTML=rows.length?`<h3>Nachgetragene Einträge</h3>`+rows.map(x=>{const l=BACKFILL_LABELS[x.type]||["•",x.type],unit=["tennisMinutes","readingMinutes","pianoMinutes"].includes(x.type)?" Min.":"";return `<div class="backfill-item"><div style="font-size:24px">${l[0]}</div><div class="backfill-main"><b>${l[1]} · ${x.value}${unit}</b><small>${x.note||"Ohne Notiz"} · ${new Date(x.dateKey+"T12:00:00").toLocaleDateString("de-DE")}</small></div><div class="backfill-actions"><button data-edit-backfill="${x.id}">✎</button><button data-delete-backfill="${x.id}">×</button></div></div>`}).join(""):'<p class="hint">Noch keine nachgetragenen Einträge</p>';
+$$("[data-edit-backfill]").forEach(b=>b.onclick=()=>{const item=S.backfillLogs.find(x=>String(x.id)===String(b.dataset.editBackfill));if(item)openBackfillEditor(item)});
+$$("[data-delete-backfill]").forEach(b=>b.onclick=()=>{const item=S.backfillLogs.find(x=>String(x.id)===String(b.dataset.deleteBackfill));if(!item||!confirm("Diesen Nachtrag wirklich löschen?"))return;applyBackfillDelta(item,-1);S.backfillLogs=S.backfillLogs.filter(x=>String(x.id)!==String(item.id));save();render();toast("Nachtrag gelöscht")})}
+$("#saveBackfill").onclick=()=>{const dateKey=$("#backfillDate").value,type=$("#backfillType").value,value=+$("#backfillValue").value||0,note=$("#backfillNote").value.trim();if(!dateKey)return toast("Bitte Datum auswählen");if(dateKey>localDateKey())return toast("Ein zukünftiges Datum ist nicht möglich");if(value<1)return toast("Bitte einen Wert eingeben");const editId=$("#saveBackfill").dataset.editId;if(editId){const item=S.backfillLogs.find(x=>String(x.id)===String(editId));if(item){applyBackfillDelta(item,-1);item.dateKey=dateKey;item.type=type;item.value=value;item.note=note;applyBackfillDelta(item,1);toast("Nachtrag geändert")}}else{const item={id:`backfill-${Date.now()}`,dateKey,type,value,note};S.backfillLogs.push(item);applyBackfillDelta(item,1);toast("Vergangener Eintrag gespeichert")}$("#saveBackfill").dataset.editId="";$("#saveBackfill").textContent="Eintrag nachtragen";save();render()};
+
 function renderHistory(){
   const grid=$("#calendarGrid"),list=$("#historyList");
   if(!grid||!list)return;
@@ -1479,6 +1551,8 @@ $("#resetToday").onclick=()=>{
 $("#exportData").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));a.download="Wachstumsplanet-Sicherung.json";a.click()};
 $("#importData").onchange=e=>{const r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);S.timeBaselinesInitialized=false;patch();runDailyEngine();initializeTimeBaselines();rebuildTimeMetrics();save();render();toast("Sicherung importiert");}catch{toast("Ungültige Datei")}};r.readAsText(e.target.files[0])};
 
+$("#recoverAllSources").onclick=()=>{if(!confirm("Alle noch vorhandenen alten Daten und Sicherungen erneut zusammenführen?"))return;const recovered=mergeDataSources(collectStoredCandidates());if(!recovered)return toast("Keine weiteren Daten gefunden");S=recovered;patch();runDailyEngine();initializeTimeBaselines();rebuildTimeMetrics();save();render();openBackfillEditor();toast("Alte Daten wurden zusammengeführt")};
+
 $("#restoreAutoBackup").onclick=()=>{
   const backups=safeParse(localStorage.getItem("growthPlanetBackups"))||[];
   if(!backups.length)return toast("Keine automatische Sicherung vorhanden");
@@ -1499,10 +1573,11 @@ function render(){
   $("#mCorrect").textContent=S.math.correct;
   $("#mStreak").textContent=S.math.streak;
   $("#mFloor").textContent=S.math.floor;
-  chinese();sports();partners();report();renderHistory();renderTaskManager();renderTimeOverview();
+  chinese();sports();partners();report();renderHistory();renderTaskManager();renderTimeOverview();renderBackfillList();
 }
 createMath();
 render();
+openBackfillEditor();
 if(DAILY_ENGINE_RESULT.newDay){
   const banner=$("#dailyBanner");
   if(banner){
@@ -1510,7 +1585,7 @@ if(DAILY_ENGINE_RESULT.newDay){
     banner.classList.add("show");
   }
 }
-if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v91").then(r=>r.update()).catch(()=>{})}
+if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v92").then(r=>r.update()).catch(()=>{})}
 </script>
 </body>
 </html>

@@ -1,9 +1,9 @@
 {
-  "name": "Wachstumsplanet V9.3.1 Fixed",
+  "name": "Wachstumsplanet V13.0.1 Final Checked",
   "short_name": "Wachstumsplanet",
-  "start_url": "./?v=v931",
+  "start_url": "./?v=v1301",
   "display": "standalone",
   "background_color": "#f4f5f7",
   "theme_color": "#17213d",
-  "description": "Behobenes Deutsch- und Sportmodul mit isoliertem Rendering."
+  "description": "Final geprüfte Version mit Smart Learning, Adventure und LTS-Datenschutz."
 }

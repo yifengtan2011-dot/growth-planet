@@ -361,13 +361,173 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 .de-nav-row{display:flex;gap:10px;margin-top:14px}.de-nav-row button{flex:1;min-height:52px;border-radius:15px;background:var(--soft);font-weight:850}
 .de-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
 @media(max-width:520px){.de-mode-grid{grid-template-columns:1fr}.de-choice-grid{grid-template-columns:1fr}.de-input-row{grid-template-columns:1fr}}
+
+/* V9.4 */
+.backfill-form{display:grid;gap:14px}
+.backfill-step{padding:14px;border-radius:18px;background:var(--soft)}
+.backfill-step label{display:block;font-size:12px;font-weight:850;color:var(--muted);margin-bottom:8px}
+.backfill-step input,.backfill-step select{width:100%;min-height:56px;border-radius:15px;border:2px solid var(--line);padding:12px 14px;font-size:17px;background:#fff}
+.backfill-category-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.backfill-category{min-height:58px;padding:10px;border-radius:15px;background:#fff;border:2px solid transparent;font-weight:850;text-align:left}
+.backfill-category.active{border-color:var(--accent);background:#eef2ff;color:var(--accent)}
+.backfill-save{width:100%;min-height:58px;border-radius:16px;background:var(--accent);color:#fff;font-size:18px;font-weight:900}
+.partner-rule{margin-top:8px;padding:9px 10px;border-radius:12px;background:var(--soft);font-size:11px;color:var(--muted)}
+.partner-evolution{margin-top:6px;font-size:11px;font-weight:800;color:var(--gold)}
+.partner.locked img{filter:grayscale(1);opacity:.35}
+.partner.locked::after{content:"🔒";position:absolute;right:7px;top:7px;font-size:16px}
+.partner{position:relative}
+@media(min-width:760px){.backfill-category-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:759px){
+  .backfill-grid,.backfill-grid.two,.backfill-grid.three{grid-template-columns:1fr!important}
+  .backfill-category-grid{grid-template-columns:1fr 1fr}
+}
+
+/* V11 Ultimate */
+.trainer-card{padding:18px;border-radius:22px;background:linear-gradient(145deg,#17213d,#24335a);color:#fff;margin:14px 0}
+.trainer-card h3{margin:0 0 6px;font-size:22px}.trainer-rank{font-size:13px;opacity:.82}
+.trainer-xp{height:12px;background:rgba(255,255,255,.18);border-radius:999px;overflow:hidden;margin-top:12px}
+.trainer-xp>span{display:block;height:100%;background:#fff;border-radius:999px}
+.pokemon-stage{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:12px}
+.pokemon-stage span{padding:7px 10px;border-radius:11px;background:var(--soft);font-size:12px;font-weight:850}
+.pokemon-stage .active{background:#fff0cf;color:#8f6b18}.pokemon-stage .done{background:#e8f3ed;color:var(--success)}.pokemon-stage .locked{opacity:.45}
+.level-reward{margin-top:12px;padding:11px;border-radius:13px;background:var(--soft);font-size:12px}
+.mega-badge{display:inline-block;margin-left:7px;padding:3px 7px;border-radius:8px;background:#f2e9ff;color:#7546a8;font-size:11px;font-weight:900}
+.rank-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.rank-card{padding:13px;border-radius:16px;background:rgba(255,255,255,.12)}
+.rank-card b{display:block;font-size:18px}.rank-card small{opacity:.78}
+@media(min-width:760px){.rank-grid{grid-template-columns:repeat(4,1fr)}}
+
+/* V11.1 LTS */
+.health-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.health-card{padding:14px;border-radius:16px;background:var(--soft)}
+.health-card b{display:block;font-size:19px}.health-card small{color:var(--muted)}
+.health-ok{color:var(--success)}.health-warn{color:#9a6b00}.health-bad{color:var(--danger)}
+.backup-timeline{display:grid;gap:8px;margin-top:12px}
+.backup-entry{display:flex;align-items:center;gap:10px;padding:11px;border-radius:14px;background:var(--soft)}
+.backup-entry>div{flex:1}.backup-entry small{color:var(--muted)}
+.backup-entry button{padding:8px 10px;border-radius:10px;background:#fff;font-weight:800}
+.lts-note{padding:12px 14px;border-radius:15px;background:#edf7f1;color:#285c42;border:1px solid #c7e2d3;margin-bottom:12px}
+.future-foundation{display:grid;grid-template-columns:1fr;gap:9px;margin-top:12px}
+.future-card{padding:13px;border-radius:15px;background:var(--soft)}
+@media(min-width:760px){.health-grid{grid-template-columns:repeat(4,1fr)}.future-foundation{grid-template-columns:repeat(2,1fr)}}
+
+/* V12.1 Adventure Base */
+.adventure-hero{padding:20px;border-radius:24px;background:linear-gradient(145deg,#14213d,#293a66);color:#fff;margin:14px 0}
+.adventure-hero h2{margin:0 0 6px;font-size:25px}
+.adventure-hero p{margin:0;opacity:.82}
+.adventure-progress{height:14px;background:rgba(255,255,255,.18);border-radius:999px;overflow:hidden;margin-top:14px}
+.adventure-progress>span{display:block;height:100%;background:#fff;border-radius:999px}
+.world-map{display:flex;gap:18px;overflow-x:auto;padding:18px 4px 24px;scroll-snap-type:x mandatory}
+.world-node{min-width:180px;scroll-snap-align:center;padding:16px;border-radius:22px;background:var(--soft);border:2px solid transparent;text-align:center;position:relative}
+.world-node.current{border-color:var(--gold);background:#fff8e8}
+.world-node.done{background:#eaf4ef}
+.world-node.locked{opacity:.45}
+.world-node .icon{font-size:46px}.world-node b{display:block;font-size:17px;margin-top:7px}
+.world-node small{color:var(--muted)}
+.world-path{display:flex;align-items:center;color:var(--muted);font-size:24px}
+.trainer-token{font-size:28px;margin-top:8px;animation:walkBounce 1.2s infinite}
+@keyframes walkBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.gym-card{padding:18px;border-radius:22px;background:linear-gradient(145deg,#fff,#f5f6fa);border:1px solid var(--line)}
+.gym-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.gym-avatar{font-size:48px}.gym-title{flex:1}.gym-title h3{margin:0}.gym-title p{margin:4px 0 0;color:var(--muted)}
+.gym-hp{height:14px;background:var(--soft);border-radius:999px;overflow:hidden;margin:14px 0}
+.gym-hp>span{display:block;height:100%;background:#d65a61}
+.mission-list{display:grid;gap:10px;margin-top:12px}
+.mission{padding:13px;border-radius:15px;background:var(--soft);display:flex;align-items:center;gap:10px}
+.mission.done{background:#eaf4ef}.mission .check{font-size:20px}.mission .main{flex:1}
+.mission b{display:block}.mission small{color:var(--muted)}
+.badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.badge{aspect-ratio:1;border-radius:18px;background:var(--soft);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px}
+.badge.earned{background:#fff5d7;border:2px solid #e3c56b}.badge .icon{font-size:30px}.badge small{font-size:10px;color:var(--muted)}
+.story-card{padding:18px;border-radius:20px;background:#fff;border:1px solid var(--line)}
+.story-speaker{font-weight:900;margin-bottom:8px}.story-text{font-size:18px;line-height:1.55}
+.adventure-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.adventure-actions button{flex:1;min-height:52px;border-radius:15px;font-weight:900}
+.primary-adventure{background:var(--accent);color:#fff}.secondary-adventure{background:var(--soft)}
+@media(min-width:760px){
+  .badge-grid{grid-template-columns:repeat(8,1fr)}
+  .world-node{min-width:220px}
+}
+
+/* V12 Ultimate */
+.ultimate-tabs{display:flex;gap:8px;overflow-x:auto;margin:12px 0}
+.ultimate-tab{padding:10px 14px;border-radius:13px;background:var(--soft);white-space:nowrap;font-weight:900}
+.ultimate-tab.active{background:var(--accent);color:#fff}
+.ultimate-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.ultimate-card{padding:14px;border-radius:17px;background:var(--soft)}
+.ultimate-card b{display:block;font-size:18px}.ultimate-card small{color:var(--muted)}
+.pokedex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.dex-card{padding:10px;border-radius:16px;background:var(--soft);text-align:center;position:relative}
+.dex-card img{width:74px;height:74px;object-fit:contain}.dex-card.locked{filter:grayscale(1);opacity:.45}
+.dex-number{font-size:10px;color:var(--muted)}.dex-name{font-weight:900;font-size:12px}
+.inventory-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.inventory-item{padding:14px;border-radius:17px;background:var(--soft);text-align:center}
+.inventory-item .icon{font-size:30px}.inventory-item b{display:block;margin-top:6px}
+.skill-list{display:grid;gap:8px}.skill{padding:12px;border-radius:14px;background:var(--soft);display:flex;align-items:center;gap:10px}
+.skill.locked{opacity:.45}.skill .main{flex:1}.skill b{display:block}.skill small{color:var(--muted)}
+.boss-card{padding:18px;border-radius:22px;background:linear-gradient(145deg,#281b3e,#4a2b65);color:#fff}
+.boss-hp{height:14px;background:rgba(255,255,255,.18);border-radius:999px;overflow:hidden;margin:14px 0}
+.boss-hp>span{display:block;height:100%;background:#ff8d9b}
+.story-choice-grid{display:grid;gap:10px;margin-top:14px}.story-choice{min-height:54px;border-radius:15px;background:var(--soft);font-weight:900;padding:12px}
+.ai-panel{padding:16px;border-radius:20px;background:linear-gradient(145deg,#fff,#f4f7fb);border:1px solid var(--line)}
+.ai-question{font-size:25px;font-weight:950;margin:14px 0}.ai-options{display:grid;gap:10px}
+.ai-option{min-height:58px;border-radius:15px;background:var(--soft);font-size:18px;font-weight:850}
+.ai-option.correct{background:#e8f3ed;color:var(--success)}.ai-option.wrong{background:#fff0f1;color:var(--danger)}
+.parent-overview{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.parent-kpi{padding:15px;border-radius:17px;background:var(--soft)}
+.parent-kpi b{display:block;font-size:22px}.parent-kpi small{color:var(--muted)}
+.achievement-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.achievement{padding:14px;border-radius:17px;background:var(--soft);text-align:center}
+.achievement.unlocked{background:#fff4d7;border:2px solid #e0c36c}.achievement .icon{font-size:32px}
+.season-banner{padding:16px;border-radius:20px;background:linear-gradient(145deg,#f4f7ff,#fff);border:1px solid var(--line)}
+.leaderboard{display:grid;gap:8px}.leader-row{display:flex;align-items:center;gap:10px;padding:12px;border-radius:14px;background:var(--soft)}
+.leader-rank{font-size:22px;font-weight:950}.leader-main{flex:1}
+@media(min-width:760px){
+ .ultimate-grid{grid-template-columns:repeat(4,1fr)}
+ .pokedex-grid{grid-template-columns:repeat(6,1fr)}
+ .inventory-grid{grid-template-columns:repeat(5,1fr)}
+ .parent-overview{grid-template-columns:repeat(4,1fr)}
+ .achievement-grid{grid-template-columns:repeat(4,1fr)}
+}
+
+/* V13 Smart Learning */
+.smart-dashboard{display:grid;gap:12px}
+.smart-hero{padding:18px;border-radius:22px;background:linear-gradient(145deg,#18243f,#334873);color:#fff}
+.smart-hero h2{margin:0 0 6px}.smart-hero p{margin:0;opacity:.82}
+.smart-plan{display:grid;gap:10px;margin-top:14px}
+.smart-task{padding:14px;border-radius:17px;background:var(--soft);display:flex;align-items:center;gap:11px}
+.smart-task.done{background:#e8f3ed}.smart-task .icon{font-size:26px}.smart-task .main{flex:1}
+.smart-task b{display:block}.smart-task small{color:var(--muted)}
+.smart-progress{height:10px;background:var(--soft);border-radius:999px;overflow:hidden;margin-top:8px}
+.smart-progress>span{display:block;height:100%;background:var(--accent)}
+.teacher-grid{display:grid;gap:12px}
+.teacher-card{padding:15px;border-radius:18px;background:var(--soft)}
+.teacher-card label{display:block;font-size:12px;font-weight:850;color:var(--muted);margin-bottom:7px}
+.teacher-card textarea,.teacher-card input,.teacher-card select{width:100%;min-height:54px;border-radius:15px;border:2px solid var(--line);padding:12px;background:#fff;font-size:16px}
+.srs-list{display:grid;gap:9px}
+.srs-item{padding:13px;border-radius:16px;background:var(--soft);display:flex;gap:10px;align-items:center}
+.srs-item .main{flex:1}.srs-item b{display:block}.srs-item small{color:var(--muted)}
+.coach-card{padding:16px;border-radius:20px;background:linear-gradient(145deg,#fff,#f5f8fc);border:1px solid var(--line)}
+.coach-title{font-weight:950;font-size:18px}.coach-text{margin-top:8px;line-height:1.55}
+.mastery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.mastery-card{padding:14px;border-radius:17px;background:var(--soft)}
+.mastery-card b{display:block;font-size:20px}.mastery-card small{color:var(--muted)}
+.smart-answer-grid{display:grid;gap:10px;margin-top:14px}
+.smart-answer{min-height:60px;border-radius:16px;background:var(--soft);font-size:18px;font-weight:900;padding:12px}
+.smart-answer.correct{background:#e8f3ed;color:var(--success)}
+.smart-answer.wrong{background:#fff0f1;color:var(--danger)}
+.plan-controls{display:flex;gap:10px;flex-wrap:wrap}.plan-controls button{flex:1;min-height:52px;border-radius:15px;font-weight:900}
+@media(min-width:760px){
+ .teacher-grid{grid-template-columns:repeat(2,1fr)}
+ .mastery-grid{grid-template-columns:repeat(4,1fr)}
+ .smart-answer-grid{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
 <div class="app">
 <main id="home" class="screen active">
   <div class="header">
-    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V9.3.1 FIXED</div></div>
+    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V13.0.1 FINAL CHECKED</div></div>
     <div class="grow"></div>
     <div class="balance">⭐ <span id="stars">0</span></div>
   </div>
@@ -454,9 +614,56 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 <section class="panel"><h2>Letzte Einträge</h2><div class="history" id="sportHistory"></div></section>
 </main>
 
+<main id="adventure" class="screen">
+<div class="pagehead"><button class="back" data-home>‹</button><div><h2>Adventure Planet</h2><div class="hint">Lernen, bewegen und die Welt entdecken</div></div></div>
+
+<section class="adventure-hero">
+  <h2 id="adventureWorldTitle">Kanto Abenteuer</h2>
+  <p id="adventureWorldSubtitle">Schritt für Schritt zur Pokémon-Liga</p>
+  <div class="adventure-progress"><span id="adventureWorldProgress" style="width:0%"></span></div>
+</section>
+
+<section class="panel">
+  <div class="section-head"><h2>Weltkarte</h2><span class="hint" id="adventureStepsText">0 Schritte</span></div>
+  <div class="world-map" id="worldMap"></div>
+</section>
+
+<section class="panel">
+  <h2>Aktuelle Geschichte</h2>
+  <div class="story-card" id="adventureStory"></div>
+</section>
+
+<section class="panel">
+  <h2>Gym Challenge</h2>
+  <div id="gymChallenge"></div>
+</section>
+
+<section class="panel">
+  <h2>Badge Album</h2>
+  <div class="badge-grid" id="badgeGrid"></div>
+</section>
+
+<section class="panel">
+  <div class="ultimate-tabs">
+    <button class="ultimate-tab active" data-ultimate-tab="pokedex">Pokédex</button>
+    <button class="ultimate-tab" data-ultimate-tab="inventory">Rucksack</button>
+    <button class="ultimate-tab" data-ultimate-tab="skills">Fähigkeiten</button>
+    <button class="ultimate-tab" data-ultimate-tab="story">Story</button>
+    <button class="ultimate-tab" data-ultimate-tab="boss">Boss</button>
+    <button class="ultimate-tab" data-ultimate-tab="achievements">Erfolge</button>
+  </div>
+  <div id="ultimateAdventureContent"></div>
+</section>
+</main>
 <main id="partners" class="screen">
 <div class="pagehead"><button class="back" data-home>‹</button><div><h2>Pokémon-Partner</h2><div class="hint">Begleiten die täglichen Aufgaben und steigen im Level</div></div></div>
-<section class="panel partner-card"><div class="partner-face" id="partnerFace">⚡🐾</div><div class="partner-name" id="partnerName"></div><div class="hint" id="partnerDesc"></div><div class="bar" style="margin-top:14px"><i id="partnerXp"></i></div><button class="action" id="feedPartner">Füttern (5 Sterne)</button><button class="action secondary" id="trainPartner">Training (10 Sterne)</button></section>
+<section class="trainer-card">
+<h3>Trainer Tino · <span id="trainerLevel">Lv.1</span></h3>
+<div class="trainer-rank" id="trainerRank">Anfänger</div>
+<div class="trainer-xp"><span id="trainerXpBar" style="width:0%"></span></div>
+<div class="rank-grid" id="trainerRankGrid"></div>
+</section>
+<section class="panel partner-card"><img class="partner-face" id="partnerFace" alt="Pokémon-Partner" onerror="this.style.display='none';document.getElementById('partnerFallback').style.display='flex'"><div class="partner-face" id="partnerFallback" style="display:none">⚡🐾</div><div class="partner-name" id="partnerName"></div><div class="hint" id="partnerDesc"></div><div class="bar" style="margin-top:14px"><i id="partnerXp"></i></div><button class="action" id="feedPartner">Füttern (5 Sterne)</button><button class="action secondary" id="trainPartner">Training (10 Sterne)</button></section>
 <section class="panel"><div class="partner-grid" id="partnerGrid"></div></section>
 </main>
 
@@ -481,6 +688,34 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
     <button class="stats-tab" data-period="total">Gesamt</button>
   </div>
   <div class="period-stats" id="periodStats"></div>
+</section>
+</main>
+<main id="aiLearning" class="screen">
+<div class="pagehead"><button class="back" data-home>‹</button><div><h2>Smart Learning V13</h2><div class="hint">Adaptive Übungen, Wiederholungsplan und Lerncoach</div></div></div>
+
+<section class="smart-hero">
+  <h2 id="smartGreeting">Guten Tag, Tino!</h2>
+  <p id="smartSummary">Dein Lernplan wird aus Fortschritt und Fehlern erstellt.</p>
+  <div class="smart-progress"><span id="smartDailyProgress" style="width:0%"></span></div>
+</section>
+
+<section class="panel">
+  <div class="section-head"><h2>Heutiger Lernplan</h2><span class="hint" id="smartPlanCount">0 Aufgaben</span></div>
+  <div class="smart-plan" id="smartDailyPlan"></div>
+  <div class="plan-controls">
+    <button class="primary-adventure" id="startSmartPlan">Plan starten</button>
+    <button class="secondary-adventure" id="regenerateSmartPlan">Neu erstellen</button>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="ultimate-tabs">
+    <button class="ultimate-tab active" data-v13-tab="practice">Üben</button>
+    <button class="ultimate-tab" data-v13-tab="review">Wiederholen</button>
+    <button class="ultimate-tab" data-v13-tab="teacher">Teacher Mode</button>
+    <button class="ultimate-tab" data-v13-tab="coach">Lerncoach</button>
+  </div>
+  <div id="v13Content"></div>
 </section>
 </main>
 <main id="parent" class="screen">
@@ -514,21 +749,60 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 <section class="panel"><h2>Fortschrittsbericht</h2><div id="report"></div></section>
 <section class="panel"><h2>Erfolge</h2><div class="achievement-grid" id="achievementGrid"></div></section>
 <section class="panel"><h2>Vergangene Tage nachtragen</h2>
-<div class="recovery-note">Vorhandene Daten aus älteren Versionen und automatischen Sicherungen werden zusammengeführt.</div>
-<p class="hint">Vergessene Werte für frühere Tage können ergänzt, geändert oder gelöscht werden.</p>
-<div class="backfill-grid three">
-<div><label class="form-label">Datum</label><input id="backfillDate" type="date"></div>
-<div><label class="form-label">Kategorie</label><select id="backfillType" class="select">
-<option value="pushups">Liegestütze</option><option value="situps">Sit-ups</option><option value="tennisMinutes">Tennis (Minuten)</option><option value="swimEntries">Schwimmen</option>
-<option value="germanCards">Deutsch-Lernkarten</option><option value="germanCorrect">Deutsch richtig</option><option value="mathCorrect">Mathe richtig</option><option value="chineseChars">Chinesische Zeichen</option>
-<option value="readingMinutes">Lesen (Minuten)</option><option value="pianoMinutes">Klavier (Minuten)</option><option value="completedTasks">Erledigte Aufgaben</option>
-</select></div>
-<div><label class="form-label">Wert</label><input id="backfillValue" type="number" min="1" value="1"></div>
+<div class="recovery-note">Vergessene Einträge können für frühere Tage ergänzt, später geändert oder gelöscht werden.</div>
+<div class="backfill-form">
+  <div class="backfill-step">
+    <label for="backfillDate">1. Datum auswählen</label>
+    <input id="backfillDate" type="date">
+  </div>
+  <div class="backfill-step">
+    <label>2. Kategorie auswählen</label>
+    <div class="backfill-category-grid" id="backfillCategories">
+      <button class="backfill-category active" data-backfill-type="pushups">💪 Liegestütze</button>
+      <button class="backfill-category" data-backfill-type="situps">🧘 Sit-ups</button>
+      <button class="backfill-category" data-backfill-type="tennisMinutes">🎾 Tennis</button>
+      <button class="backfill-category" data-backfill-type="swimEntries">🏊 Schwimmen</button>
+      <button class="backfill-category" data-backfill-type="germanCards">🇩🇪 Deutsch</button>
+      <button class="backfill-category" data-backfill-type="mathCorrect">➕ Mathe</button>
+      <button class="backfill-category" data-backfill-type="chineseChars">📚 Chinesisch</button>
+      <button class="backfill-category" data-backfill-type="readingMinutes">📖 Lesen</button>
+      <button class="backfill-category" data-backfill-type="pianoMinutes">🎹 Klavier</button>
+      <button class="backfill-category" data-backfill-type="alltag">😊 Alltag</button>
+      <button class="backfill-category" data-backfill-type="completedTasks">☑️ Aufgaben</button>
+    </div>
+    <input id="backfillType" type="hidden" value="pushups">
+  </div>
+  <div class="backfill-step">
+    <label for="backfillValue">3. Wert eingeben</label>
+    <input id="backfillValue" type="number" min="1" inputmode="numeric" value="1">
+  </div>
+  <div class="backfill-step">
+    <label for="backfillNote">4. Notiz – optional</label>
+    <input id="backfillNote" placeholder="Zum Beispiel: Training im Verein">
+  </div>
+  <button class="backfill-save" id="saveBackfill" type="button">Eintrag nachtragen</button>
 </div>
-<input id="backfillNote" style="margin-top:10px" placeholder="Notiz (optional)">
-<button class="action" id="saveBackfill" type="button">Eintrag nachtragen</button><div class="backfill-list" id="backfillList"></div>
-</section><section class="panel"><h2>Datensicherung</h2>
-<p class="hint">Updates ersetzen nur die Programmdateien. Die Daten bleiben im Browser gespeichert. Zusätzlich wird vor jeder Migration automatisch eine Sicherung angelegt.</p><button class="action secondary" id="exportData">Sicherung exportieren</button><label class="action secondary" style="display:block;text-align:center">Sicherung importieren<input id="importData" type="file" accept=".json" hidden></label><button class="action secondary" id="recoverAllSources">Alle gefundenen alten Daten erneut zusammenführen</button><button class="action secondary" id="restoreAutoBackup">Letzte automatische Sicherung wiederherstellen</button><button class="action danger" id="clearData">Alle Daten löschen</button></section>
+<div class="backfill-list" id="backfillList"></div>
+</section><section class="panel"><h2>Eltern Dashboard</h2>
+<div class="parent-overview" id="parentOverview"></div>
+<div class="season-banner" id="parentInsight" style="margin-top:12px"></div>
+<button class="action secondary" id="exportParentReport" type="button">Wochenbericht exportieren</button>
+</section>
+<section class="panel"><h2>System Health · LTS</h2>
+<div class="lts-note">Transaktionales Speichern, Checksums und Wiederherstellungspunkte schützen die Daten auf diesem Chrome und iPad.</div>
+<div class="health-grid" id="healthGrid"></div>
+<div class="backup-timeline" id="backupTimeline"></div>
+<button class="action secondary" id="runHealthCheck" type="button">Daten jetzt prüfen</button>
+<button class="action secondary" id="createManualSnapshot" type="button">Manuellen Snapshot erstellen</button>
+</section>
+<section class="panel"><h2>Nächste Ausbaustufen</h2>
+<div class="future-foundation">
+<div class="future-card"><b>V12 Adventure Foundation</b><div class="hint">Weltkarte, Gym, Boss und Pokédex sind datenmäßig vorbereitet.</div></div>
+<div class="future-card"><b>V13 AI Learning Foundation</b><div class="hint">Lernprofile, Review Queue und generierte Aufgaben sind vorbereitet.</div></div>
+</div></section>
+<section class="panel"><h2>Datensicherung</h2>
+<p class="hint">Updates ersetzen nur die Programmdateien. Auf demselben iPad, im selben Safari und unter derselben GitHub-Pages-Adresse bleiben die Daten gespeichert. Vor jeder Migration wird zusätzlich eine automatische Sicherung angelegt.</p>
+<div class="recovery-note" id="dataContinuityStatus">Gespeichert unter: growthPlanet · vorhandene Verlaufsdaten werden beim Update zusammengeführt.</div><button class="action secondary" id="exportData">Sicherung exportieren</button><label class="action secondary" style="display:block;text-align:center">Sicherung importieren<input id="importData" type="file" accept=".json" hidden></label><button class="action secondary" id="recoverAllSources">Alle gefundenen alten Daten erneut zusammenführen</button><button class="action secondary" id="restoreAutoBackup">Letzte automatische Sicherung wiederherstellen</button><button class="action danger" id="clearData">Alle Daten löschen</button></section>
 </main>
 
 <nav class="nav">
@@ -585,7 +859,14 @@ function charWords(char){
  const m={"一":["一天","一起","一样"],"人":["人民","大人","别人"],"学":["学习","学校","学生"],"生":["生活","生日","生字"],"天":["今天","天空","天气"],"日":["日子","生日","日记"],"月":["月亮","月光","月份"],"家":["家庭","回家","大家"],"书":["书本","看书","书包"],"水":["河水","水果","喝水"],"火":["火车","大火","火红"],"风":["大风","风声","风筝"],"花":["花朵","开花","花园"],"草":["小草","草地","草丛"],"树":["大树","树叶","树林"],"好":["好人","美好","好看"],"大":["大家","大小","大海"],"小":["小心","小孩","大小"],"明":["明天","明白","明亮"],"快":["快乐","飞快","快慢"],"读":["读书","阅读","朗读"],"写":["写字","书写","写作"],"说":["说话","说明","小说"],"看":["看书","看见","好看"]};
  return m[char]||[];
 }
-const DEFAULTS={schemaVersion:8,stars:0,xp:0,streak:1,lastBonus:"",lastOpenDate:"",history:{},todayDate:"",daily:{xp:0,stars:0,startedAt:"",activity:{germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0}},week:[0,0,0,0,0,0,0],quests:[
+const DEFAULTS={schemaVersion:111,lts:{saveCounter:0,lastGoodSave:"",lastHealthCheck:"",integrity:"unknown"},
+adventure:{world:"Kanto",position:0,steps:0,lastStepDate:"",badges:[],bosses:[],pokedex:[],season:"",
+currentGym:0,gymProgress:{},storyIndex:0,trainerAvatar:"🧢",coins:0,inventory:{berry:0,candy:0,potion:0},stepLedger:{date:"",awarded:0}},
+aiLearning:{profiles:{german:{correct:0,wrong:0},chinese:{correct:0,wrong:0},math:{correct:0,wrong:0}},
+reviewQueue:[],generatedTasks:[],lastGeneration:"",mode:"german"},
+story:{dailyKey:"",chapter:0,rocketWins:0,choices:[]},
+ultimate:{activeTab:"pokedex",weeklyBoss:{week:"",hp:300,maxHp:300,defeated:false,attackDate:"",damageApplied:0},eliteBadges:[],championYears:[],achievements:[],seasonRewards:[]},
+trainerLevel:1,trainerXp:0,stars:0,xp:0,streak:1,lastBonus:"",lastOpenDate:"",history:{},todayDate:"",daily:{xp:0,stars:0,startedAt:"",activity:{germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0,alltag:0}},week:[0,0,0,0,0,0,0],quests:[
 {id:1,icon:"🇩🇪",name:"Deutsch lernen",desc:"8 Lernkarten bearbeiten",stars:10,done:false,unit:"check",target:1},
 {id:2,icon:"➕",name:"Mathematik",desc:"10 Aufgaben richtig lösen",stars:10,done:false,unit:"check",target:1},
 {id:3,icon:"📚",name:"Chinesisch",desc:"3 Schriftzeichen lernen",stars:10,done:false,unit:"check",target:1},
@@ -598,11 +879,80 @@ const DEFAULTS={schemaVersion:8,stars:0,xp:0,streak:1,lastBonus:"",lastOpenDate:
 german:{grade:1,index:0,seen:0,wrong:[],taskIndex:0,taskCorrect:0,taskWrong:[],customWords:[],customReview:[],customIndex:0},math:{correct:0,streak:0,floor:1},chinese:{index:0,poem:0,reading:[],writing:[],dailyChars:[],dailyDate:"",dailyWrong:[],reviewQueue:[],dailyIndex:0,customWords:{},commonIndex:0,commonMastered:[],commonWrong:[],readingIndex:0,readingDone:[]},
 activities:{piano:[],germanReading:[],chineseReading:[],englishReading:[]},
 sports:{tennis:{sessions:0,minutes:0},counts:{Schwimmen:0,Seilspringen:0,"Liegestütze":0,"Sit-ups":0},history:[]},
-partners:[{name:"Pikachu",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",desc:"Elektro-Pokémon · erhält XP durch tägliche Aufgaben",owned:true,level:1,xp:0},{name:"Bisasam",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",desc:"Pflanzen-Pokémon · wird durch Lernaufgaben freigeschaltet",owned:false,level:1,xp:0},{name:"Gengar",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png",desc:"Geist-Pokémon · wird durch Klavier oder Englisch freigeschaltet",owned:false,level:1,xp:0},{name:"Schiggy",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png",desc:"Wasser-Pokémon · wird durch Schwimmen freigeschaltet",owned:false,level:1,xp:0},{name:"Glumanda",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png",desc:"Feuer-Pokémon · wird durch Tennistraining freigeschaltet",owned:false,level:1,xp:0}],selectedPartner:0};
+partners:[
+{name:"Pikachu",baseName:"Pikachu",species:"pikachu",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",desc:"Elektro-Pokémon",unlock:"Von Anfang an verfügbar",owned:true,level:1,xp:0},
+{name:"Bisasam",baseName:"Bisasam",species:"bulbasaur",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",desc:"Pflanzen-Pokémon",unlock:"50 Deutsch-Lernkarten oder 20 richtige Lernaufgaben",owned:false,level:1,xp:0},
+{name:"Gengar",baseName:"Gengar",species:"gengar",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png",desc:"Geist-Pokémon",unlock:"Insgesamt 60 Minuten Klavier oder Englisch",owned:false,level:1,xp:0},
+{name:"Schiggy",baseName:"Schiggy",species:"squirtle",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png",desc:"Wasser-Pokémon",unlock:"Die erste Schwimmeinheit eintragen",owned:false,level:1,xp:0},
+{name:"Glumanda",baseName:"Glumanda",species:"charmander",img:"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png",desc:"Feuer-Pokémon",unlock:"5 Tennistrainings eintragen",owned:false,level:1,xp:0}
+],selectedPartner:0};
 
 
 const STORAGE_KEY="growthPlanet";
+const TEMP_STORAGE_KEY="growthPlanet.__temp";
+const JOURNAL_STORAGE_KEY="growthPlanetJournal";
+const HEALTH_STORAGE_KEY="growthPlanetHealth";
 const LEGACY_KEYS=["growthPlanetV9","growthPlanetV8","growthPlanetV7","growthPlanetV6","growthPlanetMinimal","growthPlanetV3","growthPlanetFinal","growthPlanetV21","growthPlanetV2"];
+
+function stableHash(text){
+  let h=2166136261;
+  for(let i=0;i<text.length;i++){h^=text.charCodeAt(i);h=Math.imul(h,16777619);}
+  return ("00000000"+(h>>>0).toString(16)).slice(-8);
+}
+function journalEntries(){return safeParse(localStorage.getItem(JOURNAL_STORAGE_KEY))||[]}
+function validateDataShape(data){
+  const errors=[];
+  if(!data||typeof data!=="object")errors.push("root");
+  if(!Array.isArray(data?.quests))errors.push("quests");
+  if(!data?.history||typeof data.history!=="object")errors.push("history");
+  if(!data?.activities||typeof data.activities!=="object")errors.push("activities");
+  if(!Array.isArray(data?.partners)||!data.partners.length)errors.push("partners");
+  if(!data?.german||!data?.chinese||!data?.math||!data?.sports)errors.push("modules");
+  return {ok:errors.length===0,errors};
+}
+function snapshotPayload(data,label){
+  const raw=JSON.stringify(data);
+  return {id:`snapshot-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,createdAt:new Date().toISOString(),label,hash:stableHash(raw),data};
+}
+function writeJournalSnapshot(data,label="automatic"){
+  try{
+    const entries=journalEntries();
+    const snap=snapshotPayload(structuredClone(data),label);
+    entries.unshift(snap);
+    const compact=[];
+    let autoToday=0;
+    const today=snap.createdAt.slice(0,10);
+    for(const item of entries){
+      if(item.label==="automatic"&&item.createdAt.slice(0,10)===today){
+        autoToday++;
+        if(autoToday>6)continue;
+      }
+      compact.push(item);
+      if(compact.length>=20)break;
+    }
+    localStorage.setItem(JOURNAL_STORAGE_KEY,JSON.stringify(compact));
+    return snap;
+  }catch(e){console.error(e);return null}
+}
+function verifySnapshot(snapshot){
+  return !!snapshot?.data&&snapshot.hash===stableHash(JSON.stringify(snapshot.data))&&validateDataShape(snapshot.data).ok;
+}
+function recoverBestSnapshot(){
+  const journal=journalEntries().filter(verifySnapshot);
+  const legacy=(safeParse(localStorage.getItem("growthPlanetBackups"))||[])
+    .filter(x=>x?.data&&validateDataShape(x.data).ok)
+    .map((x,i)=>({id:`legacy-${i}`,createdAt:x.createdAt||"",label:x.label||"legacy",hash:stableHash(JSON.stringify(x.data)),data:x.data}));
+  return [...journal,...legacy].sort((a,b)=>(b.createdAt||"").localeCompare(a.createdAt||""))[0]||null;
+}
+function dataHealth(data){
+  const shape=validateDataShape(data);
+  const raw=JSON.stringify(data||{});
+  return {ok:shape.ok,errors:shape.errors,hash:stableHash(raw),bytes:new Blob([raw]).size,
+    historyDays:Object.keys(data?.history||{}).length,
+    timeLogs:Object.values(data?.activities||{}).reduce((a,x)=>a+(Array.isArray(x)?x.length:0),0),
+    backups:journalEntries().filter(verifySnapshot).length,updatedAt:data?.updatedAt||""};
+}
+
 function safeParse(raw){try{return raw?JSON.parse(raw):null}catch(e){return null}}
 function dataRichness(d){
   if(!d)return 0;
@@ -661,7 +1011,22 @@ function mergeDataSources(candidates){
     for(const [k,v] of Object.entries(data.sports?.counts||{}))out.sports.counts[k]=Math.max(out.sports.counts[k]||0,v||0);
     out.sports.tennis=out.sports.tennis||{sessions:0,minutes:0};out.sports.tennis.sessions=Math.max(out.sports.tennis.sessions||0,data.sports?.tennis?.sessions||0);out.sports.tennis.minutes=Math.max(out.sports.tennis.minutes||0,data.sports?.tennis?.minutes||0);
     out.sports.history=uniqueEntries([...(out.sports.history||[]),...(data.sports?.history||[])]);
-    if(Array.isArray(data.partners)){out.partners=out.partners||[];for(const p of data.partners){const ex=out.partners.find(x=>x.name===p.name);if(!ex)out.partners.push(structuredClone(p));else{ex.owned=ex.owned||p.owned;ex.level=Math.max(ex.level||1,p.level||1);ex.xp=Math.max(ex.xp||0,p.xp||0)}}}
+    if(Array.isArray(data.partners)){
+      out.partners=out.partners||[];
+      const stageToBase={Raichu:"Pikachu",Bisaknosp:"Bisasam",Bisaflor:"Bisasam",Schillok:"Schiggy",Turtok:"Schiggy",Glutexo:"Glumanda",Glurak:"Glumanda"};
+      for(const p of data.partners){
+        const base=p.baseName||stageToBase[p.name]||p.name;
+        const ex=out.partners.find(x=>(x.species&&p.species&&x.species===p.species)||(x.baseName||stageToBase[x.name]||x.name)===base);
+        if(!ex){
+          const copy=structuredClone(p);copy.baseName=base;out.partners.push(copy);
+        }else{
+          ex.owned=ex.owned||p.owned;
+          ex.level=Math.max(ex.level||1,p.level||1);
+          ex.xp=Math.max(ex.xp||0,p.xp||0);
+          ex.baseName=ex.baseName||base;
+        }
+      }
+    }
   }
   return out;
 }
@@ -684,11 +1049,76 @@ function parseLegacyDateKey(value,fallback=localDateKey()){
 }
 
 function patch(){
-  S.schemaVersion=83;
+  S.schemaVersion=111;
+  S.lts=S.lts||{saveCounter:0,lastGoodSave:"",lastHealthCheck:"",integrity:"unknown"};
+  if(!S.lts.v1301Migrated){
+    try{writeJournalSnapshot(S,"before-v13.0.1-migration");}catch(e){}
+    S.lts.v1301Migrated=true;
+  }
+  S.adventure=S.adventure||{world:"Kanto",position:0,steps:0,lastStepDate:"",badges:[],bosses:[],pokedex:[],season:"",currentGym:0,gymProgress:{},storyIndex:0,trainerAvatar:"🧢",coins:0,inventory:{berry:0,candy:0,potion:0}};
+  S.adventure.badges=S.adventure.badges||[];
+  S.adventure.bosses=S.adventure.bosses||[];
+  S.adventure.pokedex=S.adventure.pokedex||[];
+  S.adventure.steps=Number(S.adventure.steps)||0;
+  S.adventure.position=Number(S.adventure.position)||0;
+  S.adventure.currentGym=Number(S.adventure.currentGym)||0;
+  S.adventure.gymProgress=S.adventure.gymProgress||{};
+  S.adventure.storyIndex=Number(S.adventure.storyIndex)||0;
+  S.adventure.trainerAvatar=S.adventure.trainerAvatar||"🧢";
+  S.adventure.coins=Number(S.adventure.coins)||0;
+  S.adventure.inventory=S.adventure.inventory||{berry:0,candy:0,potion:0};
+  S.adventure.stepLedger=S.adventure.stepLedger||{date:"",awarded:0};
+  S.adventure.stepLedger.awarded=Math.max(0,Number(S.adventure.stepLedger.awarded)||0);
+  S.aiLearning=S.aiLearning||{profiles:{german:{correct:0,wrong:0,mastery:{}},chinese:{correct:0,wrong:0,mastery:{}},math:{correct:0,wrong:0,mastery:{}}},reviewQueue:[],generatedTasks:[],lastGeneration:"",mode:"german",v13Tab:"practice",dailyPlan:{date:"",tasks:[],current:0},teacherTopics:{german:[],chinese:[],math:[]},sessionHistory:[],coachNotes:[],settings:{dailySize:9}};
+  S.aiLearning.profiles=S.aiLearning.profiles||{german:{correct:0,wrong:0,mastery:{}},chinese:{correct:0,wrong:0,mastery:{}},math:{correct:0,wrong:0,mastery:{}}};
+  for(const k of ["german","chinese","math"]){
+    S.aiLearning.profiles[k]=S.aiLearning.profiles[k]||{correct:0,wrong:0,mastery:{}};
+    S.aiLearning.profiles[k].correct=Number(S.aiLearning.profiles[k].correct)||0;
+    S.aiLearning.profiles[k].wrong=Number(S.aiLearning.profiles[k].wrong)||0;
+    S.aiLearning.profiles[k].mastery=S.aiLearning.profiles[k].mastery||{};
+  }
+  S.aiLearning.reviewQueue=(S.aiLearning.reviewQueue||[]).filter(x=>x&&x.mode&&x.answer!=null).map((x,i)=>({
+    ...x,
+    id:x.id||`legacy-review-${i}-${String(x.key||x.prompt||"item").slice(0,30)}`,
+    key:x.key||x.prompt||`legacy-${i}`,
+    prompt:x.prompt||x.key||"Wiederholungsaufgabe",
+    nextDate:x.nextDate||x.date||localDateKey(),
+    level:Math.max(0,Number(x.level)||0)
+  }));
+  S.aiLearning.generatedTasks=S.aiLearning.generatedTasks||[];
+  S.aiLearning.mode=S.aiLearning.mode||"german";
+  S.aiLearning.v13Tab=S.aiLearning.v13Tab||"practice";
+  S.aiLearning.dailyPlan=S.aiLearning.dailyPlan||{date:"",tasks:[],current:0};
+  if(!Array.isArray(S.aiLearning.dailyPlan.tasks)||S.aiLearning.dailyPlan.tasks.some(t=>!t||!t.mode||t.answer==null)){
+    S.aiLearning.dailyPlan={date:"",tasks:[],current:0};
+  }
+  S.aiLearning.teacherTopics=S.aiLearning.teacherTopics||{german:[],chinese:[],math:[]};
+  for(const k of ["german","chinese","math"])S.aiLearning.teacherTopics[k]=S.aiLearning.teacherTopics[k]||[];
+  S.aiLearning.sessionHistory=S.aiLearning.sessionHistory||[];
+  S.aiLearning.coachNotes=S.aiLearning.coachNotes||[];
+  S.aiLearning.settings=S.aiLearning.settings||{dailySize:9};
+  S.aiLearning.settings.dailySize=Math.max(6,Math.min(15,Number(S.aiLearning.settings.dailySize)||9));
+  S.story=S.story||{dailyKey:"",chapter:0,rocketWins:0,choices:[]};
+  S.ultimate=S.ultimate||{activeTab:"pokedex",weeklyBoss:{week:"",hp:300,maxHp:300,defeated:false,attackDate:"",damageApplied:0},eliteBadges:[],championYears:[],achievements:[],seasonRewards:[]};
+  S.ultimate.activeTab=S.ultimate.activeTab||"pokedex";
+  S.ultimate.eliteBadges=S.ultimate.eliteBadges||[];
+  S.ultimate.championYears=S.ultimate.championYears||[];
+  S.ultimate.achievements=S.ultimate.achievements||[];
+  S.ultimate.seasonRewards=S.ultimate.seasonRewards||[];
+  S.ultimate.weeklyBoss=S.ultimate.weeklyBoss||{week:"",hp:300,maxHp:300,defeated:false,attackDate:"",damageApplied:0};
+  S.ultimate.weeklyBoss.attackDate=S.ultimate.weeklyBoss.attackDate||"";
+  S.ultimate.weeklyBoss.damageApplied=Math.max(0,Number(S.ultimate.weeklyBoss.damageApplied)||0);
+  if(!Number(S.trainerLevel)){
+    S.trainerLevel=Math.min(100,Math.max(1,Math.floor((Number(S.xp)||0)/100)+1));
+    S.trainerXp=0;
+  }else{
+    S.trainerLevel=Math.min(100,Number(S.trainerLevel));
+    S.trainerXp=Math.max(0,Number(S.trainerXp)||0);
+  }
   S.updatedAt=S.updatedAt||new Date().toISOString();
   S.history=S.history||{};
   S.backfillLogs=S.backfillLogs||[];
-  const historyActivityDefaults={germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0};
+  const historyActivityDefaults={germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0,alltag:0};
   for(const [date,rec] of Object.entries(S.history)){rec.date=rec.date||date;rec.activity=rec.activity||{};for(const [k,v] of Object.entries(historyActivityDefaults))if(rec.activity[k]==null)rec.activity[k]=v;rec.completed=rec.completed||[];rec.completedCount=rec.completedCount??rec.completed.length;rec.totalTasks=rec.totalTasks||S.quests?.length||0;}
   S.timeBaselines=S.timeBaselines||{};
   S.lastOpenDate=S.lastOpenDate||"";
@@ -698,7 +1128,7 @@ function patch(){
   S.daily.xp=+S.daily.xp||0;
   S.daily.stars=+S.daily.stars||0;
   S.daily.activity=S.daily.activity||{};
-  const activityDefaults={germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0};
+  const activityDefaults={germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0,alltag:0};
   for(const [k,v] of Object.entries(activityDefaults))if(S.daily.activity[k]==null)S.daily.activity[k]=v;
   S.week=Array.isArray(S.week)&&S.week.length===7?S.week:[0,0,0,0,0,0,0];
   S.deletedDefaultTasks=S.deletedDefaultTasks||[];
@@ -760,9 +1190,45 @@ function patch(){
   S.sports.history=S.sports.history||[];
   if(!S.partners||!S.partners.some(x=>x.name==="Pikachu")) S.partners=structuredClone(DEFAULTS.partners);
   S.selectedPartner=Math.min(S.selectedPartner??0,S.partners.length-1);
-  S.partners.forEach(p=>{p.level=p.level||1;p.xp=p.xp||0});
+  const partnerDefaults={
+    Pikachu:{species:"pikachu",unlock:"Von Anfang an verfügbar",desc:"Elektro-Pokémon"},
+    Bisasam:{species:"bulbasaur",unlock:"50 Deutsch-Lernkarten oder 20 richtige Deutsch-Aufgaben",desc:"Pflanzen-Pokémon"},
+    Gengar:{species:"gengar",unlock:"Insgesamt 60 Minuten Klavier oder Englisch lesen",desc:"Geist-Pokémon"},
+    Schiggy:{species:"squirtle",unlock:"Die erste Schwimmeinheit eintragen",desc:"Wasser-Pokémon"},
+    Glumanda:{species:"charmander",unlock:"5 Tennistrainings eintragen",desc:"Feuer-Pokémon"}
+  };
+  const stageToBase={Raichu:"Pikachu",Bisaknosp:"Bisasam",Bisaflor:"Bisasam",Schillok:"Schiggy",Turtok:"Schiggy",Glutexo:"Glumanda",Glurak:"Glumanda"};
+  S.partners.forEach(p=>{
+    p.baseName=p.baseName||stageToBase[p.name]||p.name;
+    const d=partnerDefaults[p.baseName]||{};
+    p.species=p.species||d.species||p.baseName.toLowerCase();
+    p.unlock=p.unlock||d.unlock||"Durch Aktivitäten";
+    p.desc=p.desc||d.desc||"Pokémon-Partner";
+    p.level=Math.min(100,Number(p.level)||1);
+    p.xp=Math.max(0,Number(p.xp)||0);
+  });
+  const deduped=[];
+  for(const p of S.partners){
+    const existing=deduped.find(x=>x.species===p.species||x.baseName===p.baseName);
+    if(!existing)deduped.push(p);
+    else{
+      existing.owned=existing.owned||p.owned;
+      existing.level=Math.max(existing.level||1,p.level||1);
+      existing.xp=Math.max(existing.xp||0,p.xp||0);
+    }
+  }
+  S.partners=deduped;
+  S.selectedPartner=Math.min(Math.max(0,Number(S.selectedPartner)||0),Math.max(0,S.partners.length-1));
+  if(S.partners[S.selectedPartner]&&!S.partners[S.selectedPartner].owned){
+    const firstOwnedIndex=S.partners.findIndex(x=>x.owned);
+    if(firstOwnedIndex>=0)S.selectedPartner=firstOwnedIndex;
+  }
 }
 patch();
+if(!validateDataShape(S).ok){
+  const recovery=recoverBestSnapshot();
+  if(recovery){S=structuredClone(recovery.data);patch();}
+}
 const DAILY_ENGINE_RESULT=runDailyEngine();
 rebuildTimeMetrics();
 try{
@@ -799,7 +1265,7 @@ function previousDateKey(key){
 function blankDaily(){
   return {xp:0,stars:0,startedAt:new Date().toISOString(),activity:{
     germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,
-    readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0
+    readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0,alltag:0
   }};
 }
 function dailySnapshot(dateKey){
@@ -814,7 +1280,11 @@ function dailySnapshot(dateKey){
     xp:S.daily.xp||0,
     stars:S.daily.stars||0,
     activity:{...(S.daily.activity||{})},
-    partner:{name:(S.partners[S.selectedPartner]||S.partners[0]).name,level:(S.partners[S.selectedPartner]||S.partners[0]).level}
+    partner:{
+      name:(S.partners[S.selectedPartner]||S.partners.find(x=>x.owned)||S.partners[0]).name,
+      level:(S.partners[S.selectedPartner]||S.partners.find(x=>x.owned)||S.partners[0]).level
+    },
+    trainer:{level:S.trainerLevel||1,rank:typeof trainerRank==="function"?trainerRank(S.trainerLevel||1).name:""}
   };
 }
 function resetDailyState(){
@@ -862,14 +1332,40 @@ const $=s=>document.querySelector(s);
 const $$=s=>document.querySelectorAll(s);
 const save=()=>{
   try{
-    S.schemaVersion=83;
+    S.schemaVersion=111;
     S.updatedAt=new Date().toISOString();
+    S.lts=S.lts||{};
+    S.lts.saveCounter=(Number(S.lts.saveCounter)||0)+1;
+    S.lts.lastGoodSave=S.updatedAt;
+    S.lts.integrity="ok";
     const raw=JSON.stringify(S);
+    if(!validateDataShape(JSON.parse(raw)).ok)throw new Error("Ungültige Datenstruktur");
+
+    const envelope={createdAt:new Date().toISOString(),hash:stableHash(raw),raw};
+    localStorage.setItem(TEMP_STORAGE_KEY,JSON.stringify(envelope));
+    const temp=safeParse(localStorage.getItem(TEMP_STORAGE_KEY));
+    if(!temp||temp.raw!==raw||temp.hash!==stableHash(temp.raw))throw new Error("Temp-Prüfung fehlgeschlagen");
+
+    const previous=safeParse(localStorage.getItem(STORAGE_KEY));
+    if(previous&&validateDataShape(previous).ok&&S.lts.saveCounter%5===0)writeJournalSnapshot(previous,"automatic");
+
     localStorage.setItem(STORAGE_KEY,raw);
     localStorage.setItem("growthPlanetMinimal",raw);
+    const committed=safeParse(localStorage.getItem(STORAGE_KEY));
+    if(!committed||stableHash(JSON.stringify(committed))!==stableHash(raw))throw new Error("Commit-Prüfung fehlgeschlagen");
+
+    localStorage.setItem(HEALTH_STORAGE_KEY,JSON.stringify(dataHealth(S)));
+    localStorage.removeItem(TEMP_STORAGE_KEY);
     return true;
   }catch(e){
-    toast("Daten konnten nicht gespeichert werden");
+    console.error("Transactional save failed",e);
+    const recovery=recoverBestSnapshot();
+    if(recovery){
+      S=structuredClone(recovery.data);
+      localStorage.setItem(STORAGE_KEY,JSON.stringify(S));
+      localStorage.setItem("growthPlanetMinimal",JSON.stringify(S));
+    }
+    toast("Daten konnten nicht sicher gespeichert werden");
     return false;
   }
 };
@@ -901,20 +1397,32 @@ function addReward(stars,xp){
   S.xp+=xp;
   S.daily.stars+=stars;
   S.daily.xp+=xp;
+  if(typeof addTrainerXp==="function")addTrainerXp(Math.max(1,Math.round(xp/2)));
+  const ap=S.partners[S.selectedPartner];
+  if(ap&&ap.owned&&typeof addPartnerXp==="function")addPartnerXp(ap,Math.max(1,Math.round(xp/3)));
+  S.adventure.inventory=S.adventure.inventory||{berry:0,candy:0,potion:0};
+  if(xp>=10&&Math.random()<0.25)S.adventure.inventory.berry=(S.adventure.inventory.berry||0)+1;
+  if(xp>=20&&Math.random()<0.12)S.adventure.inventory.candy=(S.adventure.inventory.candy||0)+1;
 }
 
 function renderHome(){
   const done=S.quests.filter(x=>x.done).length;
   const total=S.quests.length;
   const pct=total?Math.round(done/total*100):0;
-  const lv=Math.floor(S.xp/100)+1;
-  const p=S.partners[S.selectedPartner]||S.partners[0];
+  const lv=S.trainerLevel||1;
+  let p=S.partners[S.selectedPartner]||S.partners.find(x=>x.owned)||S.partners[0];
+  if(!p.owned){
+    const firstOwned=S.partners.find(x=>x.owned);
+    if(firstOwned){S.selectedPartner=S.partners.indexOf(firstOwned);p=firstOwned;}
+  }
 
   $("#stars").textContent=S.stars;
   $("#level").textContent=lv;
   $("#rank").textContent=pct===100?"Heute alles geschafft":pct>=60?"Heute gut vorangekommen":"Jeden Tag ein Stück weiter";
+  $("#miniPartner").style.visibility="visible";
   $("#miniPartner").src=p.img;
   $("#miniPartner").alt=p.name;
+  $("#miniPartner").onerror=()=>{$("#miniPartner").style.visibility="hidden"};
   $("#doneToday").textContent=done;
   $("#remainingToday").textContent=total-done;
   $("#streak").textContent=S.streak;
@@ -941,22 +1449,27 @@ function renderHome(){
       q.value=value;
       q.completedAt=new Date().toISOString();
       if(q.activity){
+        const dateKey=localDateKey();
         S.activities[q.activity]=S.activities[q.activity]||[];
-        S.activities[q.activity].unshift({minutes:value,date:new Date().toLocaleDateString("de-DE")});
+        S.activities[q.activity].unshift({
+          id:`${q.activity}-${Date.now()}`,
+          minutes:value,
+          note:q.name,
+          dateKey,
+          date:new Date(dateKey+"T12:00:00").toLocaleDateString("de-DE")
+        });
         if(q.activity==="piano")S.daily.activity.pianoMinutes+=value;
         if(["germanReading","chineseReading","englishReading"].includes(q.activity))S.daily.activity.readingMinutes+=value;
-        if(q.activity==="tennis"){S.sports.tennis.sessions++;
+        if(q.activity==="tennis"){
+          S.sports.tennis.sessions++;
           S.sports.tennis.minutes+=value;
-          S.sports.history.unshift({title:"Tennistraining",detail:value+" Minuten"});
+          S.daily.activity.tennisMinutes=(S.daily.activity.tennisMinutes||0)+value;
+          S.sports.history.unshift({id:`tennis-${Date.now()}`,title:"Tennistraining",detail:value+" Minuten",dateKey});
         }
       }
       addReward(q.stars,q.stars*2);
-      const ap=S.partners[S.selectedPartner]||S.partners[0];
-      ap.xp+=3;
-      if(ap.xp>=20){ap.xp-=20;ap.level++;toast(ap.name+" ist auf Level "+ap.level+" gestiegen");}
-      const learningNames=["Deutsch lernen","Mathematik","Chinesisch","Englisch lesen","Deutsch lesen","Chinesisch lesen"];
-      if(learningNames.includes(q.name)&&S.quests.filter(x=>x.done&&learningNames.includes(x.name)).length>=3)S.partners[1].owned=true;
-      if(q.name==="Englisch lesen"||q.name==="Klavier üben")S.partners[2].owned=true;
+      // Pokémon- und Trainer-XP werden zentral in addReward vergeben.
+      // Freischaltungen werden ausschließlich durch updatePartnerUnlocks geprüft.
       S.week[6]=S.quests.filter(x=>x.done).length;
       save();render();
     };
@@ -975,7 +1488,7 @@ function renderHome(){
   $("#homePartnerFace").alt=p.name;
   $("#homePartnerName").textContent=p.name;
   $("#homePartnerLevel").textContent="Lv."+p.level;
-  $("#homePartnerXp").style.width=(p.xp%20)/20*100+"%";
+  $("#homePartnerXp").style.width=p.level>=100?"100%":Math.min(100,(p.xp||0)/xpNeededForLevel(p.level)*100)+"%";
   $("#homePartnerMood").textContent=pct===100?"Heute ist alles geschafft – dein Partner freut sich!":pct>=50?"Guter Fortschritt heute – weiter so.":"Lass uns heute gemeinsam die Aufgaben schaffen.";
 
   const gp=Math.min(100,S.german.seen*2);
@@ -1110,7 +1623,22 @@ function chinese(){
     <div class="learning-actions"><button class="big-secondary" id="speakReading">🔊 朗读</button><button class="big-submit" id="finishReading">读完了</button></div>
     <div class="learning-actions"><button class="big-secondary" id="prevReadingStory">上一篇</button><button class="big-secondary" id="nextReadingStory">下一篇</button></div></div>`;
     $("#speakReading").onclick=()=>{const u=new SpeechSynthesisUtterance(r.text);u.lang="zh-CN";speechSynthesis.speak(u)};
-    $("#finishReading").onclick=()=>{if(!S.chinese.readingDone.includes(S.chinese.readingIndex))S.chinese.readingDone.push(S.chinese.readingIndex);S.daily.activity.readingMinutes+=5;addReward(3,6);save();render();toast("阅读完成")};
+    $("#finishReading").onclick=()=>{
+      if(S.chinese.readingDone.includes(S.chinese.readingIndex))return toast("这篇已经记录完成");
+      S.chinese.readingDone.push(S.chinese.readingIndex);
+      const dateKey=localDateKey();
+      S.activities.chineseReading=S.activities.chineseReading||[];
+      S.activities.chineseReading.unshift({
+        id:`story-${S.chinese.readingIndex}-${Date.now()}`,
+        minutes:5,
+        note:`趣味阅读：${r.title}`,
+        book:r.title,
+        dateKey,
+        date:new Date(dateKey+"T12:00:00").toLocaleDateString("de-DE")
+      });
+      rebuildTimeMetrics();
+      addReward(3,6);save();render();toast("阅读完成");
+    };
     $("#prevReadingStory").onclick=()=>{S.chinese.readingIndex=(S.chinese.readingIndex-1+CHINESE_READINGS.length)%CHINESE_READINGS.length;save();chinese()};
     $("#nextReadingStory").onclick=()=>{S.chinese.readingIndex=(S.chinese.readingIndex+1)%CHINESE_READINGS.length;save();chinese()};
   }else if(cm==="daily"){
@@ -1169,6 +1697,7 @@ $("#addTennis").onclick=()=>{
     S.sports.history.unshift({id:`tennis-${Date.now()}`,title:"Tennistraining",detail:m+" Minuten",dateKey:localDateKey()});
     addReward(10,20);
     if(S.sports.tennis.sessions>=5)S.partners[4].owned=true;
+    updatePartnerUnlocks();
     const saved=save();
     $("#modal").classList.remove("show");
     if(saved)toast("Tennistraining gespeichert");
@@ -1198,24 +1727,147 @@ $$("[data-quick]").forEach(b=>b.onclick=()=>{
       S.daily.activity.swimEntries=(S.daily.activity.swimEntries||0)+q;
     }
     addReward(5,8);
+    updatePartnerUnlocks();
     const saved=save();
     $("#modal").classList.remove("show");
-    if(saved)toast("Sport记录 gespeichert");
+    if(saved)toast("Sport gespeichert");
     render();
   };
 });
 
-function partners(){
-  const p=S.partners[S.selectedPartner];
-  $("#partnerFace").src=p.img;$("#partnerFace").alt=p.name;
-  $("#partnerName").textContent=p.name+" · Lv."+p.level;
-  $("#partnerDesc").textContent=p.desc;
-  $("#partnerXp").style.width=(p.xp%20)/20*100+"%";
-  $("#partnerGrid").innerHTML=S.partners.map((x,i)=>`<button class="partner ${i===S.selectedPartner?'selected':''} ${x.owned?'':'locked'}" data-p="${i}"><div class="face"><img src="${x.img}" alt="${x.name}"></div><b>${x.name}</b></button>`).join("");
-  $$("[data-p]").forEach(b=>b.onclick=()=>{const i=+b.dataset.p;if(!S.partners[i].owned)return toast("Noch nicht freigeschaltet");S.selectedPartner=i;save();render()});
+const PARTNER_EVOLUTIONS={
+  pikachu:[
+    {level:1,name:"Pikachu",id:25,label:"Basis"},
+    {level:30,name:"Raichu",id:26,label:"Entwicklung"},
+    {level:70,name:"Mega-Raichu",id:26,label:"Mega"}
+  ],
+  bulbasaur:[
+    {level:1,name:"Bisasam",id:1,label:"Basis"},
+    {level:16,name:"Bisaknosp",id:2,label:"1. Entwicklung"},
+    {level:36,name:"Bisaflor",id:3,label:"2. Entwicklung"},
+    {level:70,name:"Mega-Bisaflor",id:3,label:"Mega"}
+  ],
+  squirtle:[
+    {level:1,name:"Schiggy",id:7,label:"Basis"},
+    {level:16,name:"Schillok",id:8,label:"1. Entwicklung"},
+    {level:36,name:"Turtok",id:9,label:"2. Entwicklung"},
+    {level:70,name:"Mega-Turtok",id:9,label:"Mega"}
+  ],
+  charmander:[
+    {level:1,name:"Glumanda",id:4,label:"Basis"},
+    {level:16,name:"Glutexo",id:5,label:"1. Entwicklung"},
+    {level:36,name:"Glurak",id:6,label:"2. Entwicklung"},
+    {level:70,name:"Mega-Glurak X",id:6,label:"Mega"}
+  ],
+  gengar:[
+    {level:1,name:"Gengar",id:94,label:"Basis"},
+    {level:70,name:"Mega-Gengar",id:94,label:"Mega"}
+  ]
+};
+const TRAINER_RANKS=[
+  {level:1,name:"Anfänger"},{level:10,name:"Entdecker"},{level:20,name:"Forscher"},
+  {level:30,name:"Abenteurer"},{level:40,name:"Experte"},{level:50,name:"Meister"},
+  {level:60,name:"Champion"},{level:70,name:"Elite"},{level:80,name:"Legendär"},
+  {level:90,name:"Top-Trainer"},{level:100,name:"Wachstumsplanet-Legende"}
+];
+function xpNeededForLevel(level){
+  if(level<10)return 20;if(level<20)return 35;if(level<40)return 55;
+  if(level<60)return 80;if(level<80)return 110;return 150;
 }
-$("#feedPartner").onclick=()=>{const p=S.partners[S.selectedPartner];if(S.stars<5)return toast("Nicht genug Sterne");S.stars-=5;p.xp+=5;if(p.xp>=20){p.xp-=20;p.level++;toast(p.name+" ist auf Level "+p.level+" gestiegen");}else toast("Der Partner erhält 5 XP");save();render()};
-$("#trainPartner").onclick=()=>{const p=S.partners[S.selectedPartner];if(S.stars<10)return toast("Nicht genug Sterne");S.stars-=10;p.xp+=10;if(p.xp>=20){p.xp-=20;p.level++;toast(p.name+" ist auf Level "+p.level+" gestiegen");}else toast("Partnertraining abgeschlossen");save();render()};
+function trainerXpNeeded(level){
+  if(level<10)return 60;if(level<20)return 100;if(level<40)return 160;
+  if(level<60)return 240;if(level<80)return 320;return 450;
+}
+function trainerRank(level){return [...TRAINER_RANKS].reverse().find(x=>level>=x.level)||TRAINER_RANKS[0]}
+function partnerStage(p){
+  const stages=PARTNER_EVOLUTIONS[p.species]||[{level:1,name:p.baseName||p.name,id:null,label:"Basis"}];
+  return [...stages].reverse().find(x=>p.level>=x.level)||stages[0];
+}
+function partnerNextStage(p){return (PARTNER_EVOLUTIONS[p.species]||[]).find(x=>x.level>p.level)||null}
+function updatePartnerAppearance(p){
+  const stage=partnerStage(p);p.name=stage.name;
+  if(stage.id)p.img=`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${stage.id}.png`;
+  p.mega=p.level>=70;
+}
+function updatePartnerUnlocks(){
+  let changed=false;
+  const byBase=name=>S.partners.find(p=>(p.baseName||p.name)===name);
+  const bisasam=byBase("Bisasam");
+  if(bisasam&&(S.german.seen>=50||S.german.taskCorrect>=20)&&!bisasam.owned){bisasam.owned=true;changed=true}
+  const gengar=byBase("Gengar");
+  const piano=(S.activities.piano||[]).reduce((a,x)=>a+(+x.minutes||0),0);
+  const english=(S.activities.englishReading||[]).reduce((a,x)=>a+(+x.minutes||0),0);
+  if(gengar&&piano+english>=60&&!gengar.owned){gengar.owned=true;changed=true}
+  const schiggy=byBase("Schiggy");
+  const totalSwim=(S.sports.counts.Schwimmen||0)+(S.backfillLogs||[]).filter(x=>x.type==="swimEntries").reduce((a,x)=>a+(+x.value||0),0);
+  if(schiggy&&totalSwim>0&&!schiggy.owned){schiggy.owned=true;changed=true}
+  const glumanda=byBase("Glumanda");
+  const historicalTennisSessions=(S.sports.history||[]).filter(x=>x.title==="Tennistraining"&&x.dateKey).length;
+  const backfillTennisSessions=(S.backfillLogs||[]).filter(x=>x.type==="tennisMinutes").length;
+  const totalTennisSessions=Math.max(S.sports.tennis.sessions||0,historicalTennisSessions+backfillTennisSessions);
+  if(glumanda&&totalTennisSessions>=5&&!glumanda.owned){glumanda.owned=true;changed=true}
+  S.partners.forEach(updatePartnerAppearance);
+  if(changed)save();
+}
+function addTrainerXp(amount){
+  if(S.trainerLevel>=100)return;
+  S.trainerXp+=amount;
+  while(S.trainerLevel<100&&S.trainerXp>=trainerXpNeeded(S.trainerLevel)){
+    S.trainerXp-=trainerXpNeeded(S.trainerLevel);S.trainerLevel++;toast(`Trainer-Level ${S.trainerLevel} erreicht!`);
+  }
+  if(S.trainerLevel>=100){S.trainerLevel=100;S.trainerXp=0}
+}
+function addPartnerXp(p,amount){
+  if(!p||p.level>=100)return;
+  p.xp+=amount;
+  while(p.xp>=xpNeededForLevel(p.level)&&p.level<100){
+    p.xp-=xpNeededForLevel(p.level);
+    const before=p.name;p.level++;updatePartnerAppearance(p);
+    if(before!==p.name)toast(`${before} entwickelt sich zu ${p.name}!`);
+    else toast(`${p.name} ist jetzt Level ${p.level}`);
+  }
+  if(p.level>=100){p.level=100;p.xp=0}
+}
+function stageTimeline(p){
+  const stages=PARTNER_EVOLUTIONS[p.species]||[];
+  return stages.map(s=>{
+    const current=partnerStage(p).name===s.name;
+    const cls=p.level>=s.level?(current?"active":"done"):"locked";
+    return `<span class="${cls}">${s.label} · Lv.${s.level}<br>${s.name}</span>`;
+  }).join("");
+}
+function renderTrainer(){
+  if(!$("#trainerLevel"))return;
+  const rank=trainerRank(S.trainerLevel),need=trainerXpNeeded(S.trainerLevel);
+  $("#trainerLevel").textContent=`Lv.${S.trainerLevel}`;
+  $("#trainerRank").textContent=rank.name;
+  $("#trainerXpBar").style.width=S.trainerLevel>=100?"100%":`${Math.min(100,S.trainerXp/need*100)}%`;
+  $("#trainerRankGrid").innerHTML=TRAINER_RANKS.filter(x=>[1,30,60,80,100].includes(x.level)).map(x=>`<div class="rank-card"><b>Lv.${x.level}</b><small>${x.name}</small></div>`).join("");
+}
+function partners(){
+  updatePartnerUnlocks();renderTrainer();
+  let p=S.partners[S.selectedPartner]||S.partners[0];
+  if(!p?.owned){
+    const firstOwned=S.partners.find(x=>x.owned)||S.partners[0];
+    S.selectedPartner=Math.max(0,S.partners.indexOf(firstOwned));
+    p=firstOwned;
+  }
+  const next=partnerNextStage(p),need=xpNeededForLevel(p.level);
+  const face=$("#partnerFace"),fallback=$("#partnerFallback");
+  if(face){
+    face.style.display="block";
+    face.src=p.img;
+    face.alt=p.name;
+  }
+  if(fallback)fallback.style.display="none";
+  $("#partnerName").innerHTML=`${p.name} · Lv.${p.level} / 100 ${p.mega?'<span class="mega-badge">MEGA</span>':''}`;
+  $("#partnerDesc").innerHTML=`${p.desc}<div class="partner-rule"><b>Freischaltung:</b> ${p.unlock||"Durch Aktivitäten"}</div><div class="pokemon-stage">${stageTimeline(p)}</div><div class="level-reward">${next?`Nächste Entwicklung: ${next.name} auf Level ${next.level}`:"Maximale Entwicklungsstufe erreicht"} · Maximallevel 100</div>`;
+  $("#partnerXp").style.width=p.level>=100?"100%":`${Math.min(100,p.xp/need*100)}%`;
+  $("#partnerGrid").innerHTML=S.partners.map((x,i)=>`<button class="partner ${i===S.selectedPartner?'selected':''} ${x.owned?'':'locked'}" data-p="${i}"><div class="face"><img src="${x.img}" alt="${x.name}" onerror="this.style.display='none';this.parentElement.textContent='⚡🐾'"></div><b>${x.name}${x.mega?' · MEGA':''}</b><small>Lv.${x.level} / 100</small><div class="partner-rule">${x.owned?"Freigeschaltet":x.unlock||"Noch gesperrt"}</div></button>`).join("");
+  $$("[data-p]").forEach(b=>b.onclick=()=>{const i=+b.dataset.p,p=S.partners[i];if(!p.owned)return toast("Noch gesperrt: "+(p.unlock||"Bedingung noch nicht erfüllt"));S.selectedPartner=i;save();render()});
+}
+$("#feedPartner").onclick=()=>{const p=S.partners[S.selectedPartner];if(!p?.owned)return toast("Bitte zuerst einen freigeschalteten Partner auswählen");if(S.stars<5)return toast("Nicht genug Sterne");if(p.level>=100)return toast("Maximallevel 100 erreicht");S.stars-=5;addPartnerXp(p,8);addTrainerXp(2);save();render()};
+$("#trainPartner").onclick=()=>{const p=S.partners[S.selectedPartner];if(!p?.owned)return toast("Bitte zuerst einen freigeschalteten Partner auswählen");if(S.stars<10)return toast("Nicht genug Sterne");if(p.level>=100)return toast("Maximallevel 100 erreicht");S.stars-=10;addPartnerXp(p,18);addTrainerXp(5);save();render()};
 
 function renderTimeOverview(){
   const box=$("#timeOverview");if(!box)return;
@@ -1303,8 +1955,12 @@ function ensureHistoryRecord(dateKey){
   if(!S.history[dateKey]){
     S.history[dateKey]={
       date:dateKey,completed:[],completedCount:0,totalTasks:S.quests.length,xp:0,stars:0,
-      activity:{germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0},
-      partner:{name:(S.partners[S.selectedPartner]||S.partners[0]).name,level:(S.partners[S.selectedPartner]||S.partners[0]).level}
+      activity:{germanCards:0,germanCorrect:0,mathCorrect:0,chineseChars:0,readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0,alltag:0},
+      partner:{
+      name:(S.partners[S.selectedPartner]||S.partners.find(x=>x.owned)||S.partners[0]).name,
+      level:(S.partners[S.selectedPartner]||S.partners.find(x=>x.owned)||S.partners[0]).level
+    },
+    trainer:{level:S.trainerLevel||1,rank:typeof trainerRank==="function"?trainerRank(S.trainerLevel||1).name:""}
     };
   }
   return S.history[dateKey];
@@ -1391,6 +2047,27 @@ function recordsForPeriod(period){
   monday.setHours(0,0,0,0);
   return all.filter(x=>new Date(x.date+"T12:00:00")>=monday);
 }
+
+function sportHistoryDateKey(item){
+  if(item.dateKey)return parseLegacyDateKey(item.dateKey,S.todayDate||localDateKey());
+  return null;
+}
+function tennisMinutesFromHistory(period){
+  const items=(S.sports.history||[]).filter(x=>x.title==="Tennistraining");
+  const now=new Date(),today=localDateKey(now);
+  const monday=new Date(now);monday.setDate(monday.getDate()-((monday.getDay()+6)%7));monday.setHours(0,0,0,0);
+  return items.reduce((sum,item)=>{
+    const key=sportHistoryDateKey(item);
+    if(!key)return sum;
+    let include=period==="total";
+    if(period==="month")include=key.startsWith(today.slice(0,7));
+    if(period==="week")include=new Date(key+"T12:00:00")>=monday;
+    if(!include)return sum;
+    const minutes=Number(String(item.detail||"").match(/\d+/)?.[0]||0);
+    return sum+minutes;
+  },0);
+}
+
 function renderPeriodStats(period="week"){
   const box=$("#periodStats");if(!box)return;
   const records=recordsForPeriod(period);
@@ -1398,15 +2075,20 @@ function renderPeriodStats(period="week"){
   const legacyPushups=period==="total"?(S.sports.counts["Liegestütze"]||0):0;
   const legacySitups=period==="total"?(S.sports.counts["Sit-ups"]||0):0;
   const completed=records.reduce((a,x)=>a+(x.completedCount||0),0);
+  const recordTennis=Number(sum("tennisMinutes"))||0;
+  const historyTennis=Number(tennisMinutesFromHistory(period))||0;
+  const storedTennis=Number(S.sports?.tennis?.minutes)||0;
+  const tennisTotal=period==="total"?Math.max(recordTennis,historyTennis,storedTennis):Math.max(recordTennis,historyTennis);
   const values=[
     ["💪",Math.max(sum("pushups"),legacyPushups),"Liegestütze"],
     ["🧘",Math.max(sum("situps"),legacySitups),"Sit-ups"],
-    ["🎾",sum("tennisMinutes")+" Min.","Tennis"],
+    ["🎾",tennisTotal+" Min.","Tennis"],
     ["📖",sum("readingMinutes")+" Min.","Lesen"],
     ["🎹",sum("pianoMinutes")+" Min.","Klavier"],
     ["🏊",sum("swimEntries"),"Schwimmen"],
     ["🇩🇪",sum("germanCards"),"Lernkarten"],
     ["➕",sum("mathCorrect"),"Mathe richtig"],
+    ["😊",sum("alltag"),"Alltag"],
     ["✅",completed,"Aufgaben"]
   ];
   box.innerHTML=values.map(x=>`<div class="period-stat"><b>${x[0]} ${x[1]}</b><small>${x[2]}</small></div>`).join("");
@@ -1414,13 +2096,28 @@ function renderPeriodStats(period="week"){
 }
 $$("[data-period]").forEach(b=>b.onclick=()=>renderPeriodStats(b.dataset.period));
 
-const BACKFILL_LABELS={pushups:["💪","Liegestütze"],situps:["🧘","Sit-ups"],tennisMinutes:["🎾","Tennis"],swimEntries:["🏊","Schwimmen"],germanCards:["🇩🇪","Deutsch-Lernkarten"],germanCorrect:["✅","Deutsch richtig"],mathCorrect:["➕","Mathe richtig"],chineseChars:["📚","Chinesische Zeichen"],readingMinutes:["📖","Lesen"],pianoMinutes:["🎹","Klavier"],completedTasks:["☑️","Erledigte Aufgaben"]};
+const BACKFILL_LABELS={pushups:["💪","Liegestütze"],situps:["🧘","Sit-ups"],tennisMinutes:["🎾","Tennis"],swimEntries:["🏊","Schwimmen"],germanCards:["🇩🇪","Deutsch-Lernkarten"],germanCorrect:["✅","Deutsch richtig"],mathCorrect:["➕","Mathe richtig"],chineseChars:["📚","Chinesische Zeichen"],readingMinutes:["📖","Lesen"],pianoMinutes:["🎹","Klavier"],alltag:["😊","Alltag"],completedTasks:["☑️","Erledigte Aufgaben"]};
 function targetForDate(dateKey){if(dateKey===S.todayDate)return {activity:S.daily.activity,today:true};const rec=ensureHistoryRecord(dateKey);return {activity:rec.activity,record:rec,today:false}}
 function applyBackfillDelta(log,delta){const t=targetForDate(log.dateKey);if(log.type==="completedTasks"){if(t.today)t.activity.manualCompletedTasks=Math.max(0,(t.activity.manualCompletedTasks||0)+delta*log.value);else t.record.completedCount=Math.max(0,(t.record.completedCount||0)+delta*log.value)}else t.activity[log.type]=Math.max(0,(t.activity[log.type]||0)+delta*log.value)}
-function openBackfillEditor(item=null){$("#backfillDate").value=item?.dateKey||previousDateKey(localDateKey());$("#backfillDate").max=localDateKey();$("#backfillType").value=item?.type||"pushups";$("#backfillValue").value=item?.value||1;$("#backfillNote").value=item?.note||"";$("#saveBackfill").textContent=item?"Änderungen speichern":"Eintrag nachtragen";$("#saveBackfill").dataset.editId=item?.id||""}
+function setBackfillType(type){
+  $("#backfillType").value=type;
+  $$("[data-backfill-type]").forEach(b=>b.classList.toggle("active",b.dataset.backfillType===type));
+  const minuteTypes=["tennisMinutes","readingMinutes","pianoMinutes"];
+  $("#backfillValue").placeholder=minuteTypes.includes(type)?"Minuten":"Anzahl";
+}
+function openBackfillEditor(item=null){
+  $("#backfillDate").value=item?.dateKey||previousDateKey(localDateKey());
+  $("#backfillDate").max=localDateKey();
+  setBackfillType(item?.type||"pushups");
+  $("#backfillValue").value=item?.value||1;
+  $("#backfillNote").value=item?.note||"";
+  $("#saveBackfill").textContent=item?"Änderungen speichern":"Eintrag nachtragen";
+  $("#saveBackfill").dataset.editId=item?.id||"";
+}
 function renderBackfillList(){const box=$("#backfillList");if(!box)return;const rows=[...(S.backfillLogs||[])].sort((a,b)=>b.dateKey.localeCompare(a.dateKey)).slice(0,40);box.innerHTML=rows.length?`<h3>Nachgetragene Einträge</h3>`+rows.map(x=>{const l=BACKFILL_LABELS[x.type]||["•",x.type],unit=["tennisMinutes","readingMinutes","pianoMinutes"].includes(x.type)?" Min.":"";return `<div class="backfill-item"><div style="font-size:24px">${l[0]}</div><div class="backfill-main"><b>${l[1]} · ${x.value}${unit}</b><small>${x.note||"Ohne Notiz"} · ${new Date(x.dateKey+"T12:00:00").toLocaleDateString("de-DE")}</small></div><div class="backfill-actions"><button data-edit-backfill="${x.id}">✎</button><button data-delete-backfill="${x.id}">×</button></div></div>`}).join(""):'<p class="hint">Noch keine nachgetragenen Einträge</p>';
 $$("[data-edit-backfill]").forEach(b=>b.onclick=()=>{const item=S.backfillLogs.find(x=>String(x.id)===String(b.dataset.editBackfill));if(item)openBackfillEditor(item)});
 $$("[data-delete-backfill]").forEach(b=>b.onclick=()=>{const item=S.backfillLogs.find(x=>String(x.id)===String(b.dataset.deleteBackfill));if(!item||!confirm("Diesen Nachtrag wirklich löschen?"))return;applyBackfillDelta(item,-1);S.backfillLogs=S.backfillLogs.filter(x=>String(x.id)!==String(item.id));save();render();toast("Nachtrag gelöscht")})}
+$$("[data-backfill-type]").forEach(b=>b.onclick=()=>setBackfillType(b.dataset.backfillType));
 $("#saveBackfill").onclick=()=>{const dateKey=$("#backfillDate").value,type=$("#backfillType").value,value=+$("#backfillValue").value||0,note=$("#backfillNote").value.trim();if(!dateKey)return toast("Bitte Datum auswählen");if(dateKey>localDateKey())return toast("Ein zukünftiges Datum ist nicht möglich");if(value<1)return toast("Bitte einen Wert eingeben");const editId=$("#saveBackfill").dataset.editId;if(editId){const item=S.backfillLogs.find(x=>String(x.id)===String(editId));if(item){applyBackfillDelta(item,-1);item.dateKey=dateKey;item.type=type;item.value=value;item.note=note;applyBackfillDelta(item,1);toast("Nachtrag geändert")}}else{const item={id:`backfill-${Date.now()}`,dateKey,type,value,note};S.backfillLogs.push(item);applyBackfillDelta(item,1);toast("Vergangener Eintrag gespeichert")}$("#saveBackfill").dataset.editId="";$("#saveBackfill").textContent="Eintrag nachtragen";save();render()};
 
 function renderHistory(){
@@ -1453,6 +2150,7 @@ function renderHistory(){
       <div class="history-detail"><b>${rec.activity.tennisMinutes||0} Min.</b><small>Tennis</small></div>
       <div class="history-detail"><b>${rec.activity.pushups||0}</b><small>Liegestütze</small></div>
       <div class="history-detail"><b>${rec.activity.situps||0}</b><small>Sit-ups</small></div>
+      <div class="history-detail"><b>${rec.activity.alltag||0}</b><small>Alltag</small></div>
       <div class="history-detail"><b>${rec.stars||0}</b><small>Sterne</small></div>
     </div>
   </div>`).join("")||'<p class="hint">Noch keine Verlaufsdaten</p>';
@@ -1508,9 +2206,30 @@ $("#resetToday").onclick=()=>{
   S.daily=blankDaily();
   save();render();toast("Heutige Aufgaben zurückgesetzt");
 };
-$("#exportData").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));a.download="Wachstumsplanet-Sicherung.json";a.click()};
-$("#importData").onchange=e=>{const r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);S.timeBaselinesInitialized=false;patch();runDailyEngine();initializeTimeBaselines();rebuildTimeMetrics();save();render();toast("Sicherung importiert");}catch{toast("Ungültige Datei")}};r.readAsText(e.target.files[0])};
 
+$("#runHealthCheck").onclick=()=>{
+  const h=dataHealth(S);localStorage.setItem(HEALTH_STORAGE_KEY,JSON.stringify(h));renderSystemHealth();
+  toast(h.ok?"Datenprüfung erfolgreich":"Datenstruktur benötigt Prüfung");
+};
+$("#createManualSnapshot").onclick=()=>{
+  const snap=writeJournalSnapshot(S,"manual");renderSystemHealth();toast(snap?"Snapshot erstellt":"Snapshot konnte nicht erstellt werden");
+};
+
+$("#exportData").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));a.download=`Wachstumsplanet-LTS-${localDateKey()}.json`;a.click()};
+$("#importData").onchange=e=>{
+  const file=e.target.files?.[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const imported=JSON.parse(r.result);
+      const valid=validateDataShape(imported);
+      if(!valid.ok)throw new Error(valid.errors.join(","));
+      writeJournalSnapshot(S,"before-import");
+      S=imported;S.timeBaselinesInitialized=false;patch();runDailyEngine();initializeTimeBaselines();rebuildTimeMetrics();save();render();toast("Sicherung importiert");
+    }catch(err){console.error(err);toast("Ungültige oder unvollständige Datei")}
+  };
+  r.readAsText(file);
+};
 $("#recoverAllSources").onclick=()=>{if(!confirm("Alle noch vorhandenen alten Daten und Sicherungen erneut zusammenführen?"))return;const recovered=mergeDataSources(collectStoredCandidates());if(!recovered)return toast("Keine weiteren Daten gefunden");S=recovered;patch();runDailyEngine();initializeTimeBaselines();rebuildTimeMetrics();save();render();openBackfillEditor();toast("Alte Daten wurden zusammengeführt")};
 
 $("#restoreAutoBackup").onclick=()=>{
@@ -1522,7 +2241,7 @@ $("#restoreAutoBackup").onclick=()=>{
 
 $("#clearData").onclick=()=>{
   if(!confirm("Wirklich alle Daten löschen?"))return;
-  for(const key of [STORAGE_KEY,...LEGACY_KEYS,"growthPlanetBackups"])localStorage.removeItem(key);
+  for(const key of [STORAGE_KEY,...LEGACY_KEYS,"growthPlanetBackups",TEMP_STORAGE_KEY,JOURNAL_STORAGE_KEY,HEALTH_STORAGE_KEY])localStorage.removeItem(key);
   S=structuredClone(DEFAULTS);patch();runDailyEngine();S.timeBaselinesInitialized=false;initializeTimeBaselines();rebuildTimeMetrics();save();render();toast("Alle Daten wurden gelöscht");
 };
 
@@ -1533,6 +2252,626 @@ function safeRender(name,fn){
     if(box)box.innerHTML=`<div class="card"><b>Dieses Modul konnte nicht geladen werden.</b><p class="hint">${e.message||""}</p></div>`;
   }
 }
+
+function renderSystemHealth(){
+  const grid=$("#healthGrid"),timeline=$("#backupTimeline");
+  if(!grid||!timeline)return;
+  const h=dataHealth(S);
+  S.lts.lastHealthCheck=new Date().toISOString();S.lts.integrity=h.ok?"ok":"warning";
+  grid.innerHTML=[
+    ["Integrität",h.ok?"OK":"Prüfen",h.ok?"health-ok":"health-bad"],
+    ["Verlauf",h.historyDays+" Tage",""],["Zeitlogs",h.timeLogs,""],
+    ["Snapshots",h.backups,h.backups>=3?"health-ok":"health-warn"],
+    ["Speicher",(h.bytes/1024).toFixed(1)+" KB",""],
+    ["Letzte Speicherung",S.lts.lastGoodSave?new Date(S.lts.lastGoodSave).toLocaleString("de-DE"):"–",""],
+    ["Version","11.1 LTS",""],["Checksum",h.hash,""]
+  ].map(x=>`<div class="health-card"><b class="${x[2]}">${x[1]}</b><small>${x[0]}</small></div>`).join("");
+  const entries=journalEntries().filter(verifySnapshot).slice(0,8);
+  timeline.innerHTML=entries.length?`<h3>Wiederherstellungspunkte</h3>`+entries.map(x=>`<div class="backup-entry"><div><b>${x.label}</b><small>${new Date(x.createdAt).toLocaleString("de-DE")} · ${x.hash}</small></div><button data-restore-journal="${x.id}">Wiederherstellen</button></div>`).join(""):'<p class="hint">Noch keine LTS-Snapshots. Sie entstehen automatisch.</p>';
+  $$("[data-restore-journal]").forEach(b=>b.onclick=()=>{
+    const item=journalEntries().find(x=>x.id===b.dataset.restoreJournal);
+    if(!item||!verifySnapshot(item))return toast("Snapshot ist ungültig");
+    if(!confirm("Diesen Datenstand wiederherstellen?"))return;
+    writeJournalSnapshot(S,"before-restore");
+    S=structuredClone(item.data);patch();runDailyEngine();initializeTimeBaselines();rebuildTimeMetrics();save();render();toast("Snapshot wiederhergestellt");
+  });
+}
+
+
+const ADVENTURE_NODES=[
+  {id:"home",name:"Zuhause",icon:"🏠",steps:0,story:"Professor Nova wartet vor deinem Haus. Heute beginnt deine Reise."},
+  {id:"forest",name:"Viridian Forest",icon:"🌳",steps:40,story:"Im Wald raschelt es. Ein junger Pflanzenpartner braucht deine Hilfe."},
+  {id:"mountain",name:"Mt. Moon",icon:"⛰️",steps:90,story:"Der Weg wird steiler. Nur Ausdauer und kluge Lösungen bringen dich weiter."},
+  {id:"cerulean",name:"Cerulean City",icon:"🌊",steps:150,story:"Am Wasser-Gym wartet die nächste Herausforderung."},
+  {id:"vermilion",name:"Vermilion City",icon:"⚡",steps:230,story:"Elektrische Energie liegt in der Luft. Zeit für schnelle Aufgaben."},
+  {id:"celadon",name:"Celadon City",icon:"🌿",steps:330,story:"Die große Gartenstadt belohnt Lesen, Geduld und tägliche Pflege."},
+  {id:"saffron",name:"Saffron City",icon:"🔮",steps:450,story:"Hier zählen Konzentration, Sprache und schwierige Denkaufgaben."},
+  {id:"cinnabar",name:"Cinnabar Island",icon:"🌋",steps:590,story:"Das Vulkan-Labor fordert Mut und regelmäßiges Training."},
+  {id:"league",name:"Pokémon Liga",icon:"🏆",steps:750,story:"Die Liga ist erreicht. Jetzt warten die stärksten Herausforderungen."}
+];
+const GYM_DATA=[
+  {id:"boulder",name:"Brock",city:"Mt. Moon",icon:"🪨",badge:"Boulder Badge",badgeIcon:"🪨",hp:100,requirements:[
+    {key:"german",label:"Deutsch: 20 richtige Aufgaben",target:20},
+    {key:"math",label:"Mathe: 15 richtige Aufgaben",target:15},
+    {key:"sport",label:"Sport: 3 Einträge",target:3}
+  ]},
+  {id:"cascade",name:"Misty",city:"Cerulean City",icon:"💧",badge:"Cascade Badge",badgeIcon:"💧",hp:120,requirements:[
+    {key:"reading",label:"Lesen: 60 Minuten",target:60},
+    {key:"swim",label:"Schwimmen: 2 Einheiten",target:2},
+    {key:"chinese",label:"Chinesisch: 20 Zeichen",target:20}
+  ]},
+  {id:"thunder",name:"Lt. Surge",city:"Vermilion City",icon:"⚡",badge:"Thunder Badge",badgeIcon:"⚡",hp:140,requirements:[
+    {key:"tennis",label:"Tennis: 120 Minuten",target:120},
+    {key:"germanCards",label:"Deutsch: 50 Lernkarten",target:50},
+    {key:"tasks",label:"Aufgaben: 20 erledigt",target:20}
+  ]},
+  {id:"rainbow",name:"Erika",city:"Celadon City",icon:"🌈",badge:"Rainbow Badge",badgeIcon:"🌈",hp:160,requirements:[
+    {key:"reading",label:"Lesen: 120 Minuten",target:120},
+    {key:"piano",label:"Klavier: 90 Minuten",target:90},
+    {key:"alltag",label:"Alltag: 10 Einträge",target:10}
+  ]},
+  {id:"marsh",name:"Sabrina",city:"Saffron City",icon:"🔮",badge:"Marsh Badge",badgeIcon:"🔮",hp:180,requirements:[
+    {key:"math",label:"Mathe: 60 richtige Aufgaben",target:60},
+    {key:"german",label:"Deutsch: 60 richtige Aufgaben",target:60},
+    {key:"chinese",label:"Chinesisch: 60 Zeichen",target:60}
+  ]},
+  {id:"volcano",name:"Blaine",city:"Cinnabar Island",icon:"🔥",badge:"Volcano Badge",badgeIcon:"🔥",hp:200,requirements:[
+    {key:"sport",label:"Sport: 20 Einträge",target:20},
+    {key:"tennis",label:"Tennis: 300 Minuten",target:300},
+    {key:"tasks",label:"Aufgaben: 50 erledigt",target:50}
+  ]},
+  {id:"earth",name:"Giovanni",city:"Pokémon Liga",icon:"🌍",badge:"Earth Badge",badgeIcon:"🌍",hp:240,requirements:[
+    {key:"reading",label:"Lesen: 300 Minuten",target:300},
+    {key:"germanCards",label:"Deutsch: 150 Lernkarten",target:150},
+    {key:"tasks",label:"Aufgaben: 100 erledigt",target:100}
+  ]},
+  {id:"champion",name:"Champion",city:"Pokémon Liga",icon:"👑",badge:"Champion Badge",badgeIcon:"👑",hp:300,requirements:[
+    {key:"math",label:"Mathe: 150 richtige Aufgaben",target:150},
+    {key:"german",label:"Deutsch: 150 richtige Aufgaben",target:150},
+    {key:"sport",label:"Sport: 50 Einträge",target:50}
+  ]}
+];
+
+function adventureMetric(key){
+  const records=allHistoryRecords();
+  const sum=k=>records.reduce((a,x)=>a+(x.activity?.[k]||0),0);
+  if(key==="german")return Number(S.german.taskCorrect)||0;
+  if(key==="germanCards")return Number(S.german.seen)||0;
+  if(key==="math")return Number(S.math.correct)||0;
+  if(key==="chinese")return Math.max(Number(S.chinese.commonMastered?.length)||0,sum("chineseChars"));
+  if(key==="reading"){
+    const readingLogs=["germanReading","chineseReading","englishReading"].reduce((a,k)=>a+(S.activities?.[k]||[]).reduce((b,x)=>b+(+x.minutes||0),0),0);
+    return Math.max(sum("readingMinutes"),readingLogs);
+  }
+  if(key==="piano")return (S.activities.piano||[]).reduce((a,x)=>a+(+x.minutes||0),0);
+  if(key==="tennis")return Math.max(Number(S.sports.tennis?.minutes)||0,sum("tennisMinutes"));
+  if(key==="swim")return Math.max(Number(S.sports.counts?.Schwimmen)||0,sum("swimEntries"));
+  if(key==="alltag")return sum("alltag");
+  if(key==="sport")return (S.sports.history||[]).length+(S.backfillLogs||[]).filter(x=>["pushups","situps","tennisMinutes","swimEntries"].includes(x.type)).length;
+  if(key==="tasks")return records.reduce((a,x)=>a+(x.completedCount||0),0);
+  return 0;
+}
+function adventureStepGain(){
+  const today=dailySnapshot(S.todayDate);
+  const base=today.completedCount*3;
+  const learning=(today.activity.germanCards||0)+(today.activity.mathCorrect||0)+(today.activity.chineseChars||0);
+  const movement=Math.floor(((today.activity.tennisMinutes||0)+(today.activity.pushups||0)+(today.activity.situps||0))/10);
+  return Math.min(30,base+Math.floor(learning/5)+movement);
+}
+function updateAdventureProgress(){
+  const today=localDateKey();
+  const ledger=S.adventure.stepLedger||(S.adventure.stepLedger={date:"",awarded:0});
+  if(ledger.date!==today){ledger.date=today;ledger.awarded=0;}
+  const currentGain=adventureStepGain();
+  const delta=Math.max(0,currentGain-ledger.awarded);
+  if(delta>0){
+    S.adventure.steps+=delta;
+    S.adventure.coins+=Math.max(1,Math.floor(delta/3));
+    ledger.awarded=currentGain;
+  }
+  S.adventure.lastStepDate=today;
+  let position=0;
+  ADVENTURE_NODES.forEach((n,i)=>{if(S.adventure.steps>=n.steps)position=i});
+  S.adventure.position=Math.max(S.adventure.position,position);
+  return delta;
+}
+function gymRequirementProgress(req){
+  return Math.min(req.target,adventureMetric(req.key));
+}
+function gymHpRemaining(gym){
+  const total=gym.requirements.reduce((a,r)=>a+r.target,0);
+  const current=gym.requirements.reduce((a,r)=>a+gymRequirementProgress(r),0);
+  return Math.max(0,Math.round(gym.hp*(1-current/total)));
+}
+function completeGymIfReady(gym,index){
+  const ready=gym.requirements.every(r=>gymRequirementProgress(r)>=r.target);
+  if(ready&&!S.adventure.badges.includes(gym.id)){
+    S.adventure.badges.push(gym.id);
+    S.adventure.currentGym=Math.min(GYM_DATA.length-1,index+1);
+    S.adventure.coins+=50;
+    addTrainerXp(50);
+    const p=S.partners[S.selectedPartner];
+    if(p?.owned)addPartnerXp(p,35);
+    writeJournalSnapshot(S,"gym-"+gym.id);
+    save();
+    toast(`${gym.badge} erhalten!`);
+  }
+  return ready;
+}
+function renderAdventure(){
+  updateAdventureProgress();
+  const totalSteps=ADVENTURE_NODES[ADVENTURE_NODES.length-1].steps;
+  const progress=Math.min(100,S.adventure.steps/totalSteps*100);
+  $("#adventureWorldProgress").style.width=progress+"%";
+  $("#adventureStepsText").textContent=`${S.adventure.steps} / ${totalSteps} Schritte · ${S.adventure.coins} Münzen`;
+
+  $("#worldMap").innerHTML=ADVENTURE_NODES.map((node,i)=>{
+    const cls=i<S.adventure.position?"done":i===S.adventure.position?"current":"locked";
+    return `${i>0?'<div class="world-path">→</div>':""}<div class="world-node ${cls}">
+      <div class="icon">${node.icon}</div><b>${node.name}</b><small>${node.steps} Schritte</small>
+      ${i===S.adventure.position?`<div class="trainer-token">${S.adventure.trainerAvatar} 🚶</div>`:""}
+    </div>`;
+  }).join("");
+
+  const node=ADVENTURE_NODES[S.adventure.position]||ADVENTURE_NODES[0];
+  $("#adventureStory").innerHTML=`<div class="story-speaker">Professor Nova</div><div class="story-text">${node.story}</div>
+  <div class="adventure-actions"><button class="secondary-adventure" id="nextStory">Neue Nachricht</button><button class="primary-adventure" id="continueAdventure">Heutigen Fortschritt prüfen</button></div>`;
+
+  $("#nextStory").onclick=()=>{
+    const stories=[
+      "Jede kleine Aufgabe bringt dich auf der Karte weiter.",
+      "Dein Partner wird stärker, wenn du regelmäßig lernst und trainierst.",
+      "Ein Gym wird nicht an einem Tag gewonnen. Beständigkeit ist deine stärkste Fähigkeit.",
+      "Auch ein schwieriger Tag zählt, wenn du wenigstens einen kleinen Schritt machst."
+    ];
+    S.adventure.storyIndex=(S.adventure.storyIndex+1)%stories.length;
+    $("#adventureStory").querySelector(".story-text").textContent=stories[S.adventure.storyIndex];
+    save();
+  };
+  $("#continueAdventure").onclick=()=>{
+    const delta=updateAdventureProgress();
+    save();render();
+    toast(delta>0?`+${delta} Schritte`:"Der heutige Fortschritt wurde bereits vollständig gutgeschrieben");
+  };
+
+  const gymIndex=Math.min(S.adventure.currentGym,GYM_DATA.length-1);
+  const gym=GYM_DATA[gymIndex];
+  const hp=gymHpRemaining(gym);
+  const ready=completeGymIfReady(gym,gymIndex);
+  $("#gymChallenge").innerHTML=`<div class="gym-card">
+    <div class="gym-head"><div class="gym-avatar">${gym.icon}</div><div class="gym-title"><h3>${gym.name}</h3><p>${gym.city} · ${gym.badge}</p></div><b>${ready?"Besiegt":"HP "+hp+"/"+gym.hp}</b></div>
+    <div class="gym-hp"><span style="width:${hp/gym.hp*100}%"></span></div>
+    <div class="mission-list">${gym.requirements.map(r=>{
+      const v=gymRequirementProgress(r),done=v>=r.target;
+      return `<div class="mission ${done?"done":""}"><div class="check">${done?"✅":"⬜"}</div><div class="main"><b>${r.label}</b><small>${v} / ${r.target}</small></div></div>`;
+    }).join("")}</div>
+  </div>`;
+
+  $("#badgeGrid").innerHTML=GYM_DATA.map(g=>`<div class="badge ${S.adventure.badges.includes(g.id)?"earned":""}">
+    <div class="icon">${S.adventure.badges.includes(g.id)?g.badgeIcon:"❔"}</div><small>${g.badge}</small>
+  </div>`).join("");
+}
+
+
+const POKEDEX_ENTRIES=[
+ {id:25,name:"Pikachu",icon:25},{id:26,name:"Raichu",icon:26},{id:1,name:"Bisasam",icon:1},{id:2,name:"Bisaknosp",icon:2},{id:3,name:"Bisaflor",icon:3},
+ {id:4,name:"Glumanda",icon:4},{id:5,name:"Glutexo",icon:5},{id:6,name:"Glurak",icon:6},{id:7,name:"Schiggy",icon:7},{id:8,name:"Schillok",icon:8},
+ {id:9,name:"Turtok",icon:9},{id:94,name:"Gengar",icon:94},{id:133,name:"Evoli",icon:133},{id:143,name:"Relaxo",icon:143},{id:151,name:"Mew",icon:151},
+ {id:150,name:"Mewtu",icon:150},{id:149,name:"Dragoran",icon:149},{id:131,name:"Lapras",icon:131}
+];
+const ITEM_DATA={
+ berry:{icon:"🍓",name:"Beere",xp:5},candy:{icon:"🍬",name:"Bonbon",xp:15},potion:{icon:"🧪",name:"Trank",xp:0},
+ coin:{icon:"🪙",name:"Münzen",xp:0},ticket:{icon:"🎟️",name:"Gym-Ticket",xp:0}
+};
+const SKILL_DATA=[
+ {level:5,name:"Schneller Start",desc:"+1 Bonus-XP bei jeder Aufgabe"},
+ {level:15,name:"Lernfokus",desc:"+10% Deutsch-XP"},
+ {level:30,name:"Ausdauer",desc:"+10% Sport-XP"},
+ {level:50,name:"Meisterleser",desc:"+10% Lese-XP"},
+ {level:70,name:"Mega-Energie",desc:"Mega-Stufen werden freigeschaltet"},
+ {level:100,name:"Legendenkraft",desc:"Maximaler Trainer-Rang"}
+];
+const ACHIEVEMENTS=[
+ {id:"first-day",icon:"🌟",name:"Erster Schritt",test:()=>Object.keys(S.history||{}).length>0||S.daily.xp>0},
+ {id:"week",icon:"🔥",name:"7 Tage",test:()=>S.streak>=7},
+ {id:"german100",icon:"🇩🇪",name:"100 Deutsch-Karten",test:()=>S.german.seen>=100},
+ {id:"math100",icon:"➕",name:"100 Mathe-Aufgaben",test:()=>S.math.correct>=100},
+ {id:"read300",icon:"📖",name:"300 Minuten lesen",test:()=>adventureMetric("reading")>=300},
+ {id:"tennis300",icon:"🎾",name:"300 Minuten Tennis",test:()=>adventureMetric("tennis")>=300},
+ {id:"level50",icon:"🏆",name:"Trainer Lv.50",test:()=>S.trainerLevel>=50},
+ {id:"allbadges",icon:"👑",name:"Alle Gym-Badges",test:()=>S.adventure.badges.length>=8}
+];
+function weekKey(){
+  const d=new Date(),onejan=new Date(d.getFullYear(),0,1);
+  const week=Math.ceil((((d-onejan)/86400000)+onejan.getDay()+1)/7);
+  return `${d.getFullYear()}-W${String(week).padStart(2,"0")}`;
+}
+function refreshWeeklyBoss(){
+  const key=weekKey();
+  if(S.ultimate.weeklyBoss.week!==key){
+    S.ultimate.weeklyBoss={week:key,hp:300,maxHp:300,defeated:false,attackDate:"",damageApplied:0};
+  }
+}
+function availableBossDamage(){
+  const boss=S.ultimate.weeklyBoss,today=localDateKey();
+  if(boss.attackDate!==today){boss.attackDate=today;boss.damageApplied=0;}
+  return Math.max(0,bossDamage()-(boss.damageApplied||0));
+}
+function bossDamage(){
+  const t=dailySnapshot(S.todayDate);
+  return Math.min(60,t.completedCount*8+Math.floor((t.activity.germanCorrect+t.activity.mathCorrect+t.activity.chineseChars)/3)+Math.floor((t.activity.tennisMinutes||0)/10));
+}
+function updateAchievements(){
+  let changed=false;
+  for(const a of ACHIEVEMENTS){
+    if(a.test()&&!S.ultimate.achievements.includes(a.id)){S.ultimate.achievements.push(a.id);changed=true;}
+  }
+  if(changed)save();
+  return changed;
+}
+function unlockedDexNames(){
+  const names=new Set();
+  for(const p of S.partners||[]){
+    if(!p.owned)continue;
+    names.add(p.baseName||p.name);names.add(p.name);
+    for(const st of PARTNER_EVOLUTIONS[p.species]||[])if(p.level>=st.level)names.add(st.name.replace("Mega-",""));
+  }
+  if(S.adventure.badges.length>=2)names.add("Evoli");
+  if(S.adventure.badges.length>=4)names.add("Relaxo");
+  if(S.adventure.badges.length>=6)names.add("Lapras");
+  if(S.adventure.badges.length>=8){names.add("Mew");names.add("Mewtu");names.add("Dragoran");}
+  return names;
+}
+function currentSeason(){
+  const m=new Date().getMonth()+1;
+  if([12,1,2].includes(m))return {name:"Winter Festival",icon:"❄️",bonus:"Lesen +10% XP"};
+  if([3,4,5].includes(m))return {name:"Frühlingsreise",icon:"🌸",bonus:"Alltag +10% XP"};
+  if([6,7,8].includes(m))return {name:"Sommer Cup",icon:"☀️",bonus:"Sport +10% XP"};
+  return {name:"Herbst-Abenteuer",icon:"🍂",bonus:"Deutsch +10% XP"};
+}
+function renderUltimateAdventure(){
+  const box=$("#ultimateAdventureContent");if(!box)return;
+  updateAchievements();refreshWeeklyBoss();
+  const tab=S.ultimate.activeTab||"pokedex";
+  $$("[data-ultimate-tab]").forEach(b=>b.classList.toggle("active",b.dataset.ultimateTab===tab));
+  if(tab==="pokedex"){
+    const unlocked=unlockedDexNames();
+    box.innerHTML=`<div class="ultimate-grid"><div class="ultimate-card"><b>${unlocked.size}</b><small>Entdeckt</small></div><div class="ultimate-card"><b>${POKEDEX_ENTRIES.length}</b><small>Gesamt</small></div></div>
+    <div class="pokedex-grid" style="margin-top:12px">${POKEDEX_ENTRIES.map(p=>`<div class="dex-card ${unlocked.has(p.name)?"":"locked"}"><div class="dex-number">#${String(p.id).padStart(3,"0")}</div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.icon}.png" onerror="this.style.display='none'"><div class="dex-name">${unlocked.has(p.name)?p.name:"???"}</div></div>`).join("")}</div>`;
+  }else if(tab==="inventory"){
+    const inv=S.adventure.inventory||{};
+    box.innerHTML=`<div class="inventory-grid">
+      ${Object.entries(ITEM_DATA).map(([k,v])=>`<div class="inventory-item"><div class="icon">${v.icon}</div><b>${v.name}</b><small>${k==="coin"?S.adventure.coins:(inv[k]||0)}</small>${v.xp?`<button class="big-secondary" data-use-item="${k}" style="margin-top:8px">Benutzen</button>`:""}</div>`).join("")}
+    </div>`;
+    $$("[data-use-item]").forEach(b=>b.onclick=()=>{
+      const key=b.dataset.useItem,p=S.partners[S.selectedPartner];
+      if((inv[key]||0)<1)return toast("Nicht vorhanden");
+      inv[key]--;addPartnerXp(p,ITEM_DATA[key].xp);save();render();toast(`${ITEM_DATA[key].name} benutzt`);
+    });
+  }else if(tab==="skills"){
+    box.innerHTML=`<div class="skill-list">${SKILL_DATA.map(s=>`<div class="skill ${S.trainerLevel>=s.level?"":"locked"}"><div style="font-size:25px">${S.trainerLevel>=s.level?"✨":"🔒"}</div><div class="main"><b>Lv.${s.level} · ${s.name}</b><small>${s.desc}</small></div></div>`).join("")}</div>`;
+  }else if(tab==="story"){
+    const season=currentSeason();
+    box.innerHTML=`<div class="season-banner"><b>${season.icon} ${season.name}</b><div class="hint">${season.bonus}</div></div>
+    <div class="story-card" style="margin-top:12px"><div class="story-speaker">Professor Nova</div><div class="story-text">Team Rocket versucht diese Woche, deine Lernenergie zu stehlen. Jede erledigte Aufgabe schwächt sie.</div>
+    <div class="story-choice-grid"><button class="story-choice" data-story-choice="learn">📘 Zuerst lernen</button><button class="story-choice" data-story-choice="sport">🎾 Zuerst trainieren</button><button class="story-choice" data-story-choice="read">📖 Zuerst lesen</button></div></div>`;
+    $$("[data-story-choice]").forEach(b=>b.onclick=()=>{
+      const today=localDateKey();
+      if(S.story.dailyKey===today)return toast("Die heutige Story-Entscheidung wurde bereits gespeichert");
+      S.story.dailyKey=today;
+      S.story.choices.push({date:today,choice:b.dataset.storyChoice});
+      S.story.chapter++;S.adventure.coins+=5;save();render();toast("+5 Münzen");
+    });
+  }else if(tab==="boss"){
+    const boss=S.ultimate.weeklyBoss,damage=availableBossDamage();
+    box.innerHTML=`<div class="boss-card"><h3>🚀 Team Rocket Boss</h3><p>Wochen-Challenge ${boss.week}</p><div class="boss-hp"><span style="width:${boss.hp/boss.maxHp*100}%"></span></div><b>HP ${boss.hp} / ${boss.maxHp}</b>
+    <div class="adventure-actions"><button class="primary-adventure" id="attackWeeklyBoss">${boss.defeated?"Besiegt":"Mit heutigem Fortschritt angreifen"}</button></div></div>
+    <div class="hint" style="margin-top:10px">Möglicher Schaden heute: ${damage}</div>`;
+    $("#attackWeeklyBoss").onclick=()=>{
+      if(boss.defeated)return toast("Boss bereits besiegt");
+      if(damage<1)return toast("Heute erst Aufgaben erledigen");
+      boss.hp=Math.max(0,boss.hp-damage);
+      boss.damageApplied=(boss.damageApplied||0)+damage;
+      if(boss.hp===0){
+        boss.defeated=true;S.story.rocketWins++;S.adventure.coins+=100;
+        S.adventure.inventory.candy=(S.adventure.inventory.candy||0)+2;
+        addTrainerXp(60);writeJournalSnapshot(S,"weekly-boss");
+        toast("Team Rocket besiegt!");
+      }else toast(`-${damage} HP`);
+      save();render();
+    };
+  }else{
+    box.innerHTML=`<div class="achievement-grid">${ACHIEVEMENTS.map(a=>`<div class="achievement ${S.ultimate.achievements.includes(a.id)?"unlocked":""}"><div class="icon">${S.ultimate.achievements.includes(a.id)?a.icon:"🔒"}</div><b>${a.name}</b></div>`).join("")}</div>`;
+  }
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-ultimate-tab]");
+  if(b){S.ultimate.activeTab=b.dataset.ultimateTab;save();renderUltimateAdventure();}
+});
+
+
+function srsNowKey(){return localDateKey()}
+function srsDue(item){return !item.nextDate||item.nextDate<=srsNowKey()}
+function srsInterval(level){
+  return [1,1,2,4,7,14,30,60][Math.min(7,Math.max(0,level||0))];
+}
+function addDays(key,days){
+  const [y,m,d]=key.split("-").map(Number),dt=new Date(y,m-1,d);
+  dt.setDate(dt.getDate()+days);return localDateKey(dt);
+}
+function masteryRecord(mode,key){
+  const p=S.aiLearning.profiles[mode];
+  p.mastery[key]=p.mastery[key]||{level:0,correct:0,wrong:0,last:"",nextDate:srsNowKey()};
+  return p.mastery[key];
+}
+function updateMastery(mode,key,ok){
+  const rec=masteryRecord(mode,key);
+  rec.last=srsNowKey();
+  if(ok){rec.correct++;rec.level=Math.min(7,rec.level+1);}
+  else{rec.wrong++;rec.level=Math.max(0,rec.level-1);}
+  rec.nextDate=addDays(srsNowKey(),srsInterval(rec.level));
+  return rec;
+}
+function queueReview(task,ok){
+  const key=`${task.mode}|${task.key}`;
+  S.aiLearning.reviewQueue=S.aiLearning.reviewQueue.filter(x=>x.id!==key);
+  const rec=updateMastery(task.mode,task.key,ok);
+  if(!ok||rec.level<5){
+    S.aiLearning.reviewQueue.push({
+      id:key,mode:task.mode,key:task.key,prompt:task.prompt,answer:task.answer,
+      options:task.options,nextDate:rec.nextDate,level:rec.level,createdAt:new Date().toISOString()
+    });
+  }
+}
+function teacherPool(mode){
+  return (S.aiLearning.teacherTopics?.[mode]||[]).filter(Boolean);
+}
+function makeGermanTask(seed=0){
+  const teacher=teacherPool("german");
+  if(teacher.length){
+    const t=teacher[seed%teacher.length];
+    if(t.article)return {id:`g-${t.word}-${seed}`,mode:"german",key:t.word,prompt:`Welcher Artikel gehört zu „${t.word}“?`,options:["der","die","das"],answer:t.article,type:"article"};
+    return {id:`g-${t.word}-${seed}`,mode:"german",key:t.word,prompt:`Wie heißt „${t.meaning||t.word}“ auf Deutsch?`,options:[t.word,...gradeWords().filter(x=>x.w!==t.word).slice(0,3).map(x=>x.w)].sort(()=>Math.random()-.5),answer:t.word,type:"word"};
+  }
+  const nouns=germanNouns(),all=gradeWords();
+  const useNoun=seed%2===0&&nouns.length;
+  const w=(useNoun?nouns:all)[seed%(useNoun?nouns.length:all.length)];
+  if(w.type==="noun")return {id:`g-${w.w}-${seed}`,mode:"german",key:w.w,prompt:`Welcher Artikel gehört zu „${w.w}“?`,options:["der","die","das"],answer:w.a,type:"article"};
+  return {id:`g-${w.w}-${seed}`,mode:"german",key:w.w,prompt:`Wie heißt „${w.m}“ auf Deutsch?`,options:[w.w,...all.filter(x=>x.w!==w.w).slice(seed%10,seed%10+3).map(x=>x.w)].sort(()=>Math.random()-.5),answer:w.w,type:"word"};
+}
+function makeChineseTask(seed=0){
+  const teacher=teacherPool("chinese");
+  const chars=teacher.length?teacher.map(x=>x.char):COMMON_CHINESE_CHARS;
+  const c=chars[seed%chars.length],words=(teacher.find(x=>x.char===c)?.words)||charWords(c);
+  const answer=words[0]||c+"字";
+  const distractors=COMMON_CHINESE_CHARS.filter(x=>x!==c).slice((seed*3)%500,(seed*3)%500+3).map(x=>charWords(x)[0]||x+"字");
+  return {id:`c-${c}-${seed}`,mode:"chinese",key:c,prompt:`选择包含“${c}”的正确词语`,options:[answer,...distractors].sort(()=>Math.random()-.5),answer,type:"word"};
+}
+function makeMathTask(seed=0){
+  const teacher=teacherPool("math");
+  const topic=teacher.length?teacher[seed%teacher.length].topic:["multiply","add","subtract","time","money"][seed%5];
+  let a,b,answer,prompt;
+  if(topic==="multiply"){a=2+seed%8;b=2+(seed*3)%8;answer=a*b;prompt=`${a} × ${b} = ?`;}
+  else if(topic==="subtract"){a=30+(seed*7)%70;b=5+(seed*3)%25;answer=a-b;prompt=`${a} − ${b} = ?`;}
+  else if(topic==="time"){a=1+seed%10;b=[15,30,45][seed%3];answer=`${a}:${String(b).padStart(2,"0")}`;prompt=`Wie spät ist es? ${a} Uhr und ${b} Minuten`;}
+  else if(topic==="money"){a=1+seed%9;b=1+seed%5;answer=(a+b).toFixed(2);prompt=`${a.toFixed(2)} € + ${b.toFixed(2)} € = ?`;}
+  else {a=10+(seed*7)%70;b=5+(seed*5)%30;answer=a+b;prompt=`${a} + ${b} = ?`;}
+  const ans=String(answer);
+  let opts;
+  if(topic==="time")opts=[ans,`${a}:00`,`${Math.min(12,a+1)}:${String(b).padStart(2,"0")}`,`${a}:${String((b+15)%60).padStart(2,"0")}`];
+  else if(topic==="money")opts=[ans,(Number(answer)+1).toFixed(2),(Number(answer)-1).toFixed(2),(Number(answer)+0.5).toFixed(2)];
+  else opts=[ans,String(Number(answer)+1),String(Number(answer)-1),String(Number(answer)+10)];
+  return {id:`m-${topic}-${seed}`,mode:"math",key:`${topic}:${a}:${b}`,prompt,options:[...new Set(opts)].sort(()=>Math.random()-.5),answer:ans,type:topic};
+}
+function makeTask(mode,seed){return mode==="german"?makeGermanTask(seed):mode==="chinese"?makeChineseTask(seed):makeMathTask(seed)}
+function reviewOptions(item,index){
+  if(Array.isArray(item.options)&&item.options.length>=2)return [...new Set(item.options.map(String))];
+  const answer=String(item.answer);
+  if(item.mode==="german"&&["der","die","das"].includes(answer))return ["der","die","das"];
+  if(item.mode==="math"&&!Number.isNaN(Number(answer))){
+    const n=Number(answer);return [...new Set([answer,String(n+1),String(n-1),String(n+10)])];
+  }
+  const fallback=makeTask(item.mode,index+37);
+  return [...new Set([answer,...(fallback.options||[]).map(String)])].slice(0,4);
+}
+function dueReviewTasks(limit=6){
+  return S.aiLearning.reviewQueue
+    .filter(srsDue)
+    .sort((a,b)=>(a.nextDate||"").localeCompare(b.nextDate||""))
+    .slice(0,limit)
+    .map((x,i)=>({...x,id:`review-${i}-${x.id}`,options:reviewOptions(x,i),type:x.type||"Review"}));
+}
+function generateDailyPlan(force=false){
+  const today=localDateKey(),plan=S.aiLearning.dailyPlan;
+  if(!force&&plan.date===today&&plan.tasks?.length)return plan;
+  const size=S.aiLearning.settings.dailySize||9;
+  const due=dueReviewTasks(Math.min(5,size));
+  const tasks=[...due];
+  const sequence=["german","math","chinese"];
+  let seed=Date.now()%1000;
+  while(tasks.length<size){
+    const mode=sequence[tasks.length%3];
+    const task=makeTask(mode,seed++);
+    if(!tasks.some(x=>x.mode===task.mode&&x.key===task.key))tasks.push(task);
+  }
+  S.aiLearning.dailyPlan={date:today,tasks:tasks.map(x=>({...x,done:false,result:null})),current:0};
+  S.aiLearning.lastGeneration=new Date().toISOString();
+  save();
+  return S.aiLearning.dailyPlan;
+}
+function dailyPlanProgress(){
+  const plan=generateDailyPlan();
+  const done=plan.tasks.filter(x=>x.done).length;
+  return {done,total:plan.tasks.length,percent:plan.tasks.length?done/plan.tasks.length*100:0};
+}
+function renderSmartHeader(){
+  const p=dailyPlanProgress(),hour=new Date().getHours();
+  $("#smartGreeting").textContent=(hour<12?"Guten Morgen":hour<18?"Guten Tag":"Guten Abend")+", Tino!";
+  $("#smartSummary").textContent=p.done===p.total&&p.total?`Heute alles geschafft – großartig!`:`${p.total-p.done} adaptive Aufgaben sind noch offen.`;
+  $("#smartDailyProgress").style.width=p.percent+"%";
+  $("#smartPlanCount").textContent=`${p.done} / ${p.total} Aufgaben`;
+  $("#smartDailyPlan").innerHTML=generateDailyPlan().tasks.map((t,i)=>`<div class="smart-task ${t.done?"done":""}">
+    <div class="icon">${t.mode==="german"?"🇩🇪":t.mode==="chinese"?"📚":"➕"}</div>
+    <div class="main"><b>${t.mode==="german"?"Deutsch":t.mode==="chinese"?"Chinesisch":"Mathe"} · ${t.type||"Review"}</b><small>${t.done?(t.result?"Richtig":"Wiederholen"):"Noch offen"}</small></div>
+    <span>${t.done?"✅":i===S.aiLearning.dailyPlan.current?"▶":"○"}</span>
+  </div>`).join("");
+}
+function currentPlanTask(){
+  const plan=generateDailyPlan();
+  let idx=plan.tasks.findIndex((x,i)=>!x.done&&i>=plan.current);
+  if(idx<0)idx=plan.tasks.findIndex(x=>!x.done);
+  if(idx<0)return null;
+  plan.current=idx;
+  return plan.tasks[idx];
+}
+function answerSmartTask(task,selected){
+  const ok=String(selected).toLowerCase()===String(task.answer).toLowerCase();
+  task.done=true;task.result=ok;
+  const prof=S.aiLearning.profiles[task.mode];prof[ok?"correct":"wrong"]++;
+  queueReview(task,ok);
+  S.aiLearning.sessionHistory.unshift({date:new Date().toISOString(),mode:task.mode,key:task.key,ok});
+  S.aiLearning.sessionHistory=S.aiLearning.sessionHistory.slice(0,300);
+  if(ok){
+    addReward(1,4);
+    if(task.mode==="german"){
+      S.daily.activity.germanCorrect++;
+      S.german.taskCorrect=(S.german.taskCorrect||0)+1;
+      S.german.wrong=S.german.wrong.filter(x=>x!==task.key);
+    }
+    if(task.mode==="math"){
+      S.daily.activity.mathCorrect++;
+      S.math.correct=(S.math.correct||0)+1;
+    }
+    if(task.mode==="chinese"){
+      S.daily.activity.chineseChars++;
+      if([...String(task.key)].length===1&&!S.chinese.commonMastered.includes(task.key))S.chinese.commonMastered.push(task.key);
+      S.chinese.commonWrong=S.chinese.commonWrong.filter(x=>x!==task.key);
+    }
+  }else{
+    if(task.mode==="german"&&!S.german.wrong.includes(task.key))S.german.wrong.push(task.key);
+    if(task.mode==="chinese"&&[...String(task.key)].length===1&&!S.chinese.commonWrong.includes(task.key))S.chinese.commonWrong.push(task.key);
+  }
+  S.aiLearning.dailyPlan.current++;
+  save();render();
+  return ok;
+}
+function renderPractice(){
+  const box=$("#v13Content"),task=currentPlanTask();
+  if(!task){
+    box.innerHTML=`<div class="coach-card"><div class="coach-title">🎉 Tagesplan abgeschlossen</div><div class="coach-text">Alle Aufgaben sind erledigt. Fehler erscheinen automatisch im Wiederholungsplan.</div></div>`;
+    return;
+  }
+  box.innerHTML=`<div class="ai-panel"><div class="question-label">${task.mode==="german"?"Deutsch":task.mode==="chinese"?"Chinesisch":"Mathe"} · adaptive Aufgabe</div><div class="ai-question">${task.prompt}</div><div class="smart-answer-grid">${task.options.map(o=>`<button class="smart-answer" data-v13-answer="${String(o).replaceAll('"',"&quot;")}">${o}</button>`).join("")}</div><div id="v13Feedback" class="feedback"></div></div>`;
+  $$("[data-v13-answer]").forEach(b=>b.onclick=()=>{
+    if([...$$("[data-v13-answer]")].some(x=>x.disabled))return;
+    $$("[data-v13-answer]").forEach(x=>x.disabled=true);
+    const ok=answerSmartTask(task,b.dataset.v13Answer);
+    b.classList.add(ok?"correct":"wrong");
+    $("#v13Feedback").className="feedback show "+(ok?"ok":"bad");
+    $("#v13Feedback").textContent=ok?"Richtig!":`Richtig ist: ${task.answer}`;
+    setTimeout(()=>renderV13(),900);
+  });
+}
+function renderReview(){
+  const box=$("#v13Content"),due=S.aiLearning.reviewQueue.filter(srsDue);
+  const upcoming=S.aiLearning.reviewQueue.filter(x=>!srsDue(x)).sort((a,b)=>a.nextDate.localeCompare(b.nextDate)).slice(0,10);
+  box.innerHTML=`<div class="mastery-grid">
+    ${["german","chinese","math"].map(m=>{const p=S.aiLearning.profiles[m];const mastered=Object.values(p.mastery||{}).filter(x=>x.level>=5).length;return `<div class="mastery-card"><b>${mastered}</b><small>${m==="german"?"Deutsch":m==="chinese"?"Chinesisch":"Mathe"} gemeistert</small></div>`}).join("")}
+  </div>
+  <h3 style="margin-top:14px">Heute fällig: ${due.length}</h3>
+  <div class="srs-list">${[...due,...upcoming].slice(0,15).map(x=>`<div class="srs-item"><div class="main"><b>${x.mode} · ${x.prompt}</b><small>${srsDue(x)?"Heute fällig":"Nächste Wiederholung: "+x.nextDate} · Level ${x.level||0}</small></div></div>`).join("")||'<p class="hint">Noch keine Wiederholungen</p>'}</div>`;
+}
+function parseTeacherGerman(text){
+  return text.split(/\n|;/).map(x=>x.trim()).filter(Boolean).map(line=>{
+    const parts=line.split(/[,，|]/).map(x=>x.trim());
+    let article="",word="",meaning="";
+    if(["der","die","das"].includes(parts[0]?.toLowerCase())){article=parts[0].toLowerCase();word=parts[1]||"";meaning=parts[2]||"";}
+    else{word=parts[0]||"";meaning=parts[1]||"";}
+    return word?{article,word,meaning}:null;
+  }).filter(Boolean);
+}
+function parseTeacherChinese(text){
+  return text.split(/\n|;/).map(x=>x.trim()).filter(Boolean).map(line=>{
+    const parts=line.split(/[:：]/),char=[...(parts[0]||"")][0],words=(parts[1]||"").split(/[,，、]/).map(x=>x.trim()).filter(Boolean);
+    return char?{char,words}:null;
+  }).filter(Boolean);
+}
+function renderTeacher(){
+  const box=$("#v13Content");
+  box.innerHTML=`<div class="teacher-grid">
+    <div class="teacher-card"><label>Deutsch – eine Zeile pro Wort</label><textarea id="teacherGerman" rows="7" placeholder="der, Baum, 树\nlernen, 学习">${S.aiLearning.teacherTopics.german.map(x=>[x.article,x.word,x.meaning].filter(Boolean).join(", ")).join("\n")}</textarea></div>
+    <div class="teacher-card"><label>中文 – 生字与词组</label><textarea id="teacherChinese" rows="7" placeholder="规:规则,规定\n墙:墙壁,围墙">${S.aiLearning.teacherTopics.chinese.map(x=>`${x.char}:${x.words.join(",")}`).join("\n")}</textarea></div>
+    <div class="teacher-card"><label>Mathe-Schwerpunkte</label><select id="teacherMath" multiple size="6">
+      ${[["multiply","Einmaleins"],["add","Addition"],["subtract","Subtraktion"],["time","Uhrzeit"],["money","Geld"]].map(x=>`<option value="${x[0]}" ${S.aiLearning.teacherTopics.math.some(y=>y.topic===x[0])?"selected":""}>${x[1]}</option>`).join("")}
+    </select></div>
+    <div class="teacher-card"><label>Tägliche Aufgabenanzahl</label><input id="dailyPlanSize" type="number" min="6" max="15" value="${S.aiLearning.settings.dailySize}"><button class="big-submit" id="saveTeacherMode" style="width:100%;margin-top:12px">Speichern und Plan neu erstellen</button></div>
+  </div>`;
+  $("#saveTeacherMode").onclick=()=>{
+    S.aiLearning.teacherTopics.german=parseTeacherGerman($("#teacherGerman").value);
+    S.aiLearning.teacherTopics.chinese=parseTeacherChinese($("#teacherChinese").value);
+    S.aiLearning.teacherTopics.math=[...$("#teacherMath").selectedOptions].map(x=>({topic:x.value}));
+    S.aiLearning.settings.dailySize=Math.max(6,Math.min(15,+$("#dailyPlanSize").value||9));
+    generateDailyPlan(true);
+  };
+}
+function coachInsight(){
+  const history=S.aiLearning.sessionHistory.slice(0,50);
+  const by={german:{c:0,w:0},chinese:{c:0,w:0},math:{c:0,w:0}};
+  history.forEach(x=>by[x.mode][x.ok?"c":"w"]++);
+  const scores=Object.entries(by).map(([k,v])=>[k,v.c+v.w?v.c/(v.c+v.w):1,v.c+v.w]).sort((a,b)=>a[1]-b[1]);
+  const weakest=scores[0],best=scores[scores.length-1];
+  const name=x=>x==="german"?"Deutsch":x==="chinese"?"Chinesisch":"Mathe";
+  return {
+    text:weakest[2]===0?"Starte den Tagesplan, damit der Lerncoach erste Empfehlungen erstellen kann.":`${name(best[0])} läuft aktuell am sichersten. Bei ${name(weakest[0])} empfiehlt sich morgen eine kurze zusätzliche Wiederholung.`,
+    weakest:name(weakest[0]),best:name(best[0])
+  };
+}
+function renderCoach(){
+  const box=$("#v13Content"),ins=coachInsight(),due=S.aiLearning.reviewQueue.filter(srsDue).length,p=dailyPlanProgress();
+  box.innerHTML=`<div class="mastery-grid">
+    <div class="mastery-card"><b>${p.done}/${p.total}</b><small>Heute erledigt</small></div>
+    <div class="mastery-card"><b>${due}</b><small>Heute fällig</small></div>
+    <div class="mastery-card"><b>${ins.best}</b><small>Stärkster Bereich</small></div>
+    <div class="mastery-card"><b>${ins.weakest}</b><small>Fokusbereich</small></div>
+  </div>
+  <div class="coach-card" style="margin-top:14px"><div class="coach-title">🧠 Lerncoach</div><div class="coach-text">${ins.text}</div></div>`;
+}
+function renderV13(){
+  renderSmartHeader();
+  const tab=S.aiLearning.v13Tab||"practice";
+  $$("[data-v13-tab]").forEach(b=>b.classList.toggle("active",b.dataset.v13Tab===tab));
+  if(tab==="practice")renderPractice();
+  else if(tab==="review")renderReview();
+  else if(tab==="teacher")renderTeacher();
+  else renderCoach();
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-v13-tab]");
+  if(b){S.aiLearning.v13Tab=b.dataset.v13Tab;save();renderV13();}
+});
+$("#startSmartPlan").onclick=()=>{S.aiLearning.v13Tab="practice";save();renderV13()};
+$("#regenerateSmartPlan").onclick=()=>{generateDailyPlan(true);renderV13();toast("Neuer Lernplan erstellt")};
+function renderParentDashboard(){
+  const box=$("#parentOverview"),insight=$("#parentInsight");if(!box||!insight)return;
+  const recs=recordsForPeriod("week"),sum=k=>recs.reduce((a,x)=>a+(x.activity?.[k]||0),0);
+  const tasks=recs.reduce((a,x)=>a+(x.completedCount||0),0);
+  box.innerHTML=[
+    ["✅",tasks,"Aufgaben"],["🇩🇪",sum("germanCards"),"Deutsch-Karten"],["➕",sum("mathCorrect"),"Mathe richtig"],["📚",sum("chineseChars"),"Chinesisch"],
+    ["📖",sum("readingMinutes")+" Min.","Lesen"],["🎹",sum("pianoMinutes")+" Min.","Klavier"],["🎾",Math.max(sum("tennisMinutes"),tennisMinutesFromHistory("week"))+" Min.","Tennis"],["🔥",S.streak,"Streak"]
+  ].map(x=>`<div class="parent-kpi"><b>${x[0]} ${x[1]}</b><small>${x[2]}</small></div>`).join("");
+  const weakest=[
+    ["Deutsch",sum("germanCards")],["Mathe",sum("mathCorrect")],["Lesen",sum("readingMinutes")],["Sport",(S.sports.history||[]).filter(x=>sportHistoryDateKey(x)>=previousDateKey(localDateKey())).length]
+  ].sort((a,b)=>a[1]-b[1])[0];
+  const smart=coachInsight();
+  insight.innerHTML=`<b>Wochenhinweis</b><div class="hint">Der Bereich „${weakest[0]}“ hatte diese Woche bisher den geringsten Umfang. Smart Learning empfiehlt zusätzlich: ${smart.text}</div>`;
+}
+$("#exportParentReport").onclick=()=>{
+  const recs=recordsForPeriod("week"),sum=k=>recs.reduce((a,x)=>a+(x.activity?.[k]||0),0);
+  const report=`Wachstumsplanet Wochenbericht\n\nAufgaben: ${recs.reduce((a,x)=>a+(x.completedCount||0),0)}\nDeutsch-Karten: ${sum("germanCards")}\nMathe richtig: ${sum("mathCorrect")}\nChinesische Zeichen: ${sum("chineseChars")}\nLesen: ${sum("readingMinutes")} Min.\nKlavier: ${sum("pianoMinutes")} Min.\nTennis: ${Math.max(sum("tennisMinutes"),tennisMinutesFromHistory("week"))} Min.\nStreak: ${S.streak} Tage`;
+  const blob=new Blob([report],{type:"text/plain;charset=utf-8"}),a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);a.download=`Wachstumsplanet-Wochenbericht-${localDateKey()}.txt`;a.click();URL.revokeObjectURL(a.href);
+};
+
 function render(){
   safeRender("home",renderHome);
   if($("#grade"))$("#grade").value=Number(S.german.grade)||1;
@@ -1550,6 +2889,11 @@ function render(){
   safeRender("tasks",renderTaskManager);
   safeRender("time",renderTimeOverview);
   safeRender("backfill",renderBackfillList);
+  safeRender("health",renderSystemHealth);
+  safeRender("adventure",renderAdventure);
+  safeRender("ultimate",renderUltimateAdventure);
+  safeRender("aiLearning",renderV13);
+  safeRender("parentDashboard",renderParentDashboard);
 }
 createMath();
 render();
@@ -1561,7 +2905,7 @@ if(DAILY_ENGINE_RESULT.newDay){
     banner.classList.add("show");
   }
 }
-if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v931").then(r=>r.update()).catch(()=>{})}
+if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v1301").then(r=>r.update()).catch(()=>{})}
 </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-const CACHE='wachstumsplanet-v931-fixed';
+const CACHE='wachstumsplanet-v1301-final-checked';
 self.addEventListener('install',e=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil((async()=>{for(const k of await caches.keys())await caches.delete(k);await self.clients.claim()})()));
 self.addEventListener('fetch',e=>{

@@ -1,15 +1,19 @@
-# Wachstumsplanet V9.3.1 Fixed
+# Wachstumsplanet V13.0.1 Final Checked
 
-Behoben:
-- fehlende gradeWords-Funktion: Deutsch-Inhalt war leer
-- Lernen, Üben und Wiederholen laden wieder Inhalte
-- Sportzahlen werden validiert, gespeichert und danach angezeigt
-- Tennis-Speicherung stabilisiert
-- einzelne Modulfehler stoppen nicht mehr die gesamte App
-- zusätzliche Ereignissteuerung für Deutsch-Schaltflächen
+Zusätzlich behoben:
+- Abenteuer-Schritte können am selben Tag nicht mehrfach gutgeschrieben werden
+- zusätzliche Tagesleistung wird trotzdem als Differenz nachgetragen
+- Wochenboss kann denselben Tagesfortschritt nicht mehrfach als Schaden verwenden
+- Story-Auswahl vergibt nur einmal pro Tag Münzen
+- alte V12-Review-Einträge ohne Antwortoptionen werden kompatibel migriert
+- fehlerhafte alte Tagespläne werden sicher neu erzeugt
+- Smart-Learning-Ergebnisse aktualisieren auch die Hauptstatistiken
+- Klavierzeit wird nicht mehr als Lesezeit gerechnet
+- neu freigeschaltete Erfolge werden gespeichert
+- lastGoodSave wird innerhalb der transaktional gespeicherten Daten gesichert
+- vor der Migration wird ein eigener LTS-Snapshot erstellt
 
-Beibehalten:
-- alle bisherigen Daten
-- Wiederherstellung alter Daten und Sicherungen
-- Nachtragen vergangener Tage
-- chinesischer Wortschatz und Lesetexte
+Daten:
+- unveränderter Chrome-Storage-Key growthPlanet
+- Zusammenführung alter Daten und automatischer Backups bleibt aktiv
+- V11.1-LTS-Transaktionsspeicherung, Checksum und Journal bleiben aktiv

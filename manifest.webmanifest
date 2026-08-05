@@ -1,9 +1,9 @@
 {
-  "name": "Wachstumsplanet V13.0.2 Navigation Fix",
+  "name": "Wachstumsplanet V13.0.5 Final Verified",
   "short_name": "Wachstumsplanet",
-  "start_url": "./?v=v1302",
+  "start_url": "./?v=v1305",
   "display": "standalone",
   "background_color": "#f4f5f7",
   "theme_color": "#17213d",
-  "description": "Geschützter Start, unabhängige Navigation und automatische Wiederherstellung alter Daten."
+  "description": "Final verifizierte Version nach vollständigem Funktions- und Migrationstest."
 }

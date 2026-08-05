@@ -521,13 +521,33 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
  .mastery-grid{grid-template-columns:repeat(4,1fr)}
  .smart-answer-grid{grid-template-columns:repeat(2,1fr)}
 }
+
+/* V13.0.3 Today + Pokémon Experience */
+.trainer-detail{display:flex;justify-content:space-between;gap:10px;margin-top:8px;font-size:12px;opacity:.86}
+.trainer-badges{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.trainer-badge{padding:9px 6px;border-radius:13px;background:rgba(255,255,255,.11);text-align:center;opacity:.42}
+.trainer-badge.earned{opacity:1;background:rgba(255,219,112,.22);box-shadow:inset 0 0 0 1px rgba(255,224,135,.5)}
+.trainer-badge .badge-icon{font-size:23px}.trainer-badge small{display:block;font-size:9px;margin-top:3px}
+.partner-stage-3d{perspective:900px;display:flex;justify-content:center;align-items:center;min-height:300px;position:relative;overflow:hidden;border-radius:24px;background:radial-gradient(circle at 50% 72%,rgba(114,154,255,.24),transparent 36%),linear-gradient(160deg,#f8faff,#edf2fb)}
+.partner-stage-3d::before{content:"";position:absolute;width:210px;height:55px;bottom:34px;border-radius:50%;background:radial-gradient(ellipse,rgba(20,32,61,.28),transparent 68%);filter:blur(5px)}
+.partner-model{width:min(260px,72vw);height:260px;object-fit:contain;transform-style:preserve-3d;filter:drop-shadow(0 25px 19px rgba(19,31,58,.28));animation:partnerFloat 3.3s ease-in-out infinite;transition:transform .18s ease,filter .18s ease;z-index:2;touch-action:none;user-select:none;-webkit-user-drag:none}
+.partner-model.interacting{animation:none;filter:drop-shadow(0 31px 23px rgba(19,31,58,.38))}
+.partner-model.happy{animation:partnerHappy .65s ease}
+.partner-spark{position:absolute;font-size:24px;pointer-events:none;z-index:4;animation:sparkFly .85s ease forwards}
+.partner-interaction-hint{position:absolute;bottom:9px;font-size:11px;color:var(--muted)}
+.partner-switch-label{display:inline-block;margin-top:5px;padding:5px 8px;border-radius:9px;background:#fff;font-size:10px;font-weight:900}
+.today-status{padding:10px 13px;border-radius:14px;background:#eef6ff;color:#31577e;margin-bottom:10px;font-size:13px}
+@keyframes partnerFloat{0%,100%{transform:translateY(0) rotateY(-3deg)}50%{transform:translateY(-13px) rotateY(4deg)}}
+@keyframes partnerHappy{0%{transform:translateY(0) scale(1)}35%{transform:translateY(-24px) scale(1.08) rotate(-5deg)}70%{transform:translateY(-8px) scale(1.04) rotate(5deg)}100%{transform:translateY(0) scale(1)}}
+@keyframes sparkFly{0%{opacity:0;transform:translateY(5px) scale(.6)}25%{opacity:1}100%{opacity:0;transform:translateY(-75px) scale(1.35) rotate(18deg)}}
+@media(min-width:760px){.trainer-badges{grid-template-columns:repeat(8,1fr)}.partner-stage-3d{min-height:360px}.partner-model{width:320px;height:320px}}
 </style>
 </head>
 <body>
 <div class="app">
-<main id="home" class="screen active">
+<main id="home" class="screen active"><div class="today-status" id="todayStatus">Heute bereit</div>
   <div class="header">
-    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V13.0.2 NAVIGATION FIX</div></div>
+    <div><div class="brand">Wachstumsplanet</div><div class="version">TAGESFORTSCHRITT · V13.0.5 FINAL VERIFIED</div></div>
     <div class="grow"></div>
     <div class="balance">⭐ <span id="stars">0</span></div>
   </div>
@@ -661,9 +681,17 @@ h2{margin:0;font-size:21px;letter-spacing:-.02em}
 <h3>Trainer Tino · <span id="trainerLevel">Lv.1</span></h3>
 <div class="trainer-rank" id="trainerRank">Anfänger</div>
 <div class="trainer-xp"><span id="trainerXpBar" style="width:0%"></span></div>
+<div class="trainer-detail"><span id="trainerXpText">0 / 60 XP</span><span id="trainerNextRank">Nächster Rang</span></div>
+<div class="trainer-badges" id="trainerBadges"></div>
 <div class="rank-grid" id="trainerRankGrid"></div>
 </section>
-<section class="panel partner-card"><img class="partner-face" id="partnerFace" alt="Pokémon-Partner" onerror="this.style.display='none';document.getElementById('partnerFallback').style.display='flex'"><div class="partner-face" id="partnerFallback" style="display:none">⚡🐾</div><div class="partner-name" id="partnerName"></div><div class="hint" id="partnerDesc"></div><div class="bar" style="margin-top:14px"><i id="partnerXp"></i></div><button class="action" id="feedPartner">Füttern (5 Sterne)</button><button class="action secondary" id="trainPartner">Training (10 Sterne)</button></section>
+<section class="panel partner-card">
+<div class="partner-stage-3d" id="partnerStage3d">
+  <img class="partner-model" id="partnerFace" alt="Pokémon-Partner" draggable="false" onerror="this.style.display='none';document.getElementById('partnerFallback').style.display='flex'">
+  <div class="partner-face" id="partnerFallback" style="display:none">⚡🐾</div>
+  <div class="partner-interaction-hint">Berühren und bewegen · Antippen zum Spielen</div>
+</div>
+<div class="partner-name" id="partnerName"></div><div class="hint" id="partnerDesc"></div><div class="bar" style="margin-top:14px"><i id="partnerXp"></i></div><button class="action" id="feedPartner">Füttern (5 Sterne)</button><button class="action secondary" id="trainPartner">Training (10 Sterne)</button></section>
 <section class="panel"><div class="partner-grid" id="partnerGrid"></div></section>
 </main>
 
@@ -1034,7 +1062,7 @@ function mergeDataSources(candidates){
     out.sports.history=uniqueEntries([...(out.sports.history||[]),...(data.sports?.history||[])]);
     if(Array.isArray(data.partners)){
       out.partners=out.partners||[];
-      const stageToBase={Raichu:"Pikachu",Bisaknosp:"Bisasam",Bisaflor:"Bisasam",Schillok:"Schiggy",Turtok:"Schiggy",Glutexo:"Glumanda",Glurak:"Glumanda"};
+      const stageToBase={Pichu:"Pikachu",Raichu:"Pikachu",Nebulak:"Gengar",Alpollo:"Gengar",Bisaknosp:"Bisasam",Bisaflor:"Bisasam",Schillok:"Schiggy",Turtok:"Schiggy",Glutexo:"Glumanda",Glurak:"Glumanda"};
       for(const p of data.partners){
         const base=p.baseName||stageToBase[p.name]||p.name;
         const ex=out.partners.find(x=>(x.species&&p.species&&x.species===p.species)||(x.baseName||stageToBase[x.name]||x.name)===base);
@@ -1072,6 +1100,14 @@ function parseLegacyDateKey(value,fallback=localDateKey()){
 function patch(){
   S.schemaVersion=111;
   S.lts=S.lts||{saveCounter:0,lastGoodSave:"",lastHealthCheck:"",integrity:"unknown"};
+  if(!S.lts.v1304Migrated){
+    try{writeJournalSnapshot(S,"before-v13.0.4-final-audit");}catch(e){}
+    S.lts.v1304Migrated=true;
+  }
+  if(!S.lts.v1303Migrated){
+    try{writeJournalSnapshot(S,"before-v13.0.3-today-pokemon");}catch(e){}
+    S.lts.v1303Migrated=true;
+  }
   if(!S.lts.v1301Migrated){
     try{writeJournalSnapshot(S,"before-v13.0.1-migration");}catch(e){}
     S.lts.v1301Migrated=true;
@@ -1218,7 +1254,7 @@ function patch(){
     Schiggy:{species:"squirtle",unlock:"Die erste Schwimmeinheit eintragen",desc:"Wasser-Pokémon"},
     Glumanda:{species:"charmander",unlock:"5 Tennistrainings eintragen",desc:"Feuer-Pokémon"}
   };
-  const stageToBase={Raichu:"Pikachu",Bisaknosp:"Bisasam",Bisaflor:"Bisasam",Schillok:"Schiggy",Turtok:"Schiggy",Glutexo:"Glumanda",Glurak:"Glumanda"};
+  const stageToBase={Pichu:"Pikachu",Raichu:"Pikachu",Nebulak:"Gengar",Alpollo:"Gengar",Bisaknosp:"Bisasam",Bisaflor:"Bisasam",Schillok:"Schiggy",Turtok:"Schiggy",Glutexo:"Glumanda",Glurak:"Glumanda"};
   S.partners.forEach(p=>{
     p.baseName=p.baseName||stageToBase[p.name]||p.name;
     const d=partnerDefaults[p.baseName]||{};
@@ -1324,6 +1360,21 @@ function blankDaily(){
     readingMinutes:0,pianoMinutes:0,tennisMinutes:0,swimEntries:0,pushups:0,situps:0,alltag:0
   }};
 }
+function safeTrainerRankName(level){
+  const l=Math.max(1,Number(level)||1);
+  if(l>=100)return "Wachstumsplanet-Legende";
+  if(l>=90)return "Top-Trainer";
+  if(l>=80)return "Legendär";
+  if(l>=70)return "Elite";
+  if(l>=60)return "Champion";
+  if(l>=50)return "Meister";
+  if(l>=40)return "Experte";
+  if(l>=30)return "Abenteurer";
+  if(l>=20)return "Forscher";
+  if(l>=10)return "Entdecker";
+  if(l>=5)return "Pfadfinder";
+  return "Anfänger";
+}
 function dailySnapshot(dateKey){
   const completed=S.quests.filter(q=>q.done).map(q=>({
     name:q.name,icon:q.icon,stars:q.stars,value:q.value||0,unit:q.unit||"check"
@@ -1340,7 +1391,7 @@ function dailySnapshot(dateKey){
       name:(S.partners[S.selectedPartner]||S.partners.find(x=>x.owned)||S.partners[0]).name,
       level:(S.partners[S.selectedPartner]||S.partners.find(x=>x.owned)||S.partners[0]).level
     },
-    trainer:{level:S.trainerLevel||1,rank:typeof trainerRank==="function"?trainerRank(S.trainerLevel||1).name:""}
+    trainer:{level:S.trainerLevel||1,rank:safeTrainerRankName(S.trainerLevel||1)}
   };
 }
 function resetDailyState(){
@@ -1354,34 +1405,49 @@ function resetDailyState(){
     S.chinese.dailyIndex=0;
   }
 }
-function runDailyEngine(){
+function normalizeDateKey(value){
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(value||""))?String(value):"";
+}
+function ensureCurrentDay(){
   const today=localDateKey();
-  if(!S.todayDate){
-    S.todayDate=today;
-    S.lastOpenDate=today;
-    S.daily=S.daily||blankDaily();
-    if(!S.daily.startedAt)S.daily.startedAt=new Date().toISOString();
-    // First upgrade: preserve all currently completed tasks and today's entries.
-    return {newDay:false,migratedToday:true};
-  }
-  if(S.todayDate===today){S.lastOpenDate=today;return {newDay:false};}
+  S.history=S.history||{};
+  S.daily=S.daily||blankDaily();
+  S.daily.activity=S.daily.activity||blankDaily().activity;
+  const stored=normalizeDateKey(S.todayDate);
+  if(stored===today){S.lastOpenDate=today;return {newDay:false};}
 
-  const previous=S.todayDate;
-  S.history[previous]=dailySnapshot(previous);
-
-  const yesterday=previousDateKey(today);
-  const yesterdayRecord=S.history[yesterday];
-  if(previous===yesterday && yesterdayRecord && yesterdayRecord.completedCount>0){
-    S.streak=(S.streak||0)+1;
-  }else{
-    S.streak=1;
+  // Preserve the previous valid day, but never overwrite an existing richer record.
+  if(stored&&stored<today){
+    try{
+      const snapshot=dailySnapshot(stored);
+      const existing=S.history[stored];
+      if(!existing||(snapshot.completedCount||0)>=(existing.completedCount||0))S.history[stored]=snapshot;
+    }catch(e){console.error("Previous day snapshot failed",e);}
   }
 
+  // A future or malformed stored date is treated as stale state, not as today's state.
   resetDailyState();
   S.todayDate=today;
-  S.timeBaselines[today]={pianoMinutes:0,readingMinutes:0};
   S.lastOpenDate=today;
-  return {newDay:true,previous};
+  S.timeBaselines=S.timeBaselines||{};
+  S.timeBaselines[today]=S.timeBaselines[today]||{pianoMinutes:0,readingMinutes:0};
+  if(S.chinese){
+    S.chinese.dailyDate=today;
+    S.chinese.dailyChars=[];
+    S.chinese.dailyWrong=[];
+    S.chinese.dailyIndex=0;
+  }
+  return {newDay:true,previous:stored||null};
+}
+
+function runDailyEngine(){
+  const result=ensureCurrentDay();
+  if(result.newDay){
+    const yesterday=previousDateKey(localDateKey());
+    const rec=S.history[yesterday];
+    S.streak=rec&&(rec.completedCount||0)>0?Math.max(1,(S.streak||0)+1):1;
+  }
+  return result;
 }
 
 const $=s=>document.querySelector(s);
@@ -1465,6 +1531,7 @@ function addReward(stars,xp){
 }
 
 function renderHome(){
+  ensureCurrentDay();
   const done=S.quests.filter(x=>x.done).length;
   const total=S.quests.length;
   const pct=total?Math.round(done/total*100):0;
@@ -1492,6 +1559,7 @@ function renderHome(){
   $("#weekDone").textContent=S.week.reduce((a,b)=>a+b,0);
   $("#ownedPartners").textContent=S.partners.filter(x=>x.owned).length;
   $("#questProgress").textContent=done+" / "+total;
+  if($("#todayStatus"))$("#todayStatus").textContent=`Heute · ${new Date(S.todayDate+"T12:00:00").toLocaleDateString("de-DE")} · Eingaben werden diesem Tag zugeordnet`;
 
   $("#questList").innerHTML=S.quests.map(q=>`
     <div class="task">
@@ -1755,7 +1823,10 @@ $("#addTennis").onclick=()=>{
     S.daily.activity.tennisMinutes=(S.daily.activity.tennisMinutes||0)+m;
     S.sports.history.unshift({id:`tennis-${Date.now()}`,title:"Tennistraining",detail:m+" Minuten",dateKey:localDateKey()});
     addReward(10,20);
-    if(S.sports.tennis.sessions>=5)S.partners[4].owned=true;
+    if(S.sports.tennis.sessions>=5){
+      const firePartner=S.partners.find(p=>(p.baseName||p.name)==="Glumanda"||p.species==="charmander");
+      if(firePartner)firePartner.owned=true;
+    }
     updatePartnerUnlocks();
     const saved=save();
     $("#modal").classList.remove("show");
@@ -1782,7 +1853,8 @@ $$("[data-quick]").forEach(b=>b.onclick=()=>{
     if(n==="Liegestütze")S.daily.activity.pushups=(S.daily.activity.pushups||0)+q;
     if(n==="Sit-ups")S.daily.activity.situps=(S.daily.activity.situps||0)+q;
     if(n==="Schwimmen"){
-      S.partners[3].owned=true;
+      const waterPartner=S.partners.find(p=>(p.baseName||p.name)==="Schiggy"||p.species==="squirtle");
+      if(waterPartner)waterPartner.owned=true;
       S.daily.activity.swimEntries=(S.daily.activity.swimEntries||0)+q;
     }
     addReward(5,8);
@@ -1796,8 +1868,9 @@ $$("[data-quick]").forEach(b=>b.onclick=()=>{
 
 const PARTNER_EVOLUTIONS={
   pikachu:[
-    {level:1,name:"Pikachu",id:25,label:"Basis"},
-    {level:30,name:"Raichu",id:26,label:"Entwicklung"},
+    {level:1,name:"Pichu",id:172,label:"Basis"},
+    {level:16,name:"Pikachu",id:25,label:"1. Entwicklung"},
+    {level:36,name:"Raichu",id:26,label:"2. Entwicklung"},
     {level:70,name:"Mega-Raichu",id:26,label:"Mega"}
   ],
   bulbasaur:[
@@ -1819,15 +1892,22 @@ const PARTNER_EVOLUTIONS={
     {level:70,name:"Mega-Glurak X",id:6,label:"Mega"}
   ],
   gengar:[
-    {level:1,name:"Gengar",id:94,label:"Basis"},
+    {level:1,name:"Nebulak",id:92,label:"Basis"},
+    {level:16,name:"Alpollo",id:93,label:"1. Entwicklung"},
+    {level:36,name:"Gengar",id:94,label:"2. Entwicklung"},
     {level:70,name:"Mega-Gengar",id:94,label:"Mega"}
   ]
 };
 const TRAINER_RANKS=[
-  {level:1,name:"Anfänger"},{level:10,name:"Entdecker"},{level:20,name:"Forscher"},
+  {level:1,name:"Anfänger"},{level:5,name:"Pfadfinder"},{level:10,name:"Entdecker"},{level:20,name:"Forscher"},
   {level:30,name:"Abenteurer"},{level:40,name:"Experte"},{level:50,name:"Meister"},
   {level:60,name:"Champion"},{level:70,name:"Elite"},{level:80,name:"Legendär"},
   {level:90,name:"Top-Trainer"},{level:100,name:"Wachstumsplanet-Legende"}
+];
+const TRAINER_BADGES=[
+ {level:5,icon:"🌱",name:"Starter"},{level:10,icon:"🧭",name:"Entdecker"},{level:20,icon:"📘",name:"Forscher"},
+ {level:30,icon:"⛰️",name:"Abenteuer"},{level:40,icon:"🎯",name:"Experte"},{level:50,icon:"🏅",name:"Meister"},
+ {level:70,icon:"✨",name:"Mega"},{level:100,icon:"👑",name:"Legende"}
 ];
 function xpNeededForLevel(level){
   if(level<10)return 20;if(level<20)return 35;if(level<40)return 55;
@@ -1897,12 +1977,50 @@ function stageTimeline(p){
 }
 function renderTrainer(){
   if(!$("#trainerLevel"))return;
-  const rank=trainerRank(S.trainerLevel),need=trainerXpNeeded(S.trainerLevel);
-  $("#trainerLevel").textContent=`Lv.${S.trainerLevel}`;
+  const level=Math.min(100,Math.max(1,Number(S.trainerLevel)||1));
+  const rank=trainerRank(level),need=trainerXpNeeded(level),xp=Math.max(0,Number(S.trainerXp)||0);
+  const next=[...TRAINER_RANKS].find(x=>x.level>level);
+  $("#trainerLevel").textContent=`Lv.${level}`;
   $("#trainerRank").textContent=rank.name;
-  $("#trainerXpBar").style.width=S.trainerLevel>=100?"100%":`${Math.min(100,S.trainerXp/need*100)}%`;
-  $("#trainerRankGrid").innerHTML=TRAINER_RANKS.filter(x=>[1,30,60,80,100].includes(x.level)).map(x=>`<div class="rank-card"><b>Lv.${x.level}</b><small>${x.name}</small></div>`).join("");
+  $("#trainerXpBar").style.width=level>=100?"100%":`${Math.min(100,xp/need*100)}%`;
+  if($("#trainerXpText"))$("#trainerXpText").textContent=level>=100?"Maximallevel":`${xp} / ${need} XP`;
+  if($("#trainerNextRank"))$("#trainerNextRank").textContent=next?`${next.name} ab Lv.${next.level}`:"Höchster Rang erreicht";
+  if($("#trainerBadges"))$("#trainerBadges").innerHTML=TRAINER_BADGES.map(b=>`<div class="trainer-badge ${level>=b.level?"earned":""}"><div class="badge-icon">${level>=b.level?b.icon:"🔒"}</div><small>Lv.${b.level}<br>${b.name}</small></div>`).join("");
+  $("#trainerRankGrid").innerHTML=TRAINER_RANKS.filter(x=>[1,10,30,50,70,100].includes(x.level)).map(x=>`<div class="rank-card"><b>Lv.${x.level}</b><small>${x.name}</small></div>`).join("");
 }
+
+function setupPartnerInteraction(){
+  const stage=$("#partnerStage3d"),model=$("#partnerFace");
+  if(!stage||!model||stage.dataset.bound==="1")return;
+  stage.dataset.bound="1";
+  let active=false;
+  const move=e=>{
+    if(!active)return;
+    const point=e.touches?.[0]||e;
+    const r=stage.getBoundingClientRect();
+    const x=Math.max(0,Math.min(r.width,point.clientX-r.left)),y=Math.max(0,Math.min(r.height,point.clientY-r.top));
+    const ry=(x/r.width-.5)*28,rx=-(y/r.height-.5)*20;
+    model.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg) translateY(-5px) scale(1.04)`;
+  };
+  const start=e=>{active=true;model.classList.add("interacting");move(e)};
+  const end=()=>{active=false;model.classList.remove("interacting");model.style.transform=""};
+  stage.addEventListener("pointerdown",start);
+  stage.addEventListener("pointermove",move);
+  window.addEventListener("pointerup",end);
+  // Pointer Events cover mouse, pen and touch in current iPad Chrome/WebKit.
+  stage.addEventListener("click",e=>{
+    if(active)return;
+    model.classList.remove("happy");void model.offsetWidth;model.classList.add("happy");
+    const spark=document.createElement("span");spark.className="partner-spark";
+    spark.textContent=["✨","⭐","💫","💛"][Math.floor(Math.random()*4)];
+    const r=stage.getBoundingClientRect();
+    spark.style.left=`${Math.max(20,Math.min(r.width-30,e.clientX-r.left))}px`;
+    spark.style.top=`${Math.max(30,Math.min(r.height-60,e.clientY-r.top))}px`;
+    stage.appendChild(spark);setTimeout(()=>spark.remove(),900);
+    toast(`${(S.partners[S.selectedPartner]||S.partners[0]).name} freut sich!`);
+  });
+}
+
 function partners(){
   updatePartnerUnlocks();renderTrainer();
   let p=S.partners[S.selectedPartner]||S.partners[0];
@@ -1922,7 +2040,8 @@ function partners(){
   $("#partnerName").innerHTML=`${p.name} · Lv.${p.level} / 100 ${p.mega?'<span class="mega-badge">MEGA</span>':''}`;
   $("#partnerDesc").innerHTML=`${p.desc}<div class="partner-rule"><b>Freischaltung:</b> ${p.unlock||"Durch Aktivitäten"}</div><div class="pokemon-stage">${stageTimeline(p)}</div><div class="level-reward">${next?`Nächste Entwicklung: ${next.name} auf Level ${next.level}`:"Maximale Entwicklungsstufe erreicht"} · Maximallevel 100</div>`;
   $("#partnerXp").style.width=p.level>=100?"100%":`${Math.min(100,p.xp/need*100)}%`;
-  $("#partnerGrid").innerHTML=S.partners.map((x,i)=>`<button class="partner ${i===S.selectedPartner?'selected':''} ${x.owned?'':'locked'}" data-p="${i}"><div class="face"><img src="${x.img}" alt="${x.name}" onerror="this.style.display='none';this.parentElement.textContent='⚡🐾'"></div><b>${x.name}${x.mega?' · MEGA':''}</b><small>Lv.${x.level} / 100</small><div class="partner-rule">${x.owned?"Freigeschaltet":x.unlock||"Noch gesperrt"}</div></button>`).join("");
+  $("#partnerGrid").innerHTML=S.partners.map((x,i)=>`<button class="partner ${i===S.selectedPartner?'selected':''} ${x.owned?'':'locked'}" data-p="${i}"><div class="face"><img src="${x.img}" alt="${x.name}" onerror="this.style.display='none';this.parentElement.textContent='⚡🐾'"></div><b>${x.name}${x.mega?' · MEGA':''}</b><small>Lv.${x.level} / 100</small><div class="partner-rule">${x.owned?"Freigeschaltet":x.unlock||"Noch gesperrt"}</div>${x.owned?`<span class="partner-switch-label">${i===S.selectedPartner?"Aktiv":"Wechseln"}</span>`:""}</button>`).join("");
+  setupPartnerInteraction();
   $$("[data-p]").forEach(b=>b.onclick=()=>{const i=+b.dataset.p,p=S.partners[i];if(!p.owned)return toast("Noch gesperrt: "+(p.unlock||"Bedingung noch nicht erfüllt"));S.selectedPartner=i;save();render()});
 }
 $("#feedPartner").onclick=()=>{const p=S.partners[S.selectedPartner];if(!p?.owned)return toast("Bitte zuerst einen freigeschalteten Partner auswählen");if(S.stars<5)return toast("Nicht genug Sterne");if(p.level>=100)return toast("Maximallevel 100 erreicht");S.stars-=5;addPartnerXp(p,8);addTrainerXp(2);save();render()};
@@ -2019,7 +2138,7 @@ function ensureHistoryRecord(dateKey){
       name:(S.partners[S.selectedPartner]||S.partners.find(x=>x.owned)||S.partners[0]).name,
       level:(S.partners[S.selectedPartner]||S.partners.find(x=>x.owned)||S.partners[0]).level
     },
-    trainer:{level:S.trainerLevel||1,rank:typeof trainerRank==="function"?trainerRank(S.trainerLevel||1).name:""}
+    trainer:{level:S.trainerLevel||1,rank:safeTrainerRankName(S.trainerLevel||1)}
     };
   }
   return S.history[dateKey];
@@ -2941,6 +3060,10 @@ $("#exportParentReport").onclick=()=>{
 };
 
 function render(){
+  try{
+    const dayResult=ensureCurrentDay();
+    if(dayResult.newDay&&typeof save==="function")save();
+  }catch(e){console.error("Daily rollover failed",e);}
   safeRender("home",renderHome);
   if($("#grade"))$("#grade").value=Number(S.german.grade)||1;
   safeRender("german",german);
@@ -2976,7 +3099,7 @@ if(DAILY_ENGINE_RESULT.newDay){
     banner.classList.add("show");
   }
 }
-if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v1302").then(r=>r.update()).catch(()=>{})}
+if("serviceWorker"in navigator){navigator.serviceWorker.register("./sw.js?v=v1305").then(r=>r.update()).catch(()=>{})}
 </script>
 </body>
 </html>
